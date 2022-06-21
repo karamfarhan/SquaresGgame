@@ -1,0 +1,18 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+<h1>Hi to start a game enter your name and choice color and put the id of the game and then pass enter game</h1>
+<form method="POST">
+    {% csrf_token %}
+
+    <input type="text" placeholder="Username" name="username">
+    <hr>
+    <input type="color" placeholder="your color" name="color">
+    <hr>
+
+    <input type="text" placeholder="game Id" name="game">
+
+    <button type="submit" >enter game</button>
+</form>
+
+{% endblock %}
