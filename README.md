@@ -1,4 +1,4 @@
-# chatting-app!
+# multi-player-simple-game with channels!
 > How to run the app on your localhost
 
 1 - download the zip file and unpack it
