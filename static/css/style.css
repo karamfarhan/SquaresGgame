@@ -1,0 +1,206 @@
+
+/* *:focus {
+  outline: none;
+} */
+
+/*header*/
+/* header {
+  width: 100%;
+  background-color: #063d61;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+header .container {
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+} */
+/* 
+  header h1 {
+    color : green !important;
+  } */
+
+
+/* header h1 {
+  color:green !important;
+  font-family: "Lobster", cursive;
+  user-select: none;
+}
+/*landing*/
+/* section {
+  position: relative;
+  min-height: calc(100vh - 90px);
+}
+
+section .content {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+a {
+  position: relative;
+  display: inline-block;
+  padding: 12px 36px;
+  margin: 10px 0;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 18px;
+  letter-spacing: 2px;
+  border-radius: 40px;
+  background: linear-gradient(90deg, #0162c8, #55e7fc);
+  overflow: hidden;
+  transition: 1s;
+}
+a::before {
+  content: "";
+  position: absolute;
+  width: 50%;
+  height: 158%;
+  left: -100%;
+  top: 0;
+  background: #ffffff7a;
+  transition: 1s;
+}
+a:hover {
+  transform: scale(1.1);
+}
+a:hover::before {
+  left: 100%;
+}
+button {
+  z-index: 1;
+  border-radius: 10px;
+  width: 150px;
+  height: 50px;
+  margin: 5px;
+  border-width: 0px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  color: white;
+  font-size: 20px;
+  transition: opacity 0.3s;
+  background-color: #4caf50;
+}
+button:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+#game_id {
+  margin: 10px 0;
+  color: #fff;
+}
+#game_id span {
+  font-size: 18px;
+  color: rgb(50, 216, 50);
+} */
+/*************loging***********/
+/* section .content {
+  animation: up 1s;
+}
+section#login {
+  background: linear-gradient(to right, #494676c9, #4a4576);
+  min-height: 100vh;
+}
+section#login p span {
+  font-size: 40px;
+}
+section#login p {
+  font-size: 20px;
+  color: #fff;
+  margin-bottom: 20px;
+}
+section#login form {
+  display: flex;
+  flex-direction: column;
+}
+section#login form div {
+  position: relative;
+  margin-top: 10px;
+  animation: input 1s;
+}
+section#login form input:not(input[type="color"]) {
+  padding: 10px;
+  width: 100%;
+}
+section#login form input[type="color"] {
+  width: 100%;
+  border: none;
+  height: 50px;
+}
+section#login form label {
+  display: inline-block;
+  color: #fff;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+section#login form button {
+  margin-top: 10px;
+  margin-right: auto;
+  margin-left: auto;
+}
+section#login form div span:last-of-type {
+  right: 0;
+  bottom: 0;
+  height: 0%;
+  width: 3px;
+}
+section#login form div span:nth-child(2) {
+  left: 0;
+  bottom: 0;
+  height: 0%;
+  width: 3px;
+}
+section#login form div span:nth-child(3) {
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+}
+section#login form div span:nth-child(4) {
+  bottom: 0;
+  right: 0;
+  width: 0%;
+  height: 3px;
+}
+section#login form span {
+  position: absolute;
+  background-color: #4caf50;
+  transition: 1s;
+}
+section#login form div:hover span:last-of-type {
+  height: 100%;
+}
+section#login form div:hover span:nth-child(2) {
+  height: 100%;
+}
+section#login form div:hover span:nth-child(3) {
+  width: 100%;
+}
+section#login form div:hover span:nth-child(4) {
+  width: 100%;
+}
+
+@keyframes up {
+  from {
+    transform: translate(-50%, -20%);
+    opacity: 0.1;
+  }
+  to {
+    transform: translate(-50%, -50%);
+
+    opacity: 1;
+  }
+}
+@keyframes input {
+  from {
+    transform: translateY(-300px);
+    opacity: 0.1;
+  }
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+} */
