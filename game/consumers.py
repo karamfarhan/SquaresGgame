@@ -25,6 +25,7 @@ class GameConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         data = text_data_json['data']
+        print(data)
 
         ## Send message to room group
         await self.channel_layer.group_send(
