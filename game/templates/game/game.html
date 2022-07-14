@@ -40,16 +40,27 @@
   const container = document.querySelector(".boxes");
 
 
-  
-  if (window.localStorage.getItem('balls')){
-    // not completed yet
-    const squares = document.querySelector(".squares")
-    console.log(squares)
-    
-  }else{
-    window.localStorage.setItem('balls',JSON.stringify({}))
+  function getstorage(){
+    makesqu()
+    if (window.localStorage.getItem('balls')){
+      // not completed yet
+      const squares = [...document.querySelectorAll(".squares")]
+      const balls = JSON.parse(window.localStorage.getItem('balls'))
+     squares.forEach((el)=>{
+        let s_key = el.id
+        if(Object.keys(balls).includes(s_key)){
+          el.style.background = balls[s_key]
 
+        } 
+      })
+      
+    }else{
+      window.localStorage.setItem('balls',JSON.stringify({}))
+  
+    }
   }
+
+  getstorage()
 
 
 
@@ -132,38 +143,41 @@ function secondPassed() {
 
 
 
-
-
-//squares send messages
+makesqu()
+function makesqu(){
+  //squares send messages
   for (let i = 0; i < 240; i++) {
-  let div = document.createElement("div");
-  div.className = "squares";
-  div.id =  (i + 1);
 
-  div.tag = i + 1;
-  div.innerHTML = "0"
-
-  div.addEventListener("click", (e) => {
-      div.style.background = color;
-    
-      var balls = JSON.parse(window.localStorage.getItem('balls'))
-      balls[i+1] = color
+    let div = document.createElement("div");
+    div.className = "squares";
+    div.id =  (i + 1);
+  
+    div.tag = i + 1;
+    div.innerHTML = "0"
+  
+    div.addEventListener("click", (e) => {
+        div.style.background = color;
       
-      const payLoad = {
-        method: "play",
-        data: {
-          clientId: username,
-          gameId: gameId,
-          ballId: div.tag,
-          color: color,
-          balls: balls,
-        },
-      };
-      ws.send(JSON.stringify(payLoad));
-      window.localStorage.setItem('balls',JSON.stringify(balls))
-    });
-
-  container.appendChild(div);
+        var balls = JSON.parse(window.localStorage.getItem('balls'))
+        balls[i+1] = color
+        
+        const payLoad = {
+          method: "play",
+          data: {
+            clientId: username,
+            gameId: gameId,
+            ballId: div.tag,
+            color: color,
+            balls: balls,
+          },
+        };
+        ws.send(JSON.stringify(payLoad));
+        window.localStorage.setItem('balls',JSON.stringify(balls))
+      });
+  
+    container.appendChild(div);
+  }
+  
 }
 
 // ws recieve message from django
