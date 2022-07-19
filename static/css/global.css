@@ -39,14 +39,6 @@ a {
   text-decoration: none;
 }
 
-/* body {
-  font-family: "Roboto Condensed", sans-serif;
-  background: url("https://images.pond5.com/mosaic-light-show-blue-4k-footage-087276351_prevstill.jpeg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  /* position: relative; */
-  min-height: 100vh;
-} */
 body::before {
   content: "";
   width: 100%;

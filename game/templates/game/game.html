@@ -41,23 +41,24 @@
 
 
   function getstorage(){
+
+    window.onload = function() {
+
+  
     makesqu()
     if (window.localStorage.getItem('balls')){
-      // not completed yet
-      const squares = [...document.querySelectorAll(".squares")]
-      const balls = JSON.parse(window.localStorage.getItem('balls'))
-     squares.forEach((el)=>{
-        let s_key = el.id
-        if(Object.keys(balls).includes(s_key)){
-          el.style.background = balls[s_key]
 
-        } 
-      })
-      
-    }else{
+let ids = Object.keys(JSON.parse(window.localStorage.getItem('balls'))),
+colors = Object.values(JSON.parse(window.localStorage.getItem('balls')));
+for(let i = 0; i<ids.length; i++) {
+
+  document.getElementById(ids[i]).style.background = colors[i]
+  console.log(typeof colors[i])
+}}else{
       window.localStorage.setItem('balls',JSON.stringify({}))
   
     }
+  }
   }
 
   getstorage()
