@@ -15,7 +15,9 @@ class GameConsumer(AsyncWebsocketConsumer):
         )
 
         Game = cache.get(self.game_id)
-        await self.channel_layer.group_send(self.game_id, {"type": "Game_Send", "data": Game})
+        await self.channel_layer.group_send(
+            self.game_id, {"type": "Game_Send", "data": Game}
+        )
 
         await self.accept()
 
@@ -42,7 +44,11 @@ class GameConsumer(AsyncWebsocketConsumer):
                 self.game_id,
                 {
                     "type": "Updat_Ball",
-                    "data": {"ballId": data["ballId"], "color": data["color"], "click": data["click"]},
+                    "data": {
+                        "ballId": data["ballId"],
+                        "color": data["color"],
+                        "click": data["click"],
+                    },
                 },
             )
 

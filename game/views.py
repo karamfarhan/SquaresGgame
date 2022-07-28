@@ -33,7 +33,7 @@ def join(request):
             cache.set(game_id, Game)
             print("cached-UPDATE!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         else:
-            Balls = {f"{i+1}": {"ball_color":"","ball_click":0} for i in range(180)}
+            Balls = {f"{i+1}": {"ball_color": "", "ball_click": 0} for i in range(180)}
             Game = {"game_id": game_id, "balls": Balls, "users": []}
             Game["users"].append(User)
             print(Game)
