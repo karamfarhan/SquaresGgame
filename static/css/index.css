@@ -335,7 +335,7 @@ ul li span:nth-child(1) {
   left: 50%;
   top: 50%;
   opacity: 0;
-  transform: scale(0.5);
+  transform: scale(0);
   width: 400px;
   background: #fff;
   padding: 10px;
