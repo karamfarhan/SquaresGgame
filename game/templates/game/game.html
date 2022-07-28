@@ -56,7 +56,7 @@
       let li = document.createElement("li"),
         spanName = document.createElement('span'),
         spanColor = document.createElement('span')
-        // b = document.createElement('button')
+      // b = document.createElement('button')
       li.classList.add("menu-btn")
       li.classList.add("mt-2")
       // b.classList.add("menu-btn");
@@ -66,7 +66,7 @@
       spanColor.setAttribute("id", players[i].user_color)
 
       spanName.textContent = players[i].user_name;
-      spanName.style.color = "white"
+      spanName.style.color = "black"
 
       spanColor.style.cssText = `
       display : inline-block;
@@ -131,7 +131,13 @@
     }
   }
 
-
+  function clickHandle(p) {
+    if (p.innerHTML == "") {
+      return 0
+    } else {
+      return parseInt(p.innerHTML)
+    }
+  }
   function makesqu(balls) {
     //squares send messages
     for (let i = 1; i < Object.keys(balls).length + 1; i++) {
@@ -140,10 +146,15 @@
 
       let div = document.createElement("div");
       let p = document.createElement("p")
+      let click_number = balls[i]["ball_click"]
       div.appendChild(p)
       div.className = "cell";
       div.id = (i);
-      p.innerHTML = balls[i]["ball_click"]
+      if (click_number != 0) {
+        p.innerHTML = click_number
+      }
+      // p.innerHTML = click_number
+
       div.tag = i;
       div.style.height = "60px"
       div.style.width = "60px"
@@ -153,14 +164,15 @@
 
 
         if (div.style.background !== user_color) {
-          div.style.background = color;
 
+          div.style.background = color;
+          let prev_click = clickHandle(p)
           const PayLoad2 = {
             method: "update_ball",
             data: {
               ballId: div.tag,
               color: color,
-              click: parseInt(p.innerHTML) + 1,
+              click: prev_click + 1,
             }
           }
           ws.send(JSON.stringify(PayLoad2))
