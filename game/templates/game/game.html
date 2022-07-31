@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{{user_name|json_script:"user_name" }}
+{{name|json_script:"name" }}
 {{ game_id|json_script:"game_id" }}
 {{color|json_script:"color"}}
 
@@ -17,7 +17,7 @@
     you are winner
   </div>
   <div class="dialog-footer">
-    <button class="exit"> <a href="{% url 'home' %}">Exit</a> </button>
+    <button class="exit"> <a href="{% url 'game:home' %}">Exit</a> </button>
     <button class="refresh">
       <svg class="icon" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -38,21 +38,20 @@
 
 
 <script>
-  var username = JSON.parse(document.getElementById("user_name").textContent);
+  var name = JSON.parse(document.getElementById("name").textContent);
   var gameId = JSON.parse(document.getElementById("game_id").textContent);
   var color = JSON.parse(document.getElementById("color").textContent);
   var container = document.querySelector(".d-grid");
-
+  var playerInform = document.querySelector(".information ul")
 
 
   const ws = new WebSocket(`ws://${window.location.host}/ws/game/${gameId}/`);
   while (container.firstChild) container.removeChild(container.firstChild);
 
-  var playerInform = document.querySelector(".information ul")
   // var playerInform2 = document.querySelector(".menu-btns")
   function displayPlayers(players) {
 
-    for (let i = 0; i < players.length; i++) {
+    for (const key in players) {
       let li = document.createElement("li"),
         spanName = document.createElement('span'),
         spanColor = document.createElement('span')
@@ -61,19 +60,19 @@
       li.classList.add("mt-2")
       // b.classList.add("menu-btn");
       // b.classList.add("mt-2")
-      spanName.className = players[i].user_name;
-      spanColor.className = players[i].user_color;
-      spanColor.setAttribute("id", players[i].user_color)
+      spanName.className = players[key].name;
+      spanColor.className = players[key].color;
+      spanColor.setAttribute("id", players[key].color)
 
-      spanName.textContent = players[i].user_name;
+      spanName.textContent = players[key].name;
       spanName.style.color = "black"
 
       spanColor.style.cssText = `
       display : inline-block;
-      width : 20px; 
+      width : 20px;
       height : 20px;
       border-radius: 50%;
-      background-color : ${players[i].user_color};
+      background-color : ${players[key].color};
       `
       // b.innerHTML = players[i].user_name;
       // b.appendChild(spanColor)
@@ -81,7 +80,6 @@
       li.appendChild(spanName)
       li.appendChild(spanColor)
       playerInform.appendChild(li)
-      // playerInform.appendChild(b)
     }
   }
 
@@ -138,15 +136,15 @@
       return parseInt(p.innerHTML)
     }
   }
-  function makesqu(balls) {
+  function makesqu(squares) {
     //squares send messages
-    for (let i = 1; i < Object.keys(balls).length + 1; i++) {
+    for (let i = 1; i < Object.keys(squares).length + 1; i++) {
 
 
 
       let div = document.createElement("div");
       let p = document.createElement("p")
-      let click_number = balls[i]["ball_click"]
+      let click_number = squares[i]["clicked"]
       div.appendChild(p)
       div.className = "cell";
       div.id = (i);
@@ -158,12 +156,12 @@
       div.tag = i;
       div.style.height = "60px"
       div.style.width = "60px"
-      div.style.background = balls[i]["ball_color"];
+      div.style.background = squares[i]["color"];
       div.addEventListener("click", (e) => {
-        const user_color = document.getElementById(color).style.backgroundColor
+        const user_color_rgb = document.getElementById(color).style.backgroundColor
 
 
-        if (div.style.background !== user_color) {
+        if (div.style.background !== user_color_rgb) {
 
           div.style.background = color;
           let prev_click = clickHandle(p)
@@ -172,7 +170,7 @@
             data: {
               ballId: div.tag,
               color: color,
-              click: prev_click + 1,
+              clicked: prev_click + 1,
             }
           }
           ws.send(JSON.stringify(PayLoad2))
@@ -196,7 +194,7 @@
       const ballObject = document.getElementById(b);
       const ballP = document.getElementById(b).getElementsByTagName("p")[0]
       ballObject.style.backgroundColor = color;
-      ballP.innerHTML = data.data.click
+      ballP.innerHTML = data.data.clicked
 
 
     }
@@ -205,9 +203,9 @@
       console.log("new user join and we send to him all data of the game")
       container.innerHTML = ''
       playerInform.innerHTML = ''
-      balls = data.data.balls
-      players = data.data.users
-      makesqu(balls)
+      squares = data.data.squares
+      players = data.data.players
+      makesqu(squares)
       displayPlayers(players)
     }
   };

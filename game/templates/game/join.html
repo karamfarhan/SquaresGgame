@@ -1,40 +1,45 @@
 {% extends 'base.html' %} {% block content %}
 
 
-   
+
 
 </header>
 <section id="login">
-    
+
   <div class="content">
     <p>
-       <span>Hi! </span>  <br> to start a game enter your name and choice color and put the id of the
-        game and then pass enter game
-      </p>
+      <span>Hi! </span> <br> to start a game enter your name and choice color and put the id of the
+      game and then pass enter game
+    </p>
+    {% if messages %}
+    {% for message in messages %}
+    <div style="color: red;">{{message}}</div>
+    {% endfor %}
+    {% endif %}
     <form method="POST">
       {% csrf_token %}
-<!-- 
+      <!-- 
 
 
     noooooooo
 -->
-     <div>
-        <input type="text" placeholder="Username" name="username" />
+      <div>
+        <input type="text" placeholder="Username" name="name" />
         <span></span>
         <span></span>
         <span></span>
         <span></span>
-     </div>
-     <div><input type="text" placeholder="game Id" name="game" />
+      </div>
+      <div><input type="text" placeholder="game Id" name="game" />
         <span></span>
         <span></span>
         <span></span>
         <span></span>
-    </div>
-     <div>
+      </div>
+      <div>
         <label for="color">pick your color</label>
         <input type="color" placeholder="your color" name="color" id="color" />
-     </div>
+      </div>
 
       <button type="submit">enter game</button>
     </form>

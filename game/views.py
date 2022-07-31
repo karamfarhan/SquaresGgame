@@ -3,9 +3,13 @@ import urllib.parse
 
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
+from django.contrib import messages
 from django.core.cache import cache
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
+
+from .game_handlers import NicknameTaken, add_player_to_game, creat_game
 
 channel_layer = get_channel_layer()
 # Create your views here.
@@ -20,39 +24,35 @@ def join(request):
     context = {}
     if request.method == "POST":
         game_id = request.POST.get("game")
-        user_name = request.POST.get("username")
+        name = request.POST.get("name")
         color = request.POST.get("color")
+        game = cache.get(f"game:{game_id}")
 
-        User = {"user_name": user_name, "user_color": color}
+        if game:
+            try:
+                add_player_to_game(game, name, color)
+                cache.set(f"game:{game_id}", game)
+            except NicknameTaken:
+                messages.add_message(
+                    request, messages.ERROR, "The name has been taken, pick other name"
+                )
+                return HttpResponseRedirect(request.path_info)
 
-        if cache.get(game_id):
-
-            Game = cache.get(game_id)
-            Game["users"].append(User)
-            print(Game)
-            cache.set(game_id, Game)
-            print("cached-UPDATE!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         else:
-            Balls = {f"{i+1}": {"ball_color": "", "ball_click": 0} for i in range(180)}
-            Game = {"game_id": game_id, "balls": Balls, "users": []}
-            Game["users"].append(User)
-            print(Game)
-            cache.set(game_id, Game)
-            print("cached-NEW!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        # you don't need to do that
-        # async_to_sync(channel_layer.group_send)(game_id, {"type": "Game_Send", "data": Game})
+            game = creat_game(game_id)
+            add_player_to_game(game, name, color)
+            cache.set(f"game:{game_id}", game)
         context["game_id"] = game_id
-        context["user_name"] = user_name
+        context["name"] = name
         context["color"] = color
-        print(context)
-        url = "{}?{}".format(reverse("game"), urllib.parse.urlencode(context))
+        url = "{}?{}".format(reverse("game:game"), urllib.parse.urlencode(context))
         return redirect(url)
     return render(request, "game/join.html")
 
 
 def game(request):
     context = {}
-    context["user_name"] = request.GET.get("user_name")
+    context["name"] = request.GET.get("name")
     context["game_id"] = request.GET.get("game_id")
     context["color"] = request.GET.get("color")
     return render(request, "game/game.html", context=context)

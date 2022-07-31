@@ -14,9 +14,9 @@ class GameConsumer(AsyncWebsocketConsumer):
             self.channel_name,
         )
 
-        Game = cache.get(self.game_id)
+        game = await cache.aget(f"game:{self.game_id}")
         await self.channel_layer.group_send(
-            self.game_id, {"type": "Game_Send", "data": Game}
+            self.game_id, {"type": "Game_Send", "data": game}
         )
 
         await self.accept()
@@ -36,10 +36,10 @@ class GameConsumer(AsyncWebsocketConsumer):
             print("play")
 
         elif text_data_json["method"] == "update_ball":
-            Game = cache.get(self.game_id)
-            Game["balls"][f'{data["ballId"]}']["ball_color"] = data["color"]
-            Game["balls"][f'{data["ballId"]}']["ball_click"] = data["click"]
-            cache.set(self.game_id, Game)
+            game = await cache.aget(f"game:{self.game_id}")
+            game["squares"][f'{data["ballId"]}']["color"] = data["color"]
+            game["squares"][f'{data["ballId"]}']["clicked"] = data["clicked"]
+            await cache.aset(f"game:{self.game_id}", game)
             await self.channel_layer.group_send(
                 self.game_id,
                 {
@@ -47,7 +47,7 @@ class GameConsumer(AsyncWebsocketConsumer):
                     "data": {
                         "ballId": data["ballId"],
                         "color": data["color"],
-                        "click": data["click"],
+                        "clicked": data["clicked"],
                     },
                 },
             )
