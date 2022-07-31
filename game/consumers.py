@@ -15,9 +15,11 @@ class GameConsumer(AsyncWebsocketConsumer):
         )
 
         game = await cache.aget(f"game:{self.game_id}")
-        await self.channel_layer.group_send(
-            self.game_id, {"type": "Game_Send", "data": game}
-        )
+        if len(game["players"].keys()) >= 3:
+            await self.channel_layer.group_send(self.game_id, {"type": "Send_Game", "data": game})
+        else:
+            players = game["players"]
+            await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": players})
 
         await self.accept()
 
@@ -43,7 +45,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             await self.channel_layer.group_send(
                 self.game_id,
                 {
-                    "type": "Updat_Ball",
+                    "type": "Update_Square",
                     "data": {
                         "ballId": data["ballId"],
                         "color": data["color"],
@@ -52,14 +54,19 @@ class GameConsumer(AsyncWebsocketConsumer):
                 },
             )
 
-    async def Game_Send(self, event):
+    async def Send_Game(self, event):
         data = event["data"]
 
         ## Send message to WebSocket
-        await self.send(text_data=json.dumps({"method": "Game_Send", "data": data}))
+        await self.send(text_data=json.dumps({"method": "send_game", "data": data}))
 
-    async def Updat_Ball(self, event):
+    async def Update_Square(self, event):
         data = event["data"]
 
         ## Send message to WebSocket
-        await self.send(text_data=json.dumps({"method": "update_ball", "data": data}))
+        await self.send(text_data=json.dumps({"method": "update_square", "data": data}))
+    async def Update_Players(self, event):
+        data = event["data"]
+
+        ## Send message to WebSocket
+        await self.send(text_data=json.dumps({"method": "update_players", "data": data}))

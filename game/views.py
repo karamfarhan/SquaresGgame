@@ -9,7 +9,14 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from .game_handlers import NicknameTaken, add_player_to_game, creat_game
+from .game_handlers import (
+    ColorTaken,
+    GameStarted,
+    NameTaken,
+    add_player_to_game,
+    creat_game,
+    generate_game_id,
+)
 
 channel_layer = get_channel_layer()
 # Create your views here.
@@ -24,6 +31,8 @@ def join(request):
     context = {}
     if request.method == "POST":
         game_id = request.POST.get("game")
+        # if game_id.strip() == "":
+        #     game_id = generate_game_id()
         name = request.POST.get("name")
         color = request.POST.get("color")
         game = cache.get(f"game:{game_id}")
@@ -32,9 +41,17 @@ def join(request):
             try:
                 add_player_to_game(game, name, color)
                 cache.set(f"game:{game_id}", game)
-            except NicknameTaken:
+            except NameTaken:
                 messages.add_message(
-                    request, messages.ERROR, "The name has been taken, pick other name"
+                    request, messages.ERROR, "The (NAME) is taken, pick other name"
+                )
+                return HttpResponseRedirect(request.path_info)
+            except GameStarted:
+                messages.add_message(request, messages.ERROR, "The Game is started")
+                return HttpResponseRedirect(request.path_info)
+            except ColorTaken:
+                messages.add_message(
+                    request, messages.ERROR, "The (COLRO) is taken, pick other name"
                 )
                 return HttpResponseRedirect(request.path_info)
 
