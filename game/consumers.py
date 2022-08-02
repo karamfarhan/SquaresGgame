@@ -15,7 +15,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         )
 
         game = await cache.aget(f"game:{self.game_id}")
-        if len(game["players"].keys()) >= 3:
+        if len(game["players"].keys()) >= 2:
             await self.channel_layer.group_send(self.game_id, {"type": "Send_Game", "data": game})
         else:
             players = game["players"]
@@ -34,20 +34,17 @@ class GameConsumer(AsyncWebsocketConsumer):
         data = text_data_json["data"]
 
         ## Send message to room group
-        if text_data_json["method"] == "play":
-            print("play")
-
-        elif text_data_json["method"] == "update_ball":
+        if text_data_json["method"] == "update_ball":
             game = await cache.aget(f"game:{self.game_id}")
-            game["squares"][f'{data["ballId"]}']["color"] = data["color"]
-            game["squares"][f'{data["ballId"]}']["clicked"] = data["clicked"]
+            game["squares"][f'{data["squareId"]}']["color"] = data["color"]
+            game["squares"][f'{data["squareId"]}']["clicked"] = data["clicked"]
             await cache.aset(f"game:{self.game_id}", game)
             await self.channel_layer.group_send(
                 self.game_id,
                 {
                     "type": "Update_Square",
                     "data": {
-                        "ballId": data["ballId"],
+                        "squareId": data["squareId"],
                         "color": data["color"],
                         "clicked": data["clicked"],
                     },

@@ -50,6 +50,7 @@
 
   // var playerInform2 = document.querySelector(".menu-btns")
   function displayPlayers(players) {
+    playerInform.innerHTML = ''
 
     for (const key in players) {
       let li = document.createElement("li"),
@@ -136,7 +137,22 @@
       return parseInt(p.innerHTML)
     }
   }
+
+  function update_square(squareData){
+    let squareId = squareData.squareId;
+    const squareObject = document.getElementById(squareId);
+    const squareP = document.getElementById(squareId).getElementsByTagName("p")[0]
+    let color = squareData.color
+
+    squareObject.style.backgroundColor = color;
+    squareP.innerHTML = squareData.clicked
+
+
+  }
+
+
   function makesqu(squares) {
+    container.innerHTML = ''
     //squares send messages
     for (let i = 1; i < Object.keys(squares).length + 1; i++) {
 
@@ -168,7 +184,7 @@
           const PayLoad2 = {
             method: "update_ball",
             data: {
-              ballId: div.tag,
+              squareId: div.tag,
               color: color,
               clicked: prev_click + 1,
             }
@@ -187,29 +203,18 @@
   ws.onmessage = (message) => {
     const data = JSON.parse(message.data);
     if (data.method === "update_square") {
-      console.log(data)
-      console.log("some of the plears update some ball and we send it ")
-      const color = data.data.color;
-      const b = data.data.ballId;
-      const ballObject = document.getElementById(b);
-      const ballP = document.getElementById(b).getElementsByTagName("p")[0]
-      ballObject.style.backgroundColor = color;
-      ballP.innerHTML = data.data.clicked
-
+      console.log(data.data)
+      update_square(data.data)
 
     }
     if (data.method === "send_game") {
-      console.log(data.data)
-      console.log("new user join and we send to him all data of the game")
-      container.innerHTML = ''
-      playerInform.innerHTML = ''
       squares = data.data.squares
       players = data.data.players
       makesqu(squares)
       displayPlayers(players)
     }
     if (data.method === "update_players") {
-      playerInform.innerHTML = ''
+
       players = data.data
       displayPlayers(players)
     }
