@@ -3,6 +3,8 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.core.cache import cache
 
+from .game_handlers import add_player_to_game, restart_game
+
 
 class GameConsumer(AsyncWebsocketConsumer):
     ## conect
@@ -20,7 +22,9 @@ class GameConsumer(AsyncWebsocketConsumer):
             await self.channel_layer.group_send(self.game_id, {"type": "Send_Game", "data": game})
         else:
             players = game["players"]
-            await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": players})
+            await self.channel_layer.group_send(
+                self.game_id, {"type": "Update_Players", "data": players}
+            )
 
         await self.accept()
 
@@ -51,6 +55,21 @@ class GameConsumer(AsyncWebsocketConsumer):
                     },
                 },
             )
+        elif text_data_json["method"] == "restart_game":
+            game = await cache.aget(f"game:{self.game_id}")
+            add_player_to_game(game, data["name"], data["color"])
+            game["is_resulted"] = False
+            await cache.aset(f"game:{self.game_id}", game)
+            if len(game["players"].keys()) >= 2:
+                game["is_started"] = True
+                await self.channel_layer.group_send(
+                    self.game_id, {"type": "Send_Game", "data": game}
+                )
+            else:
+                players = game["players"]
+                await self.channel_layer.group_send(
+                    self.game_id, {"type": "Update_Players", "data": players}
+                )
 
     async def Send_Game(self, event):
         data = event["data"]
@@ -63,8 +82,16 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         ## Send message to WebSocket
         await self.send(text_data=json.dumps({"method": "update_square", "data": data}))
+
     async def Update_Players(self, event):
         data = event["data"]
 
         ## Send message to WebSocket
         await self.send(text_data=json.dumps({"method": "update_players", "data": data}))
+
+    async def Send_Results(self, event):
+        print("send results worked 4")
+        data = event["data"]
+
+        ## Send message to WebSocket
+        await self.send(text_data=json.dumps({"method": "send_results", "data": data}))
