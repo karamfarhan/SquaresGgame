@@ -57,7 +57,7 @@ a {
 
 body {
   font-family: "Roboto Condensed", sans-serif;
-  background: rgb(194, 177, 177);
+  background: rgb(39, 37, 37);
 
   background-repeat: no-repeat;
   /* position: relative; */
@@ -66,7 +66,7 @@ body::before {
   content: "";
   width: 100%;
   height: 100%;
-  background: rgb(195, 181, 181);
+  background: rgb(19, 18, 18);
   position: absolute;
   top: 0;
   left: 0;
@@ -407,12 +407,12 @@ ul li span:nth-child(1) {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: #b7b7b7 3px double;
+  /* border: #b7b7b7 3px double; */
   border-radius: 5%;
   /* transition: all linear .2s; */
-  background: #e0dba8;
+  background: #ffffff;
   font-size: 14px;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+  box-shadow: rgba(255, 0, 247, 0.15) 0px 15px 25px, rgba(217, 0, 255, 0.05) 0px 5px 10px;
 }
 
 .cell p {
@@ -423,7 +423,7 @@ ul li span:nth-child(1) {
 }
 
 .cell:hover {
-  background: #ffffff;
+  background: #d8d1d1;
   cursor: pointer;
 }
 
@@ -437,7 +437,7 @@ ul li span:nth-child(1) {
   margin: 100px auto;
   user-select: none;
   display: grid;
-  background: white;
+  background: rgba(47, 42, 42, 0.507);
   border-radius: 1%;
 
   /* grid-template-columns: repeat(4, 1fr);  */
@@ -446,9 +446,9 @@ ul li span:nth-child(1) {
   column-gap: 5px;
 
   grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-  border: 2px solid #ffffff;
+  border: 2px solid #e123f6;
   padding: 15px;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  box-shadow: rgba(228, 121, 247, 0.582) 0px 14px 28px, rgba(249, 0, 145, 0.22) 0px 10px 10px;
 }
 
 .game-board {
@@ -470,6 +470,7 @@ ul li span:nth-child(1) {
 } */
 
 .menu-btn{
+  display: flex;
   border: 2px solid white;
   background: transparent;
   color: white;

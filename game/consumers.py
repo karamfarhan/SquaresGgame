@@ -16,6 +16,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         game = await cache.aget(f"game:{self.game_id}")
         if len(game["players"].keys()) >= 2:
+            game["is_started"] = True
             await self.channel_layer.group_send(self.game_id, {"type": "Send_Game", "data": game})
         else:
             players = game["players"]

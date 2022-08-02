@@ -6,7 +6,7 @@
 {{color|json_script:"color"}}
 
 
-<div class="information text-center d-flex flex-column menu-btns">
+<div class="information text-center d-flex flex-column">
   <ul>
 
   </ul>
@@ -43,6 +43,9 @@
   var color = JSON.parse(document.getElementById("color").textContent);
   var container = document.querySelector(".d-grid");
   var playerInform = document.querySelector(".information ul")
+  var alert = document.querySelector(".dialog-container");
+  var timer = document.getElementById("timer");
+  
 
 
   const ws = new WebSocket(`ws://${window.location.host}/ws/game/${gameId}/`);
@@ -66,7 +69,7 @@
       spanColor.setAttribute("id", players[key].color)
 
       spanName.textContent = players[key].name;
-      spanName.style.color = "black"
+      spanName.style.color = "white"
 
       spanColor.style.cssText = `
       display : inline-block;
@@ -101,16 +104,13 @@
 
   //timer
 
-  let alert = document.querySelector(".dialog-container");
-  let seconds = 300,
-    timer = document.getElementById("timer");
   function startCount() {
     let countdown = setInterval(() => {
       secondPassed();
     }, 1000);
 
   }
-  startCount()
+  let seconds = 60
   function secondPassed() {
     let minutes = Math.floor(seconds / 60),
       remainedSec = seconds % 60;
@@ -210,8 +210,11 @@
     if (data.method === "send_game") {
       squares = data.data.squares
       players = data.data.players
-      makesqu(squares)
       displayPlayers(players)
+      if(data.data.is_started === true){
+        makesqu(squares)
+        startCount(300)
+      }
     }
     if (data.method === "update_players") {
 
