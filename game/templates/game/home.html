@@ -8,25 +8,50 @@
 
 <section id="landing">
   <div class="content">
+    <form id="creat_game" method="POST">
+      {% csrf_token %}
+      <div>
+        <input id="player_num" type="Number" placeholder="Players Number" name="player_num" required />
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <button type="submit">Creat game</button>
+    </form>
     <div class="container">
-      <button id="create">Creat game</button>
       <div id="game_id"></div>
       <a href="{% url 'game:join'%}"> Join Room</a>
     </div>
   </div>
 </section>
 <script>
-  function S4() {
-    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-  }
+  const form = document.getElementById("creat_game");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault()
+    player_num = document.getElementById('player_num').value
+    url = `http://localhost:8000/create/?player_num=${player_num}`
+    fetch(url)
+      .then(response => response.text())
+      .then(result => {
+        console.log(JSON.parse(result))
+        const game_id_h3 = document.getElementById("game_id");
+        game_id_h3.innerHTML = `please copy your ID : <span>${JSON.parse(result).game_id}</span> `;
+      })
 
-  // then to call it, plus stitch in '4' in the third group
-  const guid = () => (S4() + S4()).toLowerCase();
-  const butt = document.getElementById("create");
-  const game_id_h3 = document.getElementById("game_id");
-  butt.addEventListener("click", () => {
-    game_id_h3.innerHTML = `please copy your ID : <span>${guid()}</span> `;
-  });
+      .catch(error => console.warn(error));
+  })
+  // function S4() {
+  //   return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+  // }
+
+  // // then to call it, plus stitch in '4' in the third group
+  // const guid = () => (S4() + S4()).toLowerCase();
+  // const butt = document.getElementById("create");
+  // const game_id_h3 = document.getElementById("game_id");
+  // butt.addEventListener("click", () => {
+  //   game_id_h3.innerHTML = `please copy your ID : <span>${guid()}</span> `;
+  // });
 </script>
 
 {% endblock %}

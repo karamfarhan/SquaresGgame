@@ -37,16 +37,24 @@ class GameResulted(Exception):
     pass
 
 
-def creat_game(game_id: str, squares_num: int = 180) -> dict:
+class GameIsFulled(Exception):
+    """Handles what to do if the game Full of players"""
+
+    pass
+
+
+def creat_game(game_id: str, player_num: int, squares_num: int = 180) -> dict:
     squares = {f"{i+1}": {"color": "", "clicked": 0} for i in range(squares_num)}
     game = {
         "game_id": game_id,
         "is_started": False,
         "is_finished": False,
         "is_resulted": False,
+        "start_at_player": player_num,
         "squares": squares,
         "players": {},
     }
+    print("game generated")
     return game
 
 
@@ -77,7 +85,7 @@ def get_game_results(game: dict) -> dict:
         for player in players_result.values():
             if square["color"] == player["color"]:
                 player["squares"] += 1
-                
+
     sorted_player_result = dict(
         sorted(players_result.items(), key=lambda item: item[1]["squares"], reverse=True)
     )
@@ -94,6 +102,8 @@ def add_player_to_game(game: dict, player_name: str, player_color: str) -> dict:
         raise NameTaken()
     if player_color in taken_colors:
         raise ColorTaken()
+    if len(game["players"].keys()) >= game["start_at_player"]:
+        raise GameIsFulled()
 
     game["players"][player_name] = {
         "name": player_name,

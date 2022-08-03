@@ -17,14 +17,12 @@ class GameConsumer(AsyncWebsocketConsumer):
         )
 
         game = await cache.aget(f"game:{self.game_id}")
-        if len(game["players"].keys()) >= 2:
+        if len(game["players"].keys()) >= game["start_at_player"]:
             game["is_started"] = True
             await self.channel_layer.group_send(self.game_id, {"type": "Send_Game", "data": game})
         else:
             players = game["players"]
-            await self.channel_layer.group_send(
-                self.game_id, {"type": "Update_Players", "data": players}
-            )
+            await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": players})
 
         await self.accept()
 
@@ -60,11 +58,9 @@ class GameConsumer(AsyncWebsocketConsumer):
             add_player_to_game(game, data["name"], data["color"])
             game["is_resulted"] = False
             await cache.aset(f"game:{self.game_id}", game)
-            if len(game["players"].keys()) >= 2:
+            if len(game["players"].keys()) >= game["start_at_player"]:
                 game["is_started"] = True
-                await self.channel_layer.group_send(
-                    self.game_id, {"type": "Send_Game", "data": game}
-                )
+                await self.channel_layer.group_send(self.game_id, {"type": "Send_Game", "data": game})
             else:
                 players = game["players"]
                 await self.channel_layer.group_send(

@@ -12,6 +12,7 @@ from django.urls import reverse
 from .game_handlers import (
     ColorTaken,
     GameFisnished,
+    GameIsFulled,
     GameResulted,
     GameStarted,
     NameTaken,
@@ -45,29 +46,27 @@ def join(request):
             try:
                 add_player_to_game(game, name, color)
                 cache.set(f"game:{game_id}", game)
+                context["game_id"] = game_id
+                context["name"] = name
+                context["color"] = color
+                url = "{}?{}".format(reverse("game:game"), urllib.parse.urlencode(context))
+                return redirect(url)
             except NameTaken:
-                messages.add_message(
-                    request, messages.ERROR, "The (NAME) is taken, pick other name"
-                )
+                messages.add_message(request, messages.ERROR, "The (NAME) is taken, pick other name")
                 return HttpResponseRedirect(request.path_info)
             except GameStarted:
                 messages.add_message(request, messages.ERROR, "The Game is started")
                 return HttpResponseRedirect(request.path_info)
             except ColorTaken:
-                messages.add_message(
-                    request, messages.ERROR, "The (COLRO) is taken, pick other name"
-                )
+                messages.add_message(request, messages.ERROR, "The (COLOR) is taken, pick other name")
+                return HttpResponseRedirect(request.path_info)
+            except GameIsFulled:
+                messages.add_message(request, messages.ERROR, "The Game is Fulled, No place for you")
                 return HttpResponseRedirect(request.path_info)
 
         else:
-            game = creat_game(game_id)
-            add_player_to_game(game, name, color)
-            cache.set(f"game:{game_id}", game)
-        context["game_id"] = game_id
-        context["name"] = name
-        context["color"] = color
-        url = "{}?{}".format(reverse("game:game"), urllib.parse.urlencode(context))
-        return redirect(url)
+            messages.add_message(request, messages.ERROR, "Ther is NO game hosted with this id")
+            return HttpResponseRedirect(request.path_info)
     return render(request, "game/join.html")
 
 
@@ -85,11 +84,18 @@ def get_result(request):
     game = cache.get(f"game:{game_id}")
     try:
         game_results = get_game_results(game)
-        async_to_sync(channel_layer.group_send)(
-            str(game_id), {"type": "Send_Results", "data": game_results}
-        )
+        async_to_sync(channel_layer.group_send)(str(game_id), {"type": "Send_Results", "data": game_results})
         game_restarted = restart_game(game)
         cache.set(f"game:{game_id}", game_restarted)
     except GameResulted:
         pass
     return JsonResponse({})
+
+
+def creat_game_view(request):
+    player_num = int(request.GET.get("player_num"))
+    game_id = generate_game_id()
+    game = creat_game(game_id, player_num)
+    cache.set(f"game:{game_id}", game)
+    print("game cached")
+    return JsonResponse({"game_id": game_id})
