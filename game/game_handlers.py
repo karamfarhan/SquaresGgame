@@ -77,9 +77,13 @@ def get_game_results(game: dict) -> dict:
         for player in players_result.values():
             if square["color"] == player["color"]:
                 player["squares"] += 1
-    print("get game result worked 3")
-    print(players_result)
-    return players_result
+                
+    sorted_player_result = dict(
+        sorted(players_result.items(), key=lambda item: item[1]["squares"], reverse=True)
+    )
+
+    print(sorted_player_result)
+    return sorted_player_result
 
 
 def add_player_to_game(game: dict, player_name: str, player_color: str) -> dict:

@@ -12,7 +12,7 @@
   </ul>
 </div>
 <div id="dialog-container" class="dialog-container ">
-  <div class="dialog-header">You win</div>
+  <div class="dialog-header">Results...</div>
   <div id="dialog-body" class="dialog-body">
   </div>
   <div class="dialog-footer">
@@ -42,7 +42,7 @@
   var color = JSON.parse(document.getElementById("color").textContent);
   var container = document.querySelector(".d-grid");
   var playerInform = document.querySelector(".information ul")
-  var alert = document.querySelector(".dialog-container");
+ 
   var timer = document.getElementById("timer");
 
 
@@ -104,27 +104,19 @@
 
       }
     }
+    var alert = document.querySelector(".dialog-container")
     ws.send(JSON.stringify(PayLoad))
-    alert.classList.remove("active");
     container.classList.remove("done");
+    alert.classList.remove("active");
     container.innerHTML = ''
     playerInform.innerHTML = ''
 
   })
 
   function getvals() {
-    return fetch(`http://localhost:8000/result/?game_id=${gameId}`,
-      {
-        method: "GET",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-      })
-      .then((response) => response.json())
-      .then((responseData) => {
-        return responseData;
-      })
+    return fetch(`http://localhost:8000/result/?game_id=${gameId}`)
+      .then((response) => {})
+      .then((responseData) => {})
       .catch(error => console.warn(error));
   }
 
@@ -140,7 +132,7 @@
         setTimeout(tick, 1000);
       } else {
 
-        getvals().then(response => console.log(response));
+        getvals();
         document.getElementById("timer").innerHTML = "";
       }
     }
@@ -241,9 +233,14 @@
       displayPlayers(players)
     }
     if (data.method === "send_results") {
-      document.getElementById("dialog-body").innerHTML = message.data
-      alert.classList.add("active");
+      nat = ``
+      for (result in data.data){
+        nat += `<span style="color: ${data.data[result].color};">${data.data[result].name}</span> --> ${data.data[result].squares} <hr>`
+      }
+      document.getElementById("dialog-body").innerHTML = nat
+      playerInform.innerHTML = ''
       container.classList.add("done");
+      document.querySelector(".dialog-container").classList.add("active");
     }
   };
 

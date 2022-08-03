@@ -92,6 +92,4 @@ def get_result(request):
         cache.set(f"game:{game_id}", game_restarted)
     except GameResulted:
         pass
-    print("send json respons workd 6")
-
-    return JsonResponse({"data": "nothing 7"})
+    return JsonResponse({})
