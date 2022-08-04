@@ -10,8 +10,8 @@
   <div class="content">
     <form id="creat_game" method="POST">
       {% csrf_token %}
+      <input id="player_num" type="Number" placeholder="Players Number" name="player_num" required />
       <div>
-        <input id="player_num" type="Number" placeholder="Players Number" name="player_num" required />
         <span></span>
         <span></span>
         <span></span>
@@ -37,21 +37,11 @@
         console.log(JSON.parse(result))
         const game_id_h3 = document.getElementById("game_id");
         game_id_h3.innerHTML = `please copy your ID : <span>${JSON.parse(result).game_id}</span> `;
+        form.style.display = "none"
       })
 
       .catch(error => console.warn(error));
   })
-  // function S4() {
-  //   return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-  // }
-
-  // // then to call it, plus stitch in '4' in the third group
-  // const guid = () => (S4() + S4()).toLowerCase();
-  // const butt = document.getElementById("create");
-  // const game_id_h3 = document.getElementById("game_id");
-  // butt.addEventListener("click", () => {
-  //   game_id_h3.innerHTML = `please copy your ID : <span>${guid()}</span> `;
-  // });
 </script>
 
 {% endblock %}

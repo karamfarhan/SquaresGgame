@@ -153,9 +153,8 @@
     let squareId = squareData.squareId;
     const squareObject = document.getElementById(squareId);
     const squareP = document.getElementById(squareId).getElementsByTagName("p")[0]
-    let color = squareData.color
 
-    squareObject.style.backgroundColor = color;
+    squareObject.style.backgroundColor = squareData.color;
     squareP.innerHTML = squareData.clicked
 
 
