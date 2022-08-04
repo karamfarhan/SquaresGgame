@@ -1,4 +1,3 @@
-import json
 import urllib.parse
 
 from asgiref.sync import async_to_sync
@@ -11,7 +10,6 @@ from django.urls import reverse
 
 from .game_handlers import (
     ColorTaken,
-    GameFisnished,
     GameIsFulled,
     GameResulted,
     GameStarted,
@@ -36,8 +34,6 @@ def join(request):
     context = {}
     if request.method == "POST":
         game_id = request.POST.get("game")
-        # if game_id.strip() == "":
-        #     game_id = generate_game_id()
         name = request.POST.get("name")
         color = request.POST.get("color")
         game = cache.get(f"game:{game_id}")
@@ -79,7 +75,6 @@ def game(request):
 
 
 def get_result(request):
-    print("get result 1")
     game_id = request.GET.get("game_id")
     game = cache.get(f"game:{game_id}")
     try:
@@ -97,5 +92,4 @@ def creat_game_view(request):
     game_id = generate_game_id()
     game = creat_game(game_id, player_num)
     cache.set(f"game:{game_id}", game)
-    print("game cached")
     return JsonResponse({"game_id": game_id})

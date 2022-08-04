@@ -3,7 +3,7 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.core.cache import cache
 
-from .game_handlers import add_player_to_game, restart_game
+from .game_handlers import add_player_to_game
 
 
 class GameConsumer(AsyncWebsocketConsumer):
@@ -86,7 +86,6 @@ class GameConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({"method": "update_players", "data": data}))
 
     async def Send_Results(self, event):
-        print("send results worked 4")
         data = event["data"]
 
         ## Send message to WebSocket

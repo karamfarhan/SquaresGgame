@@ -9,8 +9,10 @@
 <section id="landing">
   <div class="content">
     <form id="creat_game" method="POST">
+      <P style="color: white; margin: 10px;">how many players you want in the game?</P>
       {% csrf_token %}
-      <input id="player_num" type="Number" placeholder="Players Number" name="player_num" required />
+      <input style="height: 40px ; width: 140px;" id="player_num" type="Number" placeholder="Players Number"
+        name="player_num" required />
       <div>
         <span></span>
         <span></span>
@@ -21,7 +23,7 @@
     </form>
     <div class="container">
       <div id="game_id"></div>
-      <a href="{% url 'game:join'%}"> Join Room</a>
+      <a href="{% url 'game:join'%}"> Join Game</a>
     </div>
   </div>
 </section>
@@ -36,7 +38,7 @@
       .then(result => {
         console.log(JSON.parse(result))
         const game_id_h3 = document.getElementById("game_id");
-        game_id_h3.innerHTML = `please copy your ID : <span>${JSON.parse(result).game_id}</span> `;
+        game_id_h3.innerHTML = `copy your game ID and click Join Game: <span>${JSON.parse(result).game_id}</span> `;
         form.style.display = "none"
       })
 

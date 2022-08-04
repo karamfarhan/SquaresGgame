@@ -54,7 +54,6 @@ def creat_game(game_id: str, player_num: int, squares_num: int = 180) -> dict:
         "squares": squares,
         "players": {},
     }
-    print("game generated")
     return game
 
 
@@ -66,12 +65,10 @@ def restart_game(game: dict) -> dict:
     for square in game["squares"].values():
         square["color"] = ""
         square["clicked"] = 0
-    print("restart game workd 5")
     return game
 
 
 def get_game_results(game: dict) -> dict:
-    print("get game result 2")
     if game["is_resulted"]:
         raise GameResulted()
 
@@ -90,7 +87,6 @@ def get_game_results(game: dict) -> dict:
         sorted(players_result.items(), key=lambda item: item[1]["squares"], reverse=True)
     )
 
-    print(sorted_player_result)
     return sorted_player_result
 
 
