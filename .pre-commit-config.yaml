@@ -19,11 +19,6 @@ repos:
     hooks:
       - id: black
         args: [--line-length=119]
-  # - repo: https://github.com/asottile/reorder_python_imports
-  #   rev: v2.6.0
-  #   hooks:
-  #     - id: reorder-python-imports
-  #       args: [--application-directories=.:src, --py36-plus]
   - repo: https://github.com/PyCQA/isort
     rev: 5.10.1
     hooks:
@@ -38,19 +33,19 @@ repos:
           - --in-place
           - --remove-unused-variables
           - --remove-all-unused-imports
-  # - repo: https://github.com/pycqa/bandit
-  #   rev: 1.6.2
-  #   hooks:
-  #     - id: bandit
-  #       args: ['-iii', '-ll']
+  - repo: https://github.com/pycqa/bandit
+    rev: 1.6.2
+    hooks:
+      - id: bandit
+        args: ['-iii', '-ll']
 
 
-  # - repo: https://github.com/PyCQA/pylint
-  #   rev: v2.13.4
-  #   hooks:
-  #     - id: pylint
-  #       args:
-  #         - --disable=unused-argument
+  - repo: https://github.com/PyCQA/pylint
+    rev: v2.13.4
+    hooks:
+      - id: pylint
+        args:
+          - --disable=unused-argument
 
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.5.1
