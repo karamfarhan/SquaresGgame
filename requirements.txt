@@ -39,3 +39,4 @@ txaio==22.2.1
 typing_extensions==4.2.0
 wrapt==1.14.1
 zope.interface==5.4.0
+whitenoise==6.2.0
