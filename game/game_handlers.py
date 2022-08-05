@@ -4,43 +4,29 @@ from uuid import uuid4
 class GameNotFound(Exception):
     """Handles what to do if a game not found"""
 
-    pass
-
 
 class NameTaken(ValueError):
     """Handles what to do if a player name  is taken"""
-
-    pass
 
 
 class ColorTaken(ValueError):
     """Handles what to do if a color is taken"""
 
-    pass
-
 
 class GameStarted(Exception):
     """Handles what to do if a player tries to join when the game has started"""
-
-    pass
 
 
 class GameFisnished(Exception):
     """Handles what to do if the game is finished"""
 
-    pass
-
 
 class GameResulted(Exception):
     """Handles what to do if the game is resulted"""
 
-    pass
-
 
 class GameIsFulled(Exception):
     """Handles what to do if the game Full of players"""
-
-    pass
 
 
 def creat_game(game_id: str, player_num: int, squares_num: int = 180) -> dict:
@@ -76,19 +62,14 @@ def get_game_results(game: dict) -> dict:
     players = game["players"]
     squares = game["squares"]
     players_result = {
-        f"{player}": {"name": player, "color": players[player]["color"], "squares": 0}
-        for player in players.keys()
+        f"{player}": {"name": player, "color": players[player]["color"], "squares": 0} for player in players.keys()
     }
     for square in squares.values():
         for player in players_result.values():
             if square["color"] == player["color"]:
                 player["squares"] += 1
 
-    sorted_player_result = dict(
-        sorted(
-            players_result.items(), key=lambda item: item[1]["squares"], reverse=True
-        )
-    )
+    sorted_player_result = dict(sorted(players_result.items(), key=lambda item: item[1]["squares"], reverse=True))
 
     return sorted_player_result
 
