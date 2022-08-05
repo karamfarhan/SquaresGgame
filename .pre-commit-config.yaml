@@ -40,12 +40,12 @@ repos:
         args: ['-iii', '-ll']
 
 
-  - repo: https://github.com/PyCQA/pylint
-    rev: v2.13.4
-    hooks:
-      - id: pylint
-        args:
-          - --disable=unused-argument
+  # - repo: https://github.com/PyCQA/pylint
+  #   rev: v2.13.4
+  #   hooks:
+  #     - id: pylint
+  #       args:
+  #         - --disable=unused-argument
 
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.5.1
