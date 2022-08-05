@@ -19,6 +19,7 @@ channel_layer = get_channel_layer()
 
 
 def home(request):
+    print("hello")
     context = {}
     return render(request, "game/home.html", context=context)
 
