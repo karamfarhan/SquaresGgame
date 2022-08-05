@@ -3,7 +3,7 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.core.cache import cache
 
-from .game_handlers import add_player_to_game, creat_game,d
+from .game_handlers import add_player_to_game, creat_game, d
 
 
 class GameConsumer(AsyncWebsocketConsumer):

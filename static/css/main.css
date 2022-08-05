@@ -367,7 +367,7 @@ ul li span:nth-child(1) {
 
 /* table and cells */
 .cell {
-  /* 
+  /*
   height: 60px;
   background-color: blanchedalmond;
   background-blend-mode: multiply;
@@ -462,4 +462,3 @@ ul li span:nth-child(1) {
   transition: .3s;
   line-height: 1.2;
 }
-

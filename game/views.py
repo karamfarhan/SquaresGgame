@@ -9,16 +9,9 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from .game_handlers import (
-    ColorTaken,
-    GameIsFulled,
-    GameResulted,
-    GameStarted,
-    NameTaken,
-    add_player_to_game,
-    creat_game,
-    generate_game_id,
-    get_game_results,
-    restart_game,
+    ColorTaken, GameIsFulled, GameResulted, GameStarted, NameTaken,
+    add_player_to_game, creat_game, generate_game_id, get_game_results,
+    restart_game
 )
 
 channel_layer = get_channel_layer()
