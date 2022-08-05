@@ -7,7 +7,7 @@ db.sqlite3
 venv
 .env
 env
-
+.mypy_cache
 # Unittest reports
 .coverage*
 
