@@ -214,7 +214,6 @@
   ws.onmessage = (message) => {
     const data = JSON.parse(message.data);
     if (data.method === "update_square") {
-      console.log(data.data)
       update_square(data.data)
 
     }
