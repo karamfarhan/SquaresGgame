@@ -84,7 +84,9 @@ def get_game_results(game: dict) -> dict:
                 player["squares"] += 1
 
     sorted_player_result = dict(
-        sorted(players_result.items(), key=lambda item: item[1]["squares"], reverse=True)
+        sorted(
+            players_result.items(), key=lambda item: item[1]["squares"], reverse=True
+        )
     )
 
     return sorted_player_result
