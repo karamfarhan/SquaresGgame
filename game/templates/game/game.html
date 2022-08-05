@@ -115,7 +115,7 @@
   })
 
   function getvals() {
-    return fetch(`http://localhost:8000/result/?game_id=${gameId}`)
+    return fetch(`http://${window.location.host}/result/?game_id=${gameId}`)
       .then((response) => {})
       .then((responseData) => {})
       .catch(error => console.warn(error));
