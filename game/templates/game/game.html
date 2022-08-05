@@ -47,8 +47,8 @@
   var timer = document.getElementById("timer");
 
 
-
-  const ws = new WebSocket(`ws://${window.location.host}/ws/game/${gameId}/`);
+  var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws"
+  const ws = new WebSocket(`${ws_scheme}://${window.location.host}/ws/game/${gameId}/`);
   while (container.firstChild) container.removeChild(container.firstChild);
 
   // var playerInform2 = document.querySelector(".menu-btns")
@@ -115,7 +115,7 @@
   })
 
   function getvals() {
-    return fetch(`http://${window.location.host}/result/?game_id=${gameId}`)
+    return fetch(`https://${window.location.host}/result/?game_id=${gameId}`)
       .then((response) => {})
       .then((responseData) => {})
       .catch(error => console.warn(error));
