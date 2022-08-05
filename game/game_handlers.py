@@ -45,6 +45,7 @@ class GameIsFulled(Exception):
 
 def creat_game(game_id: str, player_num: int, squares_num: int = 180) -> dict:
     squares = {f"{i+1}": {"color": "", "clicked": 0} for i in range(squares_num)}
+    print("hello")
     game = {
         "game_id": game_id,
         "is_started": False,
