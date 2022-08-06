@@ -31,12 +31,12 @@ squares game is a multiplayer game, made with Django.
 </note>
 
 ### Lobby
-choice how much players you want and click creat game
+choose how much players you want by typing a number and click creat game
 ![Alt Text](/assets/create-game-players-number.png)
 copy the game code and send it to your freind
 ![Alt Text](/assets/create-game-done.png)
 ### Join
-put the game code and choice name and color
+put the game code and choose name and color
 ![Alt Text](/assets/join-game.png)
 ### Active game
 play and take as much as squares you can
