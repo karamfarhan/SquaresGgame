@@ -126,7 +126,7 @@ python manage.py runserver
 
 - Django Channels for the backend, allowing it to communicate over both HTTP and WebSockets
 - Javascript with Django template to communicate with WebSockets on the backend
-- Redis for storing data
+- Redis as a Cache and as a layers for channels
 - Docker as a main packaging system, which makes development OS-agnostic and simplified the setup process
 
 
