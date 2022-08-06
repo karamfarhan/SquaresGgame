@@ -1,5 +1,5 @@
 # Squares Game!
-[![MIT License](https://img.shields.io/github/license/channels-multi-player-simple-game](https://github.com/channels-multi-player-simple-game/blob/main/LICENSE)
+[![MIT License](https://img.shields.io/github/license/karamfarhan/channels-multi-player-simple-game)](https://github.com/karamfarhan/channels-multi-player-simple-game/blob/main/LICENCE)
 [![Linting](https://github.com/karamfarhan/channels-multi-player-simple-game/actions/workflows/lint.yaml/badge.svg)](https://github.com/karamfarhan/channels-multi-player-simple-game/actions/workflows/lint.yaml)
 
 squares game play and make fun.
@@ -125,6 +125,7 @@ python manage.py runserver
 
 
 - Django Channels for the backend, allowing it to communicate over both HTTP and WebSockets
+- Javascript with Django template to communicate with WebSockets on the backend
 - Redis for storing data
 - Docker as a main packaging system, which makes development OS-agnostic and simplified the setup process
 
