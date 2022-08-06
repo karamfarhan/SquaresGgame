@@ -100,7 +100,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+# channel layers and caches config for Docker
 # CHANNEL_LAYERS = {
 #     "default": {
 #         "BACKEND": "channels_redis.core.RedisChannelLayer",
@@ -123,6 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 #     }
 # }
 
+# channel layers and cache config running Locally
 CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
 
 CACHES = {
