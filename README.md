@@ -26,7 +26,7 @@ squares game is a multiplayer game, made with Django.
 
 <note>
 
-**Note**: blank
+**Note**: The game is still under development
 
 </note>
 
