@@ -8,6 +8,8 @@ venv
 .env
 env
 .mypy_cache
+.pre-commit-config.yaml
+tox.ini
 # Unittest reports
 .coverage*
 
