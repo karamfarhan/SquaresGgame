@@ -115,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 #     "default": {
 #         "BACKEND": "django_redis.cache.RedisCache",
 #         "LOCATION": "redis://redis/1",
-#         "TIMEOUT": 2000,
+#         "TIMEOUT": 300,
 #         "OPTIONS": {
 #             "CLIENT_CLASS": "django_redis.client.DefaultClient",
 #             "MAX_ENTRIES": 1000,
@@ -130,9 +130,9 @@ CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
         "LOCATION": "unique-snowflake",
-        "TIMEOUT": 3600,
+        "TIMEOUT": 300,
         "OPTIONS": {
-            "MAX_ENTRIES": 2000,
+            "MAX_ENTRIES": 1000,
         },
     }
 }
