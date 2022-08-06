@@ -8,7 +8,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["squaresgamego.herokuapp.com"]
 
 
 INSTALLED_APPS = [
@@ -110,3 +110,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+CSRF_TRUSTED_ORIGINS = ['https://squaresgamego.herokuapp.com']
