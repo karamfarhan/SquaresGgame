@@ -192,6 +192,7 @@
 
           div.style.background = color;
           let prev_click = clickHandle(p)
+          p.innerHTML = prev_click + 1
           const PayLoad2 = {
             method: "update_ball",
             data: {
