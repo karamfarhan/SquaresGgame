@@ -34,6 +34,8 @@
 </div>
 
 
+<div style="color: white; font-size: 40px; text-align: center;" id="wait">
+</div>
 
 
 
@@ -224,12 +226,19 @@
       players = data.data.players
       displayPlayers(players)
       if (data.data.is_started === true) {
+        document.getElementById("wait").innerHTML = ''
         makesqu(squares)
-        countdown();
+
       }
     }
+    if (data.method === "start_timer"){
+      countdown();
+      console.log(data.data)
+    }
     if (data.method === "update_players") {
-
+      let WaitMesage = document.createElement("h2")
+      WaitMesage.innerHTML = `Wait the players to join, share the game code with them<br>${gameId}`
+      document.getElementById("wait").appendChild(WaitMesage)
       players = data.data
       displayPlayers(players)
     }

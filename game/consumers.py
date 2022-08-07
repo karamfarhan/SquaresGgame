@@ -17,7 +17,10 @@ class GameConsumer(AsyncWebsocketConsumer):
         )
         game = await cache.aget(f"game:{self.game_id}")
         if len(game["players"].keys()) >= game["start_at_player"]:
-            game["is_started"] = True
+            if game["is_started"] is False:
+                game["is_started"] = True
+                await cache.aset(f"game:{self.game_id}", game)
+                await self.channel_layer.group_send(self.game_id, {"type": "Start_Timer", "data": "start the time"})
             await self.channel_layer.group_send(self.game_id, {"type": "Send_Game", "data": game})
         else:
             players = game["players"]
@@ -58,7 +61,12 @@ class GameConsumer(AsyncWebsocketConsumer):
             game["is_resulted"] = False
             await cache.aset(f"game:{self.game_id}", game)
             if len(game["players"].keys()) >= game["start_at_player"]:
-                game["is_started"] = True
+                if game["is_started"] is False:
+                    game["is_started"] = True
+                    await cache.aset(f"game:{self.game_id}", game)
+                    await self.channel_layer.group_send(
+                        self.game_id, {"type": "Start_Timer", "data": "start the time"}
+                    )
                 await self.channel_layer.group_send(self.game_id, {"type": "Send_Game", "data": game})
             else:
                 players = game["players"]
@@ -87,3 +95,9 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({"method": "send_results", "data": data}))
+
+    async def Start_Timer(self, event):
+        data = event["data"]
+
+        # Send message to WebSocket
+        await self.send(text_data=json.dumps({"method": "start_timer", "data": data}))
