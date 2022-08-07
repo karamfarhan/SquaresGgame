@@ -88,6 +88,7 @@ def get_result(request):
     return JsonResponse({})
 
 
+# test atomi cpushes
 def creat_game_view(request):
     player_num = int(request.GET.get("player_num"))
     game_id = generate_game_id()
