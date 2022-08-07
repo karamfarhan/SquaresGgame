@@ -10,6 +10,7 @@ env
 .mypy_cache
 .pre-commit-config.yaml
 tox.ini
+.gitignore
 # Unittest reports
 .coverage*
 
