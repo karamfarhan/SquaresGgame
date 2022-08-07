@@ -94,3 +94,6 @@ def creat_game_view(request):
     game = creat_game(game_id, player_num)
     cache.set(f"game:{game_id}", game)
     return JsonResponse({"game_id": game_id})
+
+
+# check multi pushed
