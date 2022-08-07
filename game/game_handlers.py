@@ -95,6 +95,3 @@ def add_player_to_game(game: dict, player_name: str, player_color: str) -> dict:
 def generate_game_id():
     game_id = uuid4()
     return str(game_id)[:7]
-
-
-# add and test
