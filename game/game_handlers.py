@@ -76,7 +76,7 @@ def get_game_results(game: dict) -> dict:
 def add_player_to_game(game: dict, player_name: str, player_color: str) -> dict:
     taken_colors = [player["color"] for player in game["players"].values()]
     if game["is_started"]:
-        raise GameNotFound()
+        raise GameStarted()
     if player_name in game["players"]:
         raise NameTaken()
     if player_color in taken_colors:
