@@ -43,8 +43,11 @@ class GameConsumer(AsyncWebsocketConsumer):
             del game["players"][self.player_name]
         except Exception:
             pass
+        waiting = False
+        if game["is_started"] is False:
+            waiting = True
         await cache.aset(f"game:{self.game_id}", game)
-        data = {"players": game["players"], "waiting": False}
+        data = {"players": game["players"], "waiting": waiting}
         await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": data})
         await self.channel_layer.group_discard(self.game_id, self.channel_name)
 
