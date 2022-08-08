@@ -130,6 +130,11 @@ python manage.py runserver
 - Docker as a main packaging system, which makes development OS-agnostic and simplified the setup process
 
 
+<note>
+
+**Note**: `If you would like to contribute to this project follow  [contribute](https://github.com/karamfarhan/channels-multi-player-simple-game/blob/main/CONTRIBUTING.md)
+
+</note>
 
 
 
