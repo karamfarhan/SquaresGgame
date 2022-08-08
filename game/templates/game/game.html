@@ -43,7 +43,7 @@
   function checkEvt(){
       var evTypep=window.performance.getEntriesByType("navigation")[0].type;
         if (evTypep=='reload'){
-          window.location.replace(`http://${window.location.host}`);
+          window.location.replace(`https://${window.location.host}`);
         }
 
   }
@@ -59,7 +59,7 @@
 
 
   var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws"
-  const ws = new WebSocket(`${ws_scheme}://${window.location.host}/ws/game/${gameId}/`);
+  const ws = new WebSocket(`${ws_scheme}://${window.location.host}/ws/game/${gameId}/${name}/`);
   while (container.firstChild) container.removeChild(container.firstChild);
 
   // var playerInform2 = document.querySelector(".menu-btns")
