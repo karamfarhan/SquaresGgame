@@ -40,6 +40,14 @@
 
 
 <script>
+  function checkEvt(){
+      var evTypep=window.performance.getEntriesByType("navigation")[0].type;
+        if (evTypep=='reload'){
+          window.location.replace(`http://${window.location.host}`);
+        }
+
+  }
+  checkEvt();
   var name = JSON.parse(document.getElementById("name").textContent);
   var gameId = JSON.parse(document.getElementById("game_id").textContent);
   var color = JSON.parse(document.getElementById("color").textContent);

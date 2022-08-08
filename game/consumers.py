@@ -57,7 +57,10 @@ class GameConsumer(AsyncWebsocketConsumer):
             )
         elif text_data_json["method"] == "restart_game":
             game = await cache.aget(f"game:{self.game_id}")
+            # try:
             add_player_to_game(game, data["name"], data["color"])
+            # except (GameIsFulled,GameStarted,GameNotFound):
+            #     pass # here i need to return the user to the main page
             game["is_resulted"] = False
             await cache.aset(f"game:{self.game_id}", game)
             if len(game["players"].keys()) >= game["start_at_player"]:
