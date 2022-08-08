@@ -30,11 +30,11 @@ All types of contributions are encouraged and valued. See the [Table of Contents
 
 > If you want to ask a question, we assume that you have read the available [Documentation](https://github.com/karamfarhan/channels-multi-player-simple-game/blob/main/README.md).
 
-Before you ask a question, it is best to search for existing [Issues](https://github.com/karamfarhan/channels-multi-player-simple-game/issues) that might help you. In case you have found a suitable issue and still need clarification, you can write your question in this issue. It is also advisable to search the internet for answers first.
+Before you ask a question, it is best to search for existing [Issues](https://github.com/karamfarhan/channels-multi-player-simple-game/issues/new/choose) that might help you. In case you have found a suitable issue and still need clarification, you can write your question in this issue. It is also advisable to search the internet for answers first.
 
 If you then still feel the need to ask a question and need clarification, we recommend the following:
 
-- Open an [Issue](https://github.com/karamfarhan/channels-multi-player-simple-game/issues/new).
+- Open an [Issue](https://github.com/karamfarhan/channels-multi-player-simple-game/issues/new/choose).
 - Provide as much context as you can about what you're running into.
 - Provide project and platform versions (nodejs, npm, etc), depending on what seems relevant.
 
@@ -86,7 +86,7 @@ A good bug report shouldn't leave others needing to chase you up for more inform
 
 We use GitHub issues to track bugs and errors. If you run into an issue with the project:
 
-- Open an [Issue](https://github.com/karamfarhan/channels-multi-player-simple-game/issues/new). (Since we can't be sure at this point whether it is a bug or not, we ask you not to talk about a bug yet and not to label the issue.)
+- Open an [Issue](https://github.com/karamfarhan/channels-multi-player-simple-game/issues/new/choose). (Since we can't be sure at this point whether it is a bug or not, we ask you not to talk about a bug yet and not to label the issue.)
 - Explain the behavior you would expect and the actual behavior.
 - Please provide as much context as possible and describe the *reproduction steps* that someone else can follow to recreate the issue on their own. This usually includes your code. For good bug reports you should isolate the problem and create a reduced test case.
 - Provide the information you collected in the previous section.
