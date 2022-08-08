@@ -11,7 +11,6 @@ from django.urls import reverse
 from .game_handlers import (
     ColorTaken,
     GameIsFulled,
-    GameNotFound,
     GameResulted,
     GameStarted,
     NameTaken,
@@ -49,9 +48,9 @@ def join(request):
                 context["color"] = color
                 url = "{}?{}".format(reverse("game:game"), urllib.parse.urlencode(context))
                 return redirect(url)
-            except GameNotFound:
-                messages.add_message(request, messages.ERROR, "The (NAME) is taken, pick other name")
-                return HttpResponseRedirect(request.path_info)
+            # except GameNotFound:
+            #     messages.add_message(request, messages.ERROR, "The (NAME) is taken, pick other name")
+            #     return HttpResponseRedirect(request.path_info)
             except NameTaken:
                 messages.add_message(request, messages.ERROR, "The (NAME) is taken, pick other name")
                 return HttpResponseRedirect(request.path_info)
