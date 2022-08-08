@@ -58,7 +58,7 @@
 
 
 
-  const ws = new WebSocket(`ws://${window.location.host}/ws/game/${gameId}/`);
+  const ws = new WebSocket(`ws://${window.location.host}/ws/game/${gameId}/${name}/`);
   while (container.firstChild) container.removeChild(container.firstChild);
 
   // var playerInform2 = document.querySelector(".menu-btns")
@@ -245,10 +245,15 @@
     }
     if (data.method === "update_players") {
       let WaitMesage = document.createElement("h2")
-      WaitMesage.innerHTML = `Wait the players to join, share the game code with them<br>${gameId}`
-      document.getElementById("wait").appendChild(WaitMesage)
-      players = data.data
+      let WaitDiv = document.getElementById("wait")
+      WaitDiv.innerHTML = ''
+      players = data.data.players
       displayPlayers(players)
+      if (data.data.waiting === true && name in players) {
+        WaitDiv.innerHTML = ''
+        WaitMesage.innerHTML = `Wait the players to join, share the game code with them<br>${gameId}`
+        WaitDiv.appendChild(WaitMesage)
+      }
     }
     if (data.method === "send_results") {
       nat = ``
