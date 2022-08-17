@@ -56,11 +56,13 @@ a {
 }
 
 body {
-  font-family: "Roboto Condensed", sans-serif;
+  font-family:arial rgb(255, 255, 255);
+  /* font-family: "Roboto Condensed", sans-serif; */
   background: rgb(41, 36, 36);
 
   background-repeat: no-repeat;
   /* position: relative; */
+
 }
 body::before {
   content: "";
@@ -76,9 +78,9 @@ body::before {
 /*header*/
 header {
   width: 100%;
-  background-color: #5503f9;
-  /* border: 2px solid #e123f6; */
-  /* box-shadow: rgba(228, 121, 247, 0.582) 0px 14px 28px, rgba(249, 0, 145, 0.22) 0px 10px 10px; */
+  /* background-color: #5503f9; */
+  /* border: 2px solid #e123f6;
+  box-shadow: rgba(228, 121, 247, 0.582) 0px 14px 28px, rgba(249, 0, 145, 0.22) 0px 10px 10px; */
 }
 header .container {
   min-height: 90px;
@@ -87,19 +89,39 @@ header .container {
 }
 
 header h1 {
-  color: white;
-  font-family: "Lobster", cursive;
+  margin: auto;
+  /* color: white; */
+  font-family: "Lobster", cursive !important;
   user-select: none;
-  /* border-radius: 5%;
+  border-radius: 40%;
   padding: 5px;
-  background-color: #ffffff;
-  color: #000000;
-  box-shadow: 0 0 5px #ffffff,
-              0 0 25px #ffffff,
-              0 0 50px #ffffff,
-              0 0 200px #fcfcfc; */
+  background-color: rgb(31, 28, 28);
+  color: #ffffff;
+  /* box-shadow: 0 0 5px #7635f6e8,
+              0 0 25px #a919f7,
+              0 0 50px #e963c5fd,
+              0 0 200px #a6ff01ec,
+              0 0 300px #0afcd0fe,
+              0 0 500px #199bf7f0,
+              200px 500px 150px 20px #6319f7e3,
+              -200px 500px 150px 20px #6319f7e3,
+              200px 200px 150px 20px #6319f7e3,
+              -600px 200px 150px 20px #6319f7e3,
+              -600px 650px 150px 20px #6319f7e3,
+              600px 600px 150px 20px #6319f7e3,
+              600px 200px 150px 20px #6319f7e3,
+              -200px 100px 150px 20px #6319f7e3,
+
+              80px 660px 150px 20px #f71950e3,
+              -350px 600px 150px 20px #f71950e3,
+              400px 100px 150px 20px #f71950e3,
+              -350px 350px 150px 20px #f71950e3,
+              -700px 500px 150px 20px #f71950e3,
+              400px 400px 150px 20px #f71950e3,
+              700px 20px 150px 20px #f71950e3,
+              -700px 30px 150px 20px #f71950e3; */
+
 }
-/*landing*/
 section {
   position: relative;
   min-height: calc(100vh - 90px);
@@ -155,6 +177,7 @@ button {
   font-size: 20px;
   transition: opacity 0.3s;
   background-color: #4caf50;
+  border: 1px solid white;
 }
 button:hover {
   opacity: 0.7;
@@ -164,9 +187,10 @@ button:hover {
 #game_id {
   margin: 10px 0;
   color: #fff;
+  font-size: 20px;
 }
 #game_id span {
-  font-size: 18px;
+  font-size: 28px;
   color: rgb(50, 216, 50);
 }
 /*************loging***********/
@@ -174,14 +198,17 @@ section .content {
   animation: up 1s;
 }
 section#login {
-  background: linear-gradient(to right, #494676c9, #4a4576);
+  background-color:rgb(31, 28, 28);
+  /* background: linear-gradient(to right, #6319f7e3, #f71950e3); */
   min-height: 100vh;
+
 }
-section#login p span {
-  font-size: 40px;
+section#login span {
+  font-size: 20px;
+  color: white;
 }
 section#login p {
-  font-size: 20px;
+  font-size: 40px;
   color: #fff;
   margin-bottom: 20px;
 }
@@ -197,50 +224,89 @@ section#login form div {
 section#login form input:not(input[type="color"]) {
   padding: 10px;
   width: 100%;
+  background-color: transparent;
+  color: white;
 }
+section#login form input:not(input[type="color"]):hover {
+
+  color: rgb(5, 220, 19);
+  /* background-color: #af4c61; */
+  transition: 1s;
+}
+
 section#login form input[type="color"] {
   width: 100%;
   border: none;
   height: 50px;
 }
+
+
+
+.text-rainbow-animation {
+  /* font-family:arial black; */
+  /* font-size:70px; */
+  background-image:
+  linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet, red);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbow-animation 700s linear infinite;
+}
+
+@keyframes rainbow-animation {
+    to {
+        background-position: 4500vh;
+    }
+}
+
+
+
 section#login form label {
   display: inline-block;
-  color: #fff;
   font-size: 30px;
   margin-bottom: 10px;
 }
+
+
+
+
+
 section#login form button {
   margin-top: 10px;
   margin-right: auto;
   margin-left: auto;
+  border: 1px solid white
 }
 section#login form div span:last-of-type {
   right: 0;
   bottom: 0;
   height: 0%;
   width: 3px;
+  background-color: red;
 }
 section#login form div span:nth-child(2) {
   left: 0;
   bottom: 0;
   height: 0%;
   width: 3px;
+  background-color: green;
 }
 section#login form div span:nth-child(3) {
   top: 0;
   left: 0;
   height: 3px;
   width: 0%;
+  background-color: #e123f6;
 }
 section#login form div span:nth-child(4) {
   bottom: 0;
   right: 0;
   width: 0%;
   height: 3px;
+  background-color: blue;
 }
 section#login form span {
   position: absolute;
-  background-color: #4caf50;
+  /* background-color: #af4c61; */
   transition: 1s;
 }
 section#login form div:hover span:last-of-type {
@@ -461,4 +527,35 @@ ul li span:nth-child(1) {
   /* margin: auto; */
   transition: .3s;
   line-height: 1.2;
+}
+
+#creat_game p {
+  color: rgb(227, 67, 67);
+  padding-bottom: 10px;
+  font-size: 12px;
+}
+#creat_game h2 {
+  color: white;
+  padding-bottom: 20px;
+}
+#player_num {
+  width: 100px;
+  height: 40px;
+  border: none;
+  background-color: transparent;
+  border-bottom: 1px solid rgb(255, 255, 255);
+  color: white;
+  -webkit-appearance: none;
+  /* margin: 0; */
+  margin-bottom: 10px;
+  -moz-appearance: textfield;
+
+}
+
+
+
+
+.error-message {
+  color: red;
+  font-size: small;
 }
