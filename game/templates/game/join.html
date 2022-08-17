@@ -8,8 +8,10 @@
 
   <div class="content">
     <p>
-      <span>Hi! </span> <br> to start a game enter your name and choice color and put the id of the
-      game and then pass enter game
+      <p>Hi! </p>
+      <br>
+      <span class="">
+        to start a game enter your name and choice a color and put the Id of the game and then pass enter game</span>
     </p>
     {% if messages %}
     {% for message in messages %}
@@ -18,11 +20,6 @@
     {% endif %}
     <form method="POST">
       {% csrf_token %}
-      <!--
-
-
-    noooooooo
--->
       <div>
         <input type="text" placeholder="Username" name="name" required />
         <span></span>
@@ -37,11 +34,13 @@
         <span></span>
       </div>
       <div>
-        <label for="color">pick your color</label>
+        <label for="color" class="text-rainbow-animation">
+          pick your color
+        </label>
         <input type="color" placeholder="your color" name="color" id="color" required />
       </div>
 
-      <button type="submit">enter game</button>
+      <button class="text-rainbow-animation" type="submit">enter game</button>
     </form>
   </div>
 </section>

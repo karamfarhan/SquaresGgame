@@ -2,28 +2,23 @@
 
 <header>
   <div class="container">
-    <h1>Welcome to the Game</h1>
+    <h1 class=""><span class="text-rainbow-animation">Squares</span> Game</h1>
   </div>
 </header>
 
 <section id="landing">
   <div class="content">
     <form id="creat_game" method="POST">
-      <P style="color: white; margin: 10px;">how many players you want in the game?</P>
+      <h2>how many players you want in the game?</h2>
+      <p>Alert: The game will not start until the players completed</p>
       {% csrf_token %}
-      <input style="height: 40px ; width: 140px;" id="player_num" type="Number" placeholder="Players Number"
+      <input id="player_num" type="Number" placeholder="Players Number"
         name="player_num" required />
-      <div>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <button type="submit">Creat game</button>
+      <button class="text-rainbow-animation" type="submit">Creat game</button>
     </form>
     <div class="container">
       <div id="game_id"></div>
-      <a href="{% url 'game:join'%}"> Join Game</a>
+      <a class="" href="{% url 'game:join'%}"><span class="text-rainbow-animation">Join Game</span></a>
     </div>
   </div>
 </section>
