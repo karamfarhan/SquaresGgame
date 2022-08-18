@@ -70,7 +70,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
@@ -79,7 +78,6 @@ CHANNEL_LAYERS = {
         },
     },
 }
-
 
 CACHES = {
     "default": {
