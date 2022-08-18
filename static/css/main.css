@@ -58,7 +58,7 @@ a {
 body {
   font-family:arial rgb(255, 255, 255);
   /* font-family: "Roboto Condensed", sans-serif; */
-  background: rgb(41, 36, 36);
+  background-color: rgb(41, 36, 36);
 
   background-repeat: no-repeat;
   /* position: relative; */
@@ -86,6 +86,7 @@ header .container {
   min-height: 90px;
   display: flex;
   align-items: center;
+
 }
 
 header h1 {
@@ -215,6 +216,8 @@ section#login p {
 section#login form {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
 }
 section#login form div {
   position: relative;
@@ -223,7 +226,7 @@ section#login form div {
 }
 section#login form input:not(input[type="color"]) {
   padding: 10px;
-  width: 100%;
+  width: 200px;
   background-color: transparent;
   color: white;
 }
@@ -235,19 +238,21 @@ section#login form input:not(input[type="color"]):hover {
 }
 
 section#login form input[type="color"] {
-  width: 100%;
+  width: 60px;
   border: none;
+  background-color: transparent;
   height: 50px;
+  padding-left: 10px;
 }
-
 
 
 .text-rainbow-animation {
   /* font-family:arial black; */
   /* font-size:70px; */
   background-image:
-  linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet, red);
+  linear-gradient(to right, rgb(255, 255, 255),orange,yellow,green,blue,indigo,violet, red);
   -webkit-background-clip: text;
+  background-clip:text;
   -webkit-text-fill-color: transparent;
   animation: rainbow-animation 700s linear infinite;
 }
@@ -545,17 +550,32 @@ ul li span:nth-child(1) {
   background-color: transparent;
   border-bottom: 1px solid rgb(255, 255, 255);
   color: white;
-  -webkit-appearance: none;
-  /* margin: 0; */
+  border-radius: 15%;
   margin-bottom: 10px;
-  -moz-appearance: textfield;
 
 }
 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
 
 
 
 .error-message {
   color: red;
   font-size: small;
+}
+
+.wait {
+  font-size: 40px;
+  text-align: center;
+}
+.wait p{
+  color: white;
+}
+.wait span {
+  color: rgb(1, 191, 1);
 }
