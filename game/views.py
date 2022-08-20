@@ -38,7 +38,8 @@ def join(request):
         name = request.POST.get("name")
         color = request.POST.get("color")
         game = cache.get(f"game:{game_id}")
-
+        print(f"BEFORE ADD {name}")
+        print(game["players"])
         if game:
             try:
                 add_player_to_game(game, name, color)
@@ -46,22 +47,21 @@ def join(request):
                 context["game_id"] = game_id
                 context["name"] = name
                 context["color"] = color
+                print(f"AFTER ADD {name}")
+                print(game["players"])
                 url = "{}?{}".format(reverse("game:game"), urllib.parse.urlencode(context))
                 return redirect(url)
-            # except GameNotFound:
-            #     messages.add_message(request, messages.ERROR, "The (NAME) is taken, pick other name")
-            #     return HttpResponseRedirect(request.path_info)
-            except NameTaken:
-                messages.add_message(request, messages.ERROR, "The (NAME) is taken, pick other name")
-                return HttpResponseRedirect(request.path_info)
             except GameStarted:
                 messages.add_message(request, messages.ERROR, "The Game is started")
                 return HttpResponseRedirect(request.path_info)
-            except ColorTaken:
-                messages.add_message(request, messages.ERROR, "The (COLOR) is taken, pick other name")
-                return HttpResponseRedirect(request.path_info)
             except GameIsFulled:
                 messages.add_message(request, messages.ERROR, "The Game is Fulled, No place for you")
+                return HttpResponseRedirect(request.path_info)
+            except NameTaken:
+                messages.add_message(request, messages.ERROR, "The (NAME) is taken, pick other name")
+                return HttpResponseRedirect(request.path_info)
+            except ColorTaken:
+                messages.add_message(request, messages.ERROR, "The (COLOR) is taken, pick other name")
                 return HttpResponseRedirect(request.path_info)
 
         else:

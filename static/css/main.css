@@ -448,8 +448,8 @@ ul li span:nth-child(1) {
   align-items: center; */
 
 
-  width: 200px;
-  height: 200px;
+  width: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -578,4 +578,15 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .wait span {
   color: rgb(1, 191, 1);
+}
+
+
+
+/* player cicule color */
+
+.player-circle-color {
+  display : inline-block;
+  width : 20px;
+  height : 20px;
+  border-radius: 50%;
 }
