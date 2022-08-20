@@ -58,19 +58,26 @@
       let li = document.createElement("li"),
         spanName = document.createElement('span'),
         spanColor = document.createElement('span')
+        spanSquares = document.createElement('span')
 
       li.classList.add("menu-btn")
       li.classList.add("mt-2")
       spanName.className = players[key].name;
       spanColor.className = players[key].color;
+      // spanSquares.setAttribute("id",`S-${players[key].color}`)
       spanColor.setAttribute("id", players[key].color)
 
       spanName.textContent = players[key].name;
+      // spanSquares.innerHTML = players[key].occupied
       spanName.style.color = "white"
+      spanSquares.style.color = "white"
+      spanSquares.classList.add("squares-occupied")
       spanColor.classList.add("player-circle-color")
       spanColor.style.backgroundColor = players[key].color
+      spanSquares.setAttribute("id", spanColor.style.backgroundColor)
       li.appendChild(spanName)
       li.appendChild(spanColor)
+      li.appendChild(spanSquares)
       ul.appendChild(li)
     }
     playerInform.appendChild(ul)
@@ -110,10 +117,30 @@
       .catch(error => console.warn(error));
   }
 
+  function countResluts() {
+    const allSquares = document.querySelectorAll(".cell");
 
+    let LastResult = {}
+
+    // console.log(square)
+    for ( square of allSquares){
+      console.log(square)
+      let sqcolor = square.style.backgroundColor
+      if (sqcolor != ""){
+        LastResult[String(sqcolor)] = (LastResult[String(sqcolor)] + 1) || 1;
+      }
+    }
+    return LastResult
+}
+  function printResult(data){
+    for ( colordata of Object.keys(data)){
+      // console.log(document.getElementById(color))
+      document.getElementById(colordata).innerHTML = data[colordata]
+    }
+  }
 
   function countdown() {
-    var seconds = 60;
+    var seconds = 10;
     function tick() {
       // var counter = document.getElementById("counter");
       seconds--;
@@ -122,7 +149,11 @@
         setTimeout(tick, 1000);
       } else {
 
+        container.classList.add("done");
         getvals();
+        document.querySelector(".dialog-container").classList.add("active");
+        let data = countResluts()
+        printResult(data)
         document.getElementById("timer").innerHTML = "";
       }
     }
@@ -141,11 +172,18 @@
 
   function update_square(squareData) {
     let squareId = squareData.squareId;
-    const squareObject = document.getElementById(squareId);
-    const squareP = document.getElementById(squareId).getElementsByTagName("p")[0]
+    let squareObject = document.getElementById(squareId);
+    let squareP = document.getElementById(squareId).getElementsByTagName("p")[0]
+    // let occupier = document.getElementById(`S-${squareData.color}`)
+    // let occupied = document.getElementById(`S-${squareData.lastColor}`)
 
     squareObject.style.backgroundColor = squareData.color;
     squareP.innerHTML = squareData.clicked
+
+
+    // occupier.innerHTML = parseInt(occupier.innerHTML) + 1
+    // occupied.innerHTML = parseInt(occupied.innerHTML) - 1
+
 
 
   }
@@ -164,6 +202,7 @@
       div.appendChild(p)
       div.className = "cell";
       div.id = (i);
+      // div.setAttribute("name", squares[i]["color"])
       if (click_number != 0) {
         p.innerHTML = click_number
       }
@@ -175,9 +214,9 @@
         const user_color_rgb = document.getElementById(color).style.backgroundColor
 
 
-        if (div.style.background !== user_color_rgb) {
+        if (div.style.backgroundColor !== user_color_rgb) {
 
-          div.style.background = color;
+          div.style.backgroundColor = color;
           let prev_click = clickHandle(p)
           p.innerHTML = prev_click + 1
 
@@ -187,6 +226,7 @@
               squareId: div.tag,
               color: color,
               clicked: prev_click + 1,
+              // lastColor: div.style.backgroundColor,
             }
           }
           ws.send(JSON.stringify(PayLoad))

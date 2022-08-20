@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,400;0,700;1,300;1,400;1,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
-@import url("./reset.css");
+/* @import url("./reset.css"); */
 *:focus {
   outline: none;
 }
@@ -372,9 +372,13 @@ section#login form div:hover span:nth-child(4) {
 }
 ul li {
   padding: 10px;
+
 }
 ul li span:nth-child(1) {
-  margin-right: 20px;
+  margin-right: 10px;
+}
+ul li span:nth-child(2) {
+  margin-right: 10px;
 }
 .dialog-container {
   position: absolute;

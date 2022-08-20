@@ -44,6 +44,8 @@ def creat_game(game_id: str, player_num: int, squares_num: int = 180) -> dict:
 
 
 def restart_game(game: dict) -> dict:
+    if game["is_resulted"]:
+        raise GameResulted()
     game["is_started"] = False
     game["is_resulted"] = True
 
@@ -84,11 +86,7 @@ def add_player_to_game(game: dict, player_name: str, player_color: str) -> dict:
     if player_color in taken_colors:
         raise ColorTaken()
 
-    game["players"][player_name] = {
-        "name": player_name,
-        "color": player_color,
-        "clicked": 0,
-    }
+    game["players"][player_name] = {"name": player_name, "color": player_color, "clicked": 0, "occupied": 0}
     return game
 
 
