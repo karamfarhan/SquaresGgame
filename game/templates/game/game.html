@@ -6,10 +6,14 @@
 {{color|json_script:"color"}}
 
 
-<div class="information text-center d-flex flex-column">
-  <ul>
-  </ul>
-</div>
+<div class="information text-center d-flex flex-column"></div>
+
+
+<div id="timer"></div>
+
+<div class="board-border"></div>
+
+<div class="wait" id="wait"></div>
 
 
 <div id="dialog-container" class="dialog-container ">
@@ -23,15 +27,6 @@
   </div>
 </div>
 
-
-<div id="timer"></div>
-
-<div class="d-grid board-border"></div>
-
-<div class="wait" id="wait"></div>
-
-
-
 <script>
   function checkEvt(){
       var evTypep=window.performance.getEntriesByType("navigation")[0].type;
@@ -41,12 +36,12 @@
 
   }
   checkEvt();
+
   var name = JSON.parse(document.getElementById("name").textContent);
   var gameId = JSON.parse(document.getElementById("game_id").textContent);
   var color = JSON.parse(document.getElementById("color").textContent);
-  var container = document.querySelector(".d-grid");
-  var playerInform = document.querySelector(".information ul")
-
+  var container = document.querySelector(".board-border");
+  var playerInform = document.querySelector(".information")
   var timer = document.getElementById("timer");
 
 
@@ -54,40 +49,31 @@
   const ws = new WebSocket(`ws://${window.location.host}/ws/game/${gameId}/${name}/`);
   while (container.firstChild) container.removeChild(container.firstChild);
 
-  // var playerInform2 = document.querySelector(".menu-btns")
+
   function displayPlayers(players) {
     playerInform.innerHTML = ''
+    let ul = document.createElement("ul")
 
     for (const key in players) {
       let li = document.createElement("li"),
         spanName = document.createElement('span'),
         spanColor = document.createElement('span')
-      // b = document.createElement('button')
+
       li.classList.add("menu-btn")
       li.classList.add("mt-2")
-      // b.classList.add("menu-btn");
-      // b.classList.add("mt-2")
       spanName.className = players[key].name;
       spanColor.className = players[key].color;
       spanColor.setAttribute("id", players[key].color)
 
       spanName.textContent = players[key].name;
       spanName.style.color = "white"
-
-      spanColor.style.cssText = `
-      display : inline-block;
-      width : 20px;
-      height : 20px;
-      border-radius: 50%;
-      background-color : ${players[key].color};
-      `
-      // b.innerHTML = players[i].user_name;
-      // b.appendChild(spanColor)
-
+      spanColor.classList.add("player-circle-color")
+      spanColor.style.backgroundColor = players[key].color
       li.appendChild(spanName)
       li.appendChild(spanColor)
-      playerInform.appendChild(li)
+      ul.appendChild(li)
     }
+    playerInform.appendChild(ul)
   }
 
 
@@ -184,9 +170,7 @@
       // p.innerHTML = click_number
 
       div.tag = i;
-      div.style.height = "60px"
-      div.style.width = "60px"
-      div.style.background = squares[i]["color"];
+      div.style.backgroundColor = squares[i]["color"];
       div.addEventListener("click", (e) => {
         const user_color_rgb = document.getElementById(color).style.backgroundColor
 
@@ -196,7 +180,8 @@
           div.style.background = color;
           let prev_click = clickHandle(p)
           p.innerHTML = prev_click + 1
-          const PayLoad2 = {
+
+          const PayLoad = {
             method: "update_ball",
             data: {
               squareId: div.tag,
@@ -204,7 +189,7 @@
               clicked: prev_click + 1,
             }
           }
-          ws.send(JSON.stringify(PayLoad2))
+          ws.send(JSON.stringify(PayLoad))
         }
 
       });
