@@ -1,6 +1,21 @@
-# Squares Game!
-[![MIT License](https://img.shields.io/github/license/karamfarhan/channels-multi-player-simple-game)](https://github.com/karamfarhan/channels-multi-player-simple-game/blob/main/LICENCE)
-[![Linting](https://github.com/karamfarhan/channels-multi-player-simple-game/actions/workflows/lint.yaml/badge.svg)](https://github.com/karamfarhan/channels-multi-player-simple-game/actions/workflows/lint.yaml)
+<p align="center">
+
+![Logo](/assets/logo.png)
+</p>
+
+<p align="center">
+    <em>Squares, a game is a multiplayer game, made with Django.</em>
+</p>
+<p align="center">
+
+<a href="https://github.com/karamfarhan/channels-multi-player-simple-game/blob/main/LICENCE" target="_blank"><img src="https://img.shields.io/github/license/karamfarhan/channels-multi-player-simple-game" alt="LICENCE">
+</a>
+<a href="https://github.com/karamfarhan/channels-multi-player-simple-game/actions/workflows/lint.yaml" target="_blank"><img src="https://github.com/karamfarhan/channels-multi-player-simple-game/actions/workflows/lint.yaml/badge.svg" alt="Lint">
+  </a>
+</p>
+
+---
+
 
 squares game play and make fun.
 
@@ -9,18 +24,17 @@ squares game is a multiplayer game, made with Django.
 
 ## Table of contents
 
-- [Squares Game!](#squares-game)
-  - [Table of contents](#table-of-contents)
-  - [Preview](#preview)
-    - [Lobby](#lobby)
-    - [Join](#join)
-    - [Active game](#active-game)
-    - [Result page](#result-page)
-  - [How to play?](#how-to-play)
-  - [Dev installation](#dev-installation)
-    - [Using docker:](#using-docker)
-    - [install locally:](#install-locally)
-  - [Technologies used](#technologies-used)
+- [Table of contents](#table-of-contents)
+- [Preview](#preview)
+  - [Lobby](#lobby)
+  - [Join](#join)
+  - [Active game](#active-game)
+  - [Result page](#result-page)
+- [How to play?](#how-to-play)
+- [Dev installation](#dev-installation)
+  - [Using docker:](#using-docker)
+  - [install locally:](#install-locally)
+- [Technologies used](#technologies-used)
 
 ## Preview
 
