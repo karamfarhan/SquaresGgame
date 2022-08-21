@@ -84,8 +84,7 @@ function addRefreshAndExit() {
   restartBtn.innerHTML = "Play again";
   exitBtn.classList.add("exit");
   exitBtn.style.backgroundColor = "red";
-  exitBtn.innerHTML = `<a href="{% url 'game:home' %}">Exit</a> `;
-
+  exitBtn.innerHTML = `<a href="http://localhost:8000/">Exit</a> `;
   exitBtn.addEventListener("click", () => {
     window.href;
   });

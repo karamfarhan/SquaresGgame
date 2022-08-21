@@ -29,7 +29,7 @@ class GameIsFulled(Exception):
     """Handles what to do if the game Full of players"""
 
 
-def creat_game(game_id: str, player_num: int, squares_num: int = 240) -> dict:
+def creat_game(game_id: str, player_num: int, squares_num: int = 250) -> dict:
     squares = {f"{i+1}": {"color": "", "clicked": 0} for i in range(squares_num)}
     game = {
         "game_id": game_id,
