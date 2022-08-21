@@ -8,7 +8,6 @@
 
 <div class="information text-center d-flex flex-column"></div>
 
-
 <div id="timer"></div>
 
 <div class="board-border"></div>
@@ -16,23 +15,12 @@
 <div class="wait" id="wait"></div>
 
 
-<div id="dialog-container" class="dialog-container ">
-  <div class="dialog-header">Results...</div>
-  <div id="dialog-body" class="dialog-body">
-  </div>
-  <div class="dialog-footer">
-    <button class="exit"> <a href="{% url 'game:home' %}">Exit</a> </button>
-    <button class="refresh">
-      Play again
-  </div>
-</div>
-
 <script>
-  function checkEvt(){
-      var evTypep=window.performance.getEntriesByType("navigation")[0].type;
-        if (evTypep=='reload'){
-          window.location.replace(`http://${window.location.host}`);
-        }
+  function checkEvt() {
+    var evTypep = window.performance.getEntriesByType("navigation")[0].type;
+    if (evTypep == 'reload') {
+      window.location.replace(`http://${window.location.host}`);
+    }
 
   }
   checkEvt();
@@ -58,17 +46,15 @@
       let li = document.createElement("li"),
         spanName = document.createElement('span'),
         spanColor = document.createElement('span')
-        spanSquares = document.createElement('span')
+      spanSquares = document.createElement('span')
 
       li.classList.add("menu-btn")
       li.classList.add("mt-2")
       spanName.className = players[key].name;
       spanColor.className = players[key].color;
-      // spanSquares.setAttribute("id",`S-${players[key].color}`)
       spanColor.setAttribute("id", players[key].color)
 
       spanName.textContent = players[key].name;
-      // spanSquares.innerHTML = players[key].occupied
       spanName.style.color = "white"
       spanSquares.style.color = "white"
       spanSquares.classList.add("squares-occupied")
@@ -83,33 +69,6 @@
     playerInform.appendChild(ul)
   }
 
-
-  //pop up
-  let reloadBtn = document.querySelector(".refresh");
-  let exitBtn = document.querySelector(".exit");
-  exitBtn.addEventListener("click", () => {
-    window.href
-  });
-
-  reloadBtn.addEventListener('click', () => {
-    const PayLoad = {
-      method: "restart_game",
-      data: {
-        game_id: gameId,
-        name: name,
-        color: color,
-
-      }
-    }
-    var alert = document.querySelector(".dialog-container")
-    ws.send(JSON.stringify(PayLoad))
-    container.classList.remove("done");
-    alert.classList.remove("active");
-    container.innerHTML = ''
-    playerInform.innerHTML = ''
-
-  })
-
   function getvals() {
     return fetch(`http://localhost:8000/result/?game_id=${gameId}`)
       .then((response) => {})
@@ -122,27 +81,60 @@
 
     let LastResult = {}
 
-    // console.log(square)
-    for ( square of allSquares){
-      console.log(square)
+    for (square of allSquares) {
       let sqcolor = square.style.backgroundColor
-      if (sqcolor != ""){
+      if (sqcolor != "") {
         LastResult[String(sqcolor)] = (LastResult[String(sqcolor)] + 1) || 1;
       }
     }
     return LastResult
-}
-  function printResult(data){
-    for ( colordata of Object.keys(data)){
-      // console.log(document.getElementById(color))
+  }
+
+  function printResult(data) {
+    for (colordata of Object.keys(data)) {
       document.getElementById(colordata).innerHTML = data[colordata]
     }
   }
 
+  function addRefreshAndExit() {
+    timer.innerHTML = "";
+    let restartBtn = document.createElement("button")
+    let exitBtn = document.createElement("button")
+    restartBtn.innerHTML = "Play again"
+    exitBtn.classList.add("exit")
+    exitBtn.style.backgroundColor = "red"
+    exitBtn.innerHTML = `<a href="{% url 'game:home' %}">Exit</a> `
+
+    exitBtn.addEventListener("click", () => {
+      window.href
+    });
+
+    restartBtn.addEventListener('click', () => {
+      const PayLoad = {
+        method: "restart_game",
+        data: {
+          game_id: gameId,
+          name: name,
+          color: color,
+
+        }
+      }
+
+      ws.send(JSON.stringify(PayLoad))
+      container.classList.remove("done");
+      container.innerHTML = ''
+      playerInform.innerHTML = ''
+      timer.innerHTML = ''
+
+    })
+    timer.appendChild(restartBtn)
+    timer.appendChild(exitBtn)
+  }
+
   function countdown() {
     var seconds = 10;
+
     function tick() {
-      // var counter = document.getElementById("counter");
       seconds--;
       timer.innerHTML = "0:" + (seconds < 10 ? "0" : "") + String(seconds);
       if (seconds > 0) {
@@ -151,10 +143,9 @@
 
         container.classList.add("done");
         getvals();
-        document.querySelector(".dialog-container").classList.add("active");
         let data = countResluts()
         printResult(data)
-        document.getElementById("timer").innerHTML = "";
+        addRefreshAndExit()
       }
     }
     tick();
@@ -174,24 +165,15 @@
     let squareId = squareData.squareId;
     let squareObject = document.getElementById(squareId);
     let squareP = document.getElementById(squareId).getElementsByTagName("p")[0]
-    // let occupier = document.getElementById(`S-${squareData.color}`)
-    // let occupied = document.getElementById(`S-${squareData.lastColor}`)
 
     squareObject.style.backgroundColor = squareData.color;
     squareP.innerHTML = squareData.clicked
-
-
-    // occupier.innerHTML = parseInt(occupier.innerHTML) + 1
-    // occupied.innerHTML = parseInt(occupied.innerHTML) - 1
-
-
 
   }
 
 
   function makesqu(squares) {
     container.innerHTML = ''
-    //squares send messages
     for (let i = 1; i < Object.keys(squares).length + 1; i++) {
 
 
@@ -202,11 +184,9 @@
       div.appendChild(p)
       div.className = "cell";
       div.id = (i);
-      // div.setAttribute("name", squares[i]["color"])
       if (click_number != 0) {
         p.innerHTML = click_number
       }
-      // p.innerHTML = click_number
 
       div.tag = i;
       div.style.backgroundColor = squares[i]["color"];
@@ -226,7 +206,6 @@
               squareId: div.tag,
               color: color,
               clicked: prev_click + 1,
-              // lastColor: div.style.backgroundColor,
             }
           }
           ws.send(JSON.stringify(PayLoad))
@@ -238,12 +217,9 @@
     }
 
   }
-
-  // ws recieve message from django
   ws.onmessage = (message) => {
     const data = JSON.parse(message.data);
     if (data.method === "update_square") {
-      console.log(data.data)
       update_square(data.data)
 
     }
@@ -257,9 +233,8 @@
 
       }
     }
-    if (data.method === "start_timer"){
+    if (data.method === "start_timer") {
       countdown();
-      console.log(data.data)
     }
     if (data.method === "update_players") {
       let WaitMesage = document.createElement("h2")
@@ -275,17 +250,6 @@
         WaitDiv.appendChild(WaitMesage)
       }
     }
-    if (data.method === "send_results") {
-      nat = ``
-      for (result in data.data){
-        nat += `<span style="color: ${data.data[result].color};">${data.data[result].name}</span> --> ${data.data[result].squares} <hr>`
-      }
-      document.getElementById("dialog-body").innerHTML = nat
-      playerInform.innerHTML = ''
-      container.classList.add("done");
-      document.querySelector(".dialog-container").classList.add("active");
-    }
   };
-
 </script>
 {% endblock content %}

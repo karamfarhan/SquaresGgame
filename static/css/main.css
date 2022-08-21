@@ -166,7 +166,7 @@ a:hover {
 a:hover::before {
   left: 100%;
 }
-button {
+button{
   z-index: 1;
   border-radius: 10px;
   width: 150px;
@@ -355,14 +355,14 @@ section#login form div:hover span:nth-child(4) {
   font-weight: bold;
   font-size: 50px;
   position: absolute;
-  right: 200px;
-  top: 33px;
+  right: 100px;
+  top: 20px;
 }
 .information {
   width: fit-content;
   position: absolute;
-  left: 200px;
-  top: 33px;
+  left: 100px;
+  top: 30px;
   width: 50%;
 }
 .information ul {
@@ -380,7 +380,7 @@ ul li span:nth-child(1) {
 ul li span:nth-child(2) {
   margin-right: 10px;
 }
-.dialog-container {
+/* .dialog-container {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -393,13 +393,13 @@ ul li span:nth-child(2) {
   box-shadow: 1px 1px 5px 1px #ccc;
   border-radius: 10px;
   transition: all 0.3s linear 0s;
-  z-index: 999;
-}
+  z-index: 999; */
+/* }
 .dialog-container.active {
   transform: translate(-50%, -50%) scale(1);
   opacity: 1;
-}
-.dialog-header {
+} */
+/* .dialog-header {
   padding: 10px;
   font-weight: bold;
   background: #575757;
@@ -411,13 +411,13 @@ ul li span:nth-child(2) {
 }
 .dialog-footer {
   text-align: center;
-  background: #f5f5f2;
+  background: transparent;
   padding: 3px 0;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.dialog-footer button {
+} */
+/* .dialog-footer button {
   display: inline-block;
   width: 100px;
   padding: 5px 0;
@@ -426,14 +426,14 @@ ul li span:nth-child(2) {
   background: #eee;
   cursor: pointer;
   color: #000;
-}
-.dialog-footer button a {
+} */
+/* .dialog-footer button a {
   color: #000;
 }
 .dialog-footer button.refresh {
   border: none;
   background-color: transparent;
-}
+} */
 
 
 
@@ -452,8 +452,8 @@ ul li span:nth-child(2) {
   align-items: center; */
 
 
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -484,8 +484,8 @@ ul li span:nth-child(2) {
 
 .board-border {
   user-select: none;
-  width: calc(100% - 400px);
-  margin: 100px auto;
+  width: calc(100% - 200px);
+  margin: 90px auto;
   user-select: none;
   display: grid;
   background: rgba(47, 42, 42, 0.507);
@@ -493,10 +493,10 @@ ul li span:nth-child(2) {
 
   /* grid-template-columns: repeat(4, 1fr);  */
   /* grid-template-rows: repeat(4, 1fr);  */
-  row-gap: 5px;
-  column-gap: 5px;
+  row-gap: 3px;
+  column-gap: 3px;
 
-  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
   border: 2px solid #e123f6;
   padding: 15px;
   box-shadow: rgba(228, 121, 247, 0.582) 0px 14px 28px, rgba(249, 0, 145, 0.22) 0px 10px 10px;
@@ -593,4 +593,5 @@ input[type=number]::-webkit-outer-spin-button {
   width : 20px;
   height : 20px;
   border-radius: 50%;
+  border: 2px solid white;
 }
