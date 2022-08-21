@@ -18,39 +18,50 @@ ul {
   margin-left: auto;
   margin-right: auto;
   padding: 0 15px;
-  width: 100%;
+  text-align:center;
+}
+.image-cont img {
+  height:100%;
+}
+.image-cont {
+  margin-left: auto;
+  margin-right: auto;
+  width:300px;
+  height:150px;
 }
 /*small screens*/
-@media (min-width: 576px) {
+/* @media (min-width: 576px) {
   .container {
     max-width: 540px;
   }
-}
+} */
 /*medium screens*/
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .container {
     max-width: 720px;
   }
-}
+} */
 /*large screens */
-@media (min-width: 992px) {
+/* @media (min-width: 992px) {
   .container {
     max-width: 960px;
   }
-}
+} */
 
 /*x-large screens*/
-@media (min-width: 1200px) {
+/* @media (min-width: 1200px) {
   .container {
     max-width: 1140px;
   }
-}
+} */
 /* extra large screens*/
-@media (min-width: 1440px) {
+/* @media (min-width: 1440px) {
   .container {
     max-width: 1426px;
   }
-}
+} */
+
+
 a {
   text-decoration: none;
 }
@@ -76,28 +87,28 @@ body::before {
 }
 
 /*header*/
-header {
-  width: 100%;
+/* header {
+  width: 100%; */
   /* background-color: #5503f9; */
   /* border: 2px solid #e123f6;
   box-shadow: rgba(228, 121, 247, 0.582) 0px 14px 28px, rgba(249, 0, 145, 0.22) 0px 10px 10px; */
-}
-header .container {
+/* } */
+/* header .container {
   min-height: 90px;
   display: flex;
   align-items: center;
 
-}
+} */
 
-header h1 {
-  margin: auto;
+/* header h1 {
+  margin: auto; */
   /* color: white; */
-  font-family: "Lobster", cursive !important;
+  /* font-family: "Lobster", cursive !important;
   user-select: none;
   border-radius: 40%;
   padding: 5px;
   background-color: rgb(31, 28, 28);
-  color: #ffffff;
+  color: #ffffff; */
   /* box-shadow: 0 0 5px #7635f6e8,
               0 0 25px #a919f7,
               0 0 50px #e963c5fd,
@@ -122,10 +133,10 @@ header h1 {
               700px 20px 150px 20px #f71950e3,
               -700px 30px 150px 20px #f71950e3; */
 
-}
+/* } */
 section {
   position: relative;
-  min-height: calc(100vh - 90px);
+  min-height: calc(100vh - 40vh);
 }
 
 section .content {
@@ -201,7 +212,8 @@ section .content {
 section#login {
   background-color:rgb(31, 28, 28);
   /* background: linear-gradient(to right, #6319f7e3, #f71950e3); */
-  min-height: 100vh;
+  min-height:   calc(100vh - 40vh);
+
 
 }
 section#login span {

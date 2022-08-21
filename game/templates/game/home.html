@@ -1,8 +1,11 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
 
 <header>
-  <div class="container">
-    <h1 class=""><span class="text-rainbow-animation">Squares</span> Game</h1>
+  <div class="image-cont">
+    <img class="logo" src="{% static '/imgs/logo-white.png' %}" alt="">
+    {% comment %} <h1 class=""><span class="text-rainbow-animation">Squares</span> Game</h1> {% endcomment %}
   </div>
 </header>
 
