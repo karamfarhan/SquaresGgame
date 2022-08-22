@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-    <em>Squares, a game is a multiplayer game, made with Django.</em>
+    <em>Squares,is a multiplayer game, made with Django.</em>
 </p>
 <p align="center">
 
@@ -13,17 +13,14 @@
 <a href="https://github.com/karamfarhan/channels-multi-player-simple-game/actions/workflows/lint.yaml" target="_blank"><img src="https://github.com/karamfarhan/channels-multi-player-simple-game/actions/workflows/lint.yaml/badge.svg" alt="Lint">
   </a>
 </p>
-
+<p align="center">
+    <h1>v1.0.0</h1>
+</p>
 ---
-
-
-squares game play and make fun.
-
-squares game is a multiplayer game, made with Django.
-
 
 ## Table of contents
 
+- [</p>](#)
 - [Table of contents](#table-of-contents)
 - [Preview](#preview)
   - [Lobby](#lobby)
