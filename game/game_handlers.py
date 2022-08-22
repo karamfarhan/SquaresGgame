@@ -53,6 +53,8 @@ def restart_game(game: dict) -> dict:
     for square in game["squares"].values():
         square["color"] = ""
         square["clicked"] = 0
+        square["occupied"] = 0
+        square["is_ready"] = False
     return game
 
 
@@ -67,7 +69,13 @@ def add_player_to_game(game: dict, player_name: str, player_color: str) -> dict:
     if player_color in taken_colors:
         raise ColorTaken()
 
-    game["players"][player_name] = {"name": player_name, "color": player_color, "clicked": 0, "occupied": 0}
+    game["players"][player_name] = {
+        "name": player_name,
+        "color": player_color,
+        "clicked": 0,
+        "occupied": 0,
+        "is_ready": True,
+    }
     return game
 
 

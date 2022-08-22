@@ -27,24 +27,21 @@ function displayPlayers(players) {
     let li = document.createElement("li"),
       spanName = document.createElement("span"),
       spanColor = document.createElement("span");
-    spanSquares = document.createElement("span");
 
     li.classList.add("menu-btn");
     li.classList.add("mt-2");
+
     spanName.className = players[key].name;
     spanColor.className = players[key].color;
     spanColor.setAttribute("id", players[key].color);
 
-    spanName.textContent = players[key].name;
+    spanName.innerHTML = players[key].name;
     spanName.style.color = "white";
-    spanSquares.style.color = "white";
-    spanSquares.classList.add("squares-occupied");
+    spanName.classList.add("player-name")
     spanColor.classList.add("player-circle-color");
     spanColor.style.backgroundColor = players[key].color;
-    spanSquares.setAttribute("id", spanColor.style.backgroundColor);
     li.appendChild(spanName);
     li.appendChild(spanColor);
-    li.appendChild(spanSquares);
     ul.appendChild(li);
   }
   playerInform.appendChild(ul);
@@ -71,46 +68,79 @@ function countResluts() {
   return LastResult;
 }
 
-function printResult(data) {
-  for (colordata of Object.keys(data)) {
-    document.getElementById(colordata).innerHTML = data[colordata];
+// function printResult(data) {
+//   console.log(data)
+//   for (colordata of Object.keys(data)) {
+//     document.getElementById(colordata).innerHTML = data[colordata];
+//   }
+// }
+
+// function addRefreshAndExit() {
+//   timer.innerHTML = "";
+//   let restartBtn = document.createElement("button");
+//   let exitBtn = document.createElement("button");
+//   restartBtn.innerHTML = "Play again";
+//   exitBtn.classList.add("exit");
+//   exitBtn.style.backgroundColor = "red";
+//   exitBtn.innerHTML = `<a href="http://localhost:8000/">Exit</a> `;
+//   exitBtn.addEventListener("click", () => {
+//     window.href;
+//   });
+
+//   restartBtn.addEventListener("click", () => {
+//     const PayLoad = {
+//       method: "restart_game",
+//       data: {
+//         game_id: gameId,
+//         name: playerName,
+//         color: color,
+//       },
+//     };
+
+//     ws.send(JSON.stringify(PayLoad));
+//     container.classList.remove("done");
+//     container.innerHTML = "";
+//     playerInform.innerHTML = "";
+//     timer.innerHTML = "";
+//   });
+//   timer.appendChild(restartBtn);
+//   timer.appendChild(exitBtn);
+// }
+
+
+
+
+
+//pop up
+let reloadBtn = document.querySelector(".refresh");
+let exitBtn = document.querySelector(".exit");
+exitBtn.addEventListener("click", () => {
+  window.href
+});
+
+reloadBtn.addEventListener('click', () => {
+  const PayLoad = {
+    method: "restart_game",
+    data: {
+      game_id: gameId,
+      name: playerName,
+      color: color,
+
+    }
   }
-}
+  var alert = document.querySelector(".dialog-container")
+  ws.send(JSON.stringify(PayLoad))
+  container.classList.remove("done");
+  alert.classList.remove("active");
+  container.innerHTML = ''
+  playerInform.innerHTML = ''
 
-function addRefreshAndExit() {
-  timer.innerHTML = "";
-  let restartBtn = document.createElement("button");
-  let exitBtn = document.createElement("button");
-  restartBtn.innerHTML = "Play again";
-  exitBtn.classList.add("exit");
-  exitBtn.style.backgroundColor = "red";
-  exitBtn.innerHTML = `<a href="http://localhost:8000/">Exit</a> `;
-  exitBtn.addEventListener("click", () => {
-    window.href;
-  });
+})
 
-  restartBtn.addEventListener("click", () => {
-    const PayLoad = {
-      method: "restart_game",
-      data: {
-        game_id: gameId,
-        name: playerName,
-        color: color,
-      },
-    };
 
-    ws.send(JSON.stringify(PayLoad));
-    container.classList.remove("done");
-    container.innerHTML = "";
-    playerInform.innerHTML = "";
-    timer.innerHTML = "";
-  });
-  timer.appendChild(restartBtn);
-  timer.appendChild(exitBtn);
-}
 
 function countdown() {
-  let seconds = 60;
+  let seconds = 10;
 
   function tick() {
     seconds--;
@@ -119,10 +149,17 @@ function countdown() {
       setTimeout(tick, 1000);
     } else {
       container.classList.add("done");
+      timer.innerHTML = ''
       getvals();
       let data = countResluts();
-      printResult(data);
-      addRefreshAndExit();
+      nat = ``
+      for (result in data){
+        nat += `<span class="player-circle-color" style="background-color: ${result};"></span> --> ${data[result]} <hr>`
+      }
+      document.getElementById("dialog-body").innerHTML = nat
+      document.querySelector(".dialog-container").classList.add("active");
+      // printResult(data);
+      // addRefreshAndExit();
     }
   }
   tick();
@@ -195,6 +232,7 @@ ws.onmessage = (message) => {
     displayPlayers(players);
     if (data.data.is_started === true) {
       document.getElementById("wait").innerHTML = "";
+      container.classList.add("border-shadow")
       makesqu(squares);
     }
   }
@@ -208,6 +246,7 @@ ws.onmessage = (message) => {
     players = data.data.players;
     displayPlayers(players);
     if (data.data.waiting === true && playerName in players) {
+      container.classList.remove("border-shadow")
       WaitDiv.innerHTML = "";
       WaitMesage.innerHTML = `
         <p>Wait the players to join, share the game code with them</p>
