@@ -139,7 +139,7 @@ reloadBtn.addEventListener('click', () => {
 
 
 function countdown() {
-  let seconds = 10;
+  let seconds = 60;
 
   function tick() {
     seconds--;
