@@ -30,6 +30,11 @@ function displayPlayers(players) {
     spanSquares = document.createElement("span");
 
     li.classList.add("menu-btn");
+    if (players[key].is_ready === true){
+      li.classList.add("is-ready")
+    }else {
+      li.classList.add("not-ready")
+    }
     li.classList.add("mt-2");
     spanName.className = players[key].name;
     spanColor.className = players[key].color;

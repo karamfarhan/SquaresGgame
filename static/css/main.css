@@ -412,7 +412,7 @@ ul li span:nth-child(2) {
   align-items: center;
   justify-content: center;
   border-radius: 5%;
-  transition: all linear .2s;
+  /* transition: all linear .2s; */
   background: #ffffff;
   font-size: 14px;
   box-shadow: rgba(255, 0, 247, 0.15) 0px 15px 25px, rgba(217, 0, 255, 0.05) 0px 5px 10px;
@@ -479,19 +479,24 @@ ul li span:nth-child(2) {
 
 .menu-btn{
   display: flex;
-  border: 2px solid white;
   background: transparent;
   color: white;
   /* width: 20px;
   height: 50px; */
   font-size: 1.5em;
-  border-radius: 5px;
   opacity: .7;
   /* margin: auto; */
   transition: .3s;
   line-height: 1.2;
 }
-
+.is-ready {
+  border: 3px solid rgb(0, 244, 0);
+  border-radius: 5px;
+}
+.not-ready {
+  border: 3px solid rgb(244, 0, 0);
+  border-radius: 5px;
+}
 #creat_game p {
   color: rgb(227, 67, 67);
   padding-bottom: 10px;
