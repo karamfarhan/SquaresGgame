@@ -1,4 +1,3 @@
-
 let playerName = JSON.parse(document.getElementById("name").textContent);
 let gameId = JSON.parse(document.getElementById("game_id").textContent);
 let color = JSON.parse(document.getElementById("color").textContent);
@@ -15,7 +14,7 @@ function checkEvt() {
 checkEvt();
 
 const ws = new WebSocket(
-`ws://${window.location.host}/ws/game/${gameId}/${playerName}/`
+  `ws://${window.location.host}/ws/game/${gameId}/${playerName}/`
 );
 while (container.firstChild) container.removeChild(container.firstChild);
 
@@ -37,7 +36,7 @@ function displayPlayers(players) {
 
     spanName.innerHTML = players[key].name;
     spanName.style.color = "white";
-    spanName.classList.add("player-name")
+    spanName.classList.add("player-name");
     spanColor.classList.add("player-circle-color");
     spanColor.style.backgroundColor = players[key].color;
     li.appendChild(spanName);
@@ -68,76 +67,29 @@ function countResluts() {
   return LastResult;
 }
 
-// function printResult(data) {
-//   console.log(data)
-//   for (colordata of Object.keys(data)) {
-//     document.getElementById(colordata).innerHTML = data[colordata];
-//   }
-// }
-
-// function addRefreshAndExit() {
-//   timer.innerHTML = "";
-//   let restartBtn = document.createElement("button");
-//   let exitBtn = document.createElement("button");
-//   restartBtn.innerHTML = "Play again";
-//   exitBtn.classList.add("exit");
-//   exitBtn.style.backgroundColor = "red";
-//   exitBtn.innerHTML = `<a href="http://localhost:8000/">Exit</a> `;
-//   exitBtn.addEventListener("click", () => {
-//     window.href;
-//   });
-
-//   restartBtn.addEventListener("click", () => {
-//     const PayLoad = {
-//       method: "restart_game",
-//       data: {
-//         game_id: gameId,
-//         name: playerName,
-//         color: color,
-//       },
-//     };
-
-//     ws.send(JSON.stringify(PayLoad));
-//     container.classList.remove("done");
-//     container.innerHTML = "";
-//     playerInform.innerHTML = "";
-//     timer.innerHTML = "";
-//   });
-//   timer.appendChild(restartBtn);
-//   timer.appendChild(exitBtn);
-// }
-
-
-
-
-
 //pop up
 let reloadBtn = document.querySelector(".refresh");
 let exitBtn = document.querySelector(".exit");
 exitBtn.addEventListener("click", () => {
-  window.href
+  window.href;
 });
 
-reloadBtn.addEventListener('click', () => {
+reloadBtn.addEventListener("click", () => {
   const PayLoad = {
     method: "restart_game",
     data: {
       game_id: gameId,
       name: playerName,
       color: color,
-
-    }
-  }
-  var alert = document.querySelector(".dialog-container")
-  ws.send(JSON.stringify(PayLoad))
+    },
+  };
+  var alert = document.querySelector(".dialog-container");
+  ws.send(JSON.stringify(PayLoad));
   container.classList.remove("done");
   alert.classList.remove("active");
-  container.innerHTML = ''
-  playerInform.innerHTML = ''
-
-})
-
-
+  container.innerHTML = "";
+  playerInform.innerHTML = "";
+});
 
 function countdown() {
   let seconds = 60;
@@ -149,17 +101,15 @@ function countdown() {
       setTimeout(tick, 1000);
     } else {
       container.classList.add("done");
-      timer.innerHTML = ''
+      timer.innerHTML = "";
       getvals();
       let data = countResluts();
-      nat = ``
-      for (result in data){
-        nat += `<span class="player-circle-color" style="background-color: ${result};"></span> --> ${data[result]} <hr>`
+      nat = ``;
+      for (result in data) {
+        nat += `<span class="player-circle-color" style="background-color: ${result};"></span> --> ${data[result]} <hr>`;
       }
-      document.getElementById("dialog-body").innerHTML = nat
+      document.getElementById("dialog-body").innerHTML = nat;
       document.querySelector(".dialog-container").classList.add("active");
-      // printResult(data);
-      // addRefreshAndExit();
     }
   }
   tick();
@@ -232,7 +182,7 @@ ws.onmessage = (message) => {
     displayPlayers(players);
     if (data.data.is_started === true) {
       document.getElementById("wait").innerHTML = "";
-      container.classList.add("border-shadow")
+      container.classList.add("border-shadow");
       makesqu(squares);
     }
   }
@@ -246,7 +196,7 @@ ws.onmessage = (message) => {
     players = data.data.players;
     displayPlayers(players);
     if (data.data.waiting === true && playerName in players) {
-      container.classList.remove("border-shadow")
+      container.classList.remove("border-shadow");
       WaitDiv.innerHTML = "";
       WaitMesage.innerHTML = `
         <p>Wait the players to join, share the game code with them</p>
