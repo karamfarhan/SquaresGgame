@@ -29,7 +29,7 @@ class GameIsFulled(Exception):
     """Handles what to do if the game Full of players"""
 
 
-def creat_game(game_id: str, player_num: int, squares_num: int = 180) -> dict:
+def creat_game(game_id: str, player_num: int, squares_num: int = 250) -> dict:
     squares = {f"{i+1}": {"color": "", "clicked": 0} for i in range(squares_num)}
     game = {
         "game_id": game_id,
@@ -44,6 +44,8 @@ def creat_game(game_id: str, player_num: int, squares_num: int = 180) -> dict:
 
 
 def restart_game(game: dict) -> dict:
+    if game["is_resulted"]:
+        raise GameResulted()
     game["is_started"] = False
     game["is_resulted"] = True
 
@@ -52,25 +54,6 @@ def restart_game(game: dict) -> dict:
         square["color"] = ""
         square["clicked"] = 0
     return game
-
-
-def get_game_results(game: dict) -> dict:
-    if game["is_resulted"]:
-        raise GameResulted()
-
-    players = game["players"]
-    squares = game["squares"]
-    players_result = {
-        f"{player}": {"name": player, "color": players[player]["color"], "squares": 0} for player in players.keys()
-    }
-    for square in squares.values():
-        for player in players_result.values():
-            if square["color"] == player["color"]:
-                player["squares"] += 1
-
-    sorted_player_result = dict(sorted(players_result.items(), key=lambda item: item[1]["squares"], reverse=True))
-
-    return sorted_player_result
 
 
 def add_player_to_game(game: dict, player_name: str, player_color: str) -> dict:
@@ -84,11 +67,7 @@ def add_player_to_game(game: dict, player_name: str, player_color: str) -> dict:
     if player_color in taken_colors:
         raise ColorTaken()
 
-    game["players"][player_name] = {
-        "name": player_name,
-        "color": player_color,
-        "clicked": 0,
-    }
+    game["players"][player_name] = {"name": player_name, "color": player_color, "clicked": 0, "occupied": 0}
     return game
 
 

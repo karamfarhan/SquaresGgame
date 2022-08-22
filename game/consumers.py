@@ -58,10 +58,6 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         # Send message to room group
         if text_data_json["method"] == "update_ball":
-            game = await cache.aget(f"game:{self.game_id}")
-            game["squares"][f'{data["squareId"]}']["color"] = data["color"]
-            game["squares"][f'{data["squareId"]}']["clicked"] = data["clicked"]
-            await cache.aset(f"game:{self.game_id}", game)
             await self.channel_layer.group_send(
                 self.game_id,
                 {
@@ -70,15 +66,13 @@ class GameConsumer(AsyncWebsocketConsumer):
                         "squareId": data["squareId"],
                         "color": data["color"],
                         "clicked": data["clicked"],
+                        # "lastColor":data["lastColor"]
                     },
                 },
             )
         elif text_data_json["method"] == "restart_game":
             game = await cache.aget(f"game:{self.game_id}")
-            # try:
             add_player_to_game(game, data["name"], data["color"])
-            # except (GameIsFulled,GameStarted,GameNotFound):
-            #     pass # here i need to return the user to the main page
             game["is_resulted"] = False
             await cache.aset(f"game:{self.game_id}", game)
             if len(game["players"].keys()) >= game["start_at_player"]:
@@ -113,12 +107,6 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({"method": "update_players", "data": data}))
-
-    async def Send_Results(self, event):
-        data = event["data"]
-
-        # Send message to WebSocket
-        await self.send(text_data=json.dumps({"method": "send_results", "data": data}))
 
     async def Start_Timer(self, event):
         data = event["data"]

@@ -1,6 +1,5 @@
 import urllib.parse
 
-from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.contrib import messages
 from django.core.cache import cache
@@ -17,7 +16,6 @@ from .game_handlers import (
     add_player_to_game,
     creat_game,
     generate_game_id,
-    get_game_results,
     restart_game,
 )
 
@@ -38,8 +36,8 @@ def join(request):
         name = request.POST.get("name")
         color = request.POST.get("color")
         game = cache.get(f"game:{game_id}")
-        print(f"BEFORE ADD {name}")
-        print(game["players"])
+        # print(f"BEFORE ADD {name}")
+        # print(game["players"])
         if game:
             try:
                 add_player_to_game(game, name, color)
@@ -47,8 +45,8 @@ def join(request):
                 context["game_id"] = game_id
                 context["name"] = name
                 context["color"] = color
-                print(f"AFTER ADD {name}")
-                print(game["players"])
+                # print(f"AFTER ADD {name}")
+                # print(game["players"])
                 url = "{}?{}".format(reverse("game:game"), urllib.parse.urlencode(context))
                 return redirect(url)
             except GameStarted:
@@ -82,8 +80,6 @@ def get_result(request):
     game_id = request.GET.get("game_id")
     game = cache.get(f"game:{game_id}")
     try:
-        game_results = get_game_results(game)
-        async_to_sync(channel_layer.group_send)(str(game_id), {"type": "Send_Results", "data": game_results})
         game_restarted = restart_game(game)
         cache.set(f"game:{game_id}", game_restarted)
     except GameResulted:
@@ -98,3 +94,6 @@ def creat_game_view(request):
     game = creat_game(game_id, player_num)
     cache.set(f"game:{game_id}", game)
     return JsonResponse({"game_id": game_id})
+
+
+# check multi pushed

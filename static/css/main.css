@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,400;0,700;1,300;1,400;1,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
-@import url("./reset.css");
+/* @import url("./reset.css"); */
 *:focus {
   outline: none;
 }
@@ -18,39 +18,50 @@ ul {
   margin-left: auto;
   margin-right: auto;
   padding: 0 15px;
-  width: 100%;
+  text-align:center;
+}
+.image-cont img {
+  height:100%;
+}
+.image-cont {
+  margin-left: auto;
+  margin-right: auto;
+  width:300px;
+  height:150px;
 }
 /*small screens*/
-@media (min-width: 576px) {
+/* @media (min-width: 576px) {
   .container {
     max-width: 540px;
   }
-}
+} */
 /*medium screens*/
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .container {
     max-width: 720px;
   }
-}
+} */
 /*large screens */
-@media (min-width: 992px) {
+/* @media (min-width: 992px) {
   .container {
     max-width: 960px;
   }
-}
+} */
 
 /*x-large screens*/
-@media (min-width: 1200px) {
+/* @media (min-width: 1200px) {
   .container {
     max-width: 1140px;
   }
-}
+} */
 /* extra large screens*/
-@media (min-width: 1440px) {
+/* @media (min-width: 1440px) {
   .container {
     max-width: 1426px;
   }
-}
+} */
+
+
 a {
   text-decoration: none;
 }
@@ -76,28 +87,28 @@ body::before {
 }
 
 /*header*/
-header {
-  width: 100%;
+/* header {
+  width: 100%; */
   /* background-color: #5503f9; */
   /* border: 2px solid #e123f6;
   box-shadow: rgba(228, 121, 247, 0.582) 0px 14px 28px, rgba(249, 0, 145, 0.22) 0px 10px 10px; */
-}
-header .container {
+/* } */
+/* header .container {
   min-height: 90px;
   display: flex;
   align-items: center;
 
-}
+} */
 
-header h1 {
-  margin: auto;
+/* header h1 {
+  margin: auto; */
   /* color: white; */
-  font-family: "Lobster", cursive !important;
+  /* font-family: "Lobster", cursive !important;
   user-select: none;
   border-radius: 40%;
   padding: 5px;
   background-color: rgb(31, 28, 28);
-  color: #ffffff;
+  color: #ffffff; */
   /* box-shadow: 0 0 5px #7635f6e8,
               0 0 25px #a919f7,
               0 0 50px #e963c5fd,
@@ -122,10 +133,10 @@ header h1 {
               700px 20px 150px 20px #f71950e3,
               -700px 30px 150px 20px #f71950e3; */
 
-}
+/* } */
 section {
   position: relative;
-  min-height: calc(100vh - 90px);
+  min-height: calc(100vh - 40vh);
 }
 
 section .content {
@@ -166,7 +177,7 @@ a:hover {
 a:hover::before {
   left: 100%;
 }
-button {
+button{
   z-index: 1;
   border-radius: 10px;
   width: 150px;
@@ -201,7 +212,8 @@ section .content {
 section#login {
   background-color:rgb(31, 28, 28);
   /* background: linear-gradient(to right, #6319f7e3, #f71950e3); */
-  min-height: 100vh;
+  min-height:   calc(100vh - 40vh);
+
 
 }
 section#login span {
@@ -351,19 +363,21 @@ section#login form div:hover span:nth-child(4) {
 /*********game home***********/
 /******************************/
 #timer {
+  user-select: none;
   color: #fff;
   font-weight: bold;
   font-size: 50px;
   position: absolute;
-  right: 200px;
-  top: 33px;
+  right: 100px;
+  top: 20px;
 }
 .information {
   width: fit-content;
   position: absolute;
-  left: 200px;
-  top: 33px;
+  left: 100px;
+  top: 30px;
   width: 50%;
+  user-select: none;
 }
 .information ul {
   display: flex;
@@ -372,90 +386,33 @@ section#login form div:hover span:nth-child(4) {
 }
 ul li {
   padding: 10px;
+
 }
 ul li span:nth-child(1) {
-  margin-right: 20px;
+  margin-right: 10px;
 }
-.dialog-container {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  opacity: 0;
-  transform: scale(0);
-  width: 400px;
-  background: #fff;
-  padding: 10px;
-  border: 2px solid #ddd;
-  box-shadow: 1px 1px 5px 1px #ccc;
-  border-radius: 10px;
-  transition: all 0.3s linear 0s;
-  z-index: 999;
+ul li span:nth-child(2) {
+  margin-right: 10px;
 }
-.dialog-container.active {
-  transform: translate(-50%, -50%) scale(1);
-  opacity: 1;
-}
-.dialog-header {
-  padding: 10px;
-  font-weight: bold;
-  background: #575757;
-  color: #f6f7f8;
-}
-.dialog-body {
-  padding: 10px;
-  line-height: 30px;
-}
-.dialog-footer {
-  text-align: center;
-  background: #f5f5f2;
-  padding: 3px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.dialog-footer button {
-  display: inline-block;
-  width: 100px;
-  padding: 5px 0;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  background: #eee;
-  cursor: pointer;
-  color: #000;
-}
-.dialog-footer button a {
-  color: #000;
-}
-.dialog-footer button.refresh {
-  border: none;
-  background-color: transparent;
-}
-
-
 
 
 
 
 /* table and cells */
 .cell {
-  /*
-  height: 60px;
-  background-color: blanchedalmond;
-  background-blend-mode: multiply;
-  border: 1px solid #000;
-  display: flex;
-  justify-content: center;
-  align-items: center; */
 
 
-  width: 60px;
-  height: 60px;
+  /* background-blend-mode: multiply; */
+  /* border: 1px solid #000; */
+
+
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* border: #b7b7b7 3px double; */
   border-radius: 5%;
-  /* transition: all linear .2s; */
+  transition: all linear .2s;
   background: #ffffff;
   font-size: 14px;
   box-shadow: rgba(255, 0, 247, 0.15) 0px 15px 25px, rgba(217, 0, 255, 0.05) 0px 5px 10px;
@@ -480,8 +437,8 @@ ul li span:nth-child(1) {
 
 .board-border {
   user-select: none;
-  width: calc(100% - 400px);
-  margin: 100px auto;
+  width: calc(100% - 200px);
+  margin: 90px auto;
   user-select: none;
   display: grid;
   background: rgba(47, 42, 42, 0.507);
@@ -489,10 +446,11 @@ ul li span:nth-child(1) {
 
   /* grid-template-columns: repeat(4, 1fr);  */
   /* grid-template-rows: repeat(4, 1fr);  */
-  row-gap: 5px;
-  column-gap: 5px;
+  /* row-gap: 1.7px;
+  column-gap: 2px; */
+  gap: 2px;
 
-  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
   border: 2px solid #e123f6;
   padding: 15px;
   box-shadow: rgba(228, 121, 247, 0.582) 0px 14px 28px, rgba(249, 0, 145, 0.22) 0px 10px 10px;
@@ -589,4 +547,5 @@ input[type=number]::-webkit-outer-spin-button {
   width : 20px;
   height : 20px;
   border-radius: 50%;
+  border: 2px solid white;
 }
