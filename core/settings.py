@@ -8,7 +8,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["squaresgamego.herokuapp.com"]
+ALLOWED_HOSTS = ["squaresgamego.herokuapp.com","squaresggame-production.up.railway.app"]
 
 
 INSTALLED_APPS = [
