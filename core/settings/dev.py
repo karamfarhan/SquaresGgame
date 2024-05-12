@@ -29,7 +29,6 @@ CACHES = {
 #     },
 # }
 
-
 # CACHES = {
 #     "default": {
 #         "BACKEND": "django_redis.cache.RedisCache",
@@ -41,3 +40,5 @@ CACHES = {
 #         },
 #     }
 # }
+
+STATICFILES_DIRS = [BASE_DIR.joinpath("static")]

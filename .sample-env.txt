@@ -1,0 +1,6 @@
+# Must be filled
+SECRET_KEY=djang-app-secret-key
+DJANGO_SETTINGS_MODULE=django-settings-launch-type
+
+# For Production Launch
+REDIS_URL=redis-server-url
