@@ -1,10 +1,11 @@
 from .base import *
+
 # Making DEBUG False in prodcutnon
 DEBUG = False
 # SECURITY WARNING: don't run with debug turned on in production!
-ALLOWED_HOSTS = ["squaresgamego.herokuapp.com","squaresggame-production.up.railway.app"]
-# ADDing additional middlewares for production 
-MIDDLEWARE.insert(1,"whitenoise.middleware.WhiteNoiseMiddleware")
+ALLOWED_HOSTS = ["squaresgamego.herokuapp.com", "squaresggame-production.up.railway.app"]
+# ADDing additional middlewares for production
+MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
 # Setting redis config
 CHANNEL_LAYERS = {
     "default": {
@@ -32,4 +33,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # Setting up whitenoise and csrf config
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-CSRF_TRUSTED_ORIGINS = ["https://squaresgamego.herokuapp.com","https://squaresggame-production.up.railway.app"]
+CSRF_TRUSTED_ORIGINS = ["https://squaresgamego.herokuapp.com", "https://squaresggame-production.up.railway.app"]
