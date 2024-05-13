@@ -91,15 +91,15 @@ reloadBtn.addEventListener("click", () => {
   playerInform.innerHTML = "";
 });
 
-function countdown() {
-  let seconds = 60;
+function game_countdown(seconds) {
 
   function tick() {
     seconds--;
     timer.innerHTML = "0:" + (seconds < 10 ? "0" : "") + String(seconds);
     if (seconds > 0) {
       setTimeout(tick, 1000);
-    } else {
+    }
+    else {
       container.classList.add("done");
       timer.innerHTML = "";
       getvals();
@@ -110,6 +110,28 @@ function countdown() {
       }
       document.getElementById("dialog-body").innerHTML = nat;
       document.querySelector(".dialog-container").classList.add("active");
+    }
+  }
+  tick();
+}
+
+function ready_countdown(seconds) {
+  console.log("we launched the ready countdown")
+  function tick() {
+    seconds--;
+    timer.innerHTML = "0:" + (seconds < 10 ? "0" : "") + String(seconds);
+    if (seconds > 0) {
+      setTimeout(tick, 1000);
+    }
+    else {
+      const PayLoad = {
+        method: "start_game",
+        data: {
+          "go_start_game": true,
+        },
+      };
+      ws.send(JSON.stringify(PayLoad));
+      console.log("we send the start game method to backend")
     }
   }
   tick();
@@ -187,7 +209,7 @@ ws.onmessage = (message) => {
     }
   }
   if (data.method === "start_timer") {
-    countdown();
+    game_countdown(60);
   }
   if (data.method === "update_players") {
     let WaitMesage = document.createElement("h2");
@@ -203,5 +225,20 @@ ws.onmessage = (message) => {
         <span style="color: green;">${gameId}</span>`;
       WaitDiv.appendChild(WaitMesage);
     }
+  }
+  if (data.method === "get_ready"){
+    console.log("we recieve get ready")
+    let WaitMesage = document.createElement("h2");
+    let WaitDiv = document.getElementById("wait");
+    WaitDiv.innerHTML = "";
+    if (data.data.start_get_ready === true) {
+      container.classList.remove("border-shadow");
+      WaitDiv.innerHTML = "";
+      WaitMesage.innerHTML = `
+        <p>Players Count Completed, Game will Start in</p>
+        <span style="color: green;">10 Seconds</span>`;
+      WaitDiv.appendChild(WaitMesage);
+    }
+    ready_countdown(10)
   }
 };

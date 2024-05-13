@@ -40,8 +40,8 @@ def join(request):
         # print(game["players"])
         if game:
             try:
-                add_player_to_game(game, name, color)
-                cache.set(f"game:{game_id}", game)
+                updated_game = add_player_to_game(game, name, color)
+                cache.set(f"game:{game_id}", updated_game)
                 context["game_id"] = game_id
                 context["name"] = name
                 context["color"] = color
