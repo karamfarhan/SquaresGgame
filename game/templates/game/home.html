@@ -15,8 +15,12 @@
       <h2>how many players you want in the game?</h2>
       <p>Alert: The game will not start until the players completed</p>
       {% csrf_token %}
-      <input id="player_num" type="Number" placeholder="Players Number"
+      <input class="home_input" id="player_num" type="Number" placeholder="Players Number"
         name="player_num" required />
+
+      <input class="home_input" id="map_size" type="Number" placeholder="Map Size"
+        name="map_size" required />
+
       <button class="text-rainbow-animation" type="submit">Creat game</button>
     </form>
     <div class="container">
@@ -30,7 +34,8 @@
   form.addEventListener("submit", (e) => {
     e.preventDefault()
     player_num = document.getElementById('player_num').value
-    url = `http://localhost:8000/create/?player_num=${player_num}`
+    map_size = document.getElementById('map_size').value
+    url = `http://localhost:8000/create/?player_num=${player_num}&map_size=${map_size}`
     fetch(url)
       .then(response => response.text())
       .then(result => {

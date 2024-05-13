@@ -90,8 +90,9 @@ def get_result(request):
 # test atomi cpushes
 def creat_game_view(request):
     player_num = int(request.GET.get("player_num"))
+    map_size = int(request.GET.get("map_size"))
     game_id = generate_game_id()
-    game = creat_game(game_id, player_num)
+    game = creat_game(game_id, player_num, map_size)
     cache.set(f"game:{game_id}", game)
     return JsonResponse({"game_id": game_id})
 

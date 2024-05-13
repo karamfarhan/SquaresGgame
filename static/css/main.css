@@ -430,7 +430,7 @@ ul li span:nth-child(2) {
   color: white;
   padding-bottom: 20px;
 }
-#player_num {
+.home_input {
   width: 100px;
   height: 40px;
   border: none;
