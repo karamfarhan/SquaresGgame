@@ -116,7 +116,7 @@ function game_countdown(seconds) {
 }
 
 function ready_countdown(seconds) {
-  console.log("we launched the ready countdown")
+  // console.log("we launched the ready countdown")
   function tick() {
     seconds--;
     timer.innerHTML = "0:" + (seconds < 10 ? "0" : "") + String(seconds);
@@ -131,7 +131,7 @@ function ready_countdown(seconds) {
         },
       };
       ws.send(JSON.stringify(PayLoad));
-      console.log("we send the start game method to backend")
+      // console.log("we send the start game method to backend")
     }
   }
   tick();
@@ -231,7 +231,7 @@ ws.onmessage = (message) => {
     }
   }
   if (data.method === "get_ready"){
-    console.log("we recieve get ready")
+    // console.log("we recieve get ready")
     let WaitMesage = document.createElement("h2");
     let WaitDiv = document.getElementById("wait");
     WaitDiv.innerHTML = "";
@@ -242,6 +242,9 @@ ws.onmessage = (message) => {
         <p>Players Count Completed, Game will Start in</p>
         <span style="color: green;">10 Seconds</span>`;
       WaitDiv.appendChild(WaitMesage);
+    }
+    if ( !(playerName in data.data.players) ){
+      window.location.replace(`http://${window.location.host}`)
     }
     ready_countdown(10)
   }

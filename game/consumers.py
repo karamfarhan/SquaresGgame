@@ -16,30 +16,37 @@ class GameConsumer(AsyncWebsocketConsumer):
             self.game_id,
             self.channel_name,
         )
+        print(f"{self.player_name} is connected #A1")
         game = await cache.aget(f"game:{self.game_id}")
         # if game excist
         if game:
+            print(f"{self.game_id} game found in cache #A2")
             # check if the players are all joined
             if len(game["players"].keys()) == game["start_at_player"]:
+                print(f"{self.game_id} game's players are compeleted #A3")
                 data = {"players": game["players"], "start_get_ready": True}
                 await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": data})
                 await self.channel_layer.group_send(self.game_id, {"type": "Get_Ready", "data": data})
             else:
+                print(f"Adding New Player to {self.game_id} #A4")
                 data = {"players": game["players"]}
                 await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": data})
-        print("last")
 
         await self.accept()
 
     # disconnect
     async def disconnect(self, close_code):
+        # TODO: should be updating the game data in cache and calling Update_Players method
+        # TODO: Only if removing him was success
         # Leave room group
         game = await cache.aget(f"game:{self.game_id}")
         try:
             del game["players"][self.player_name]
+            print(f"Removed a {self.player_name} from {self.game_id} #B1")
         except Exception:
-            pass
+            print(f"{self.player_name} Not Found in{self.game_id} To remove #B2")
         await cache.aset(f"game:{self.game_id}", game)
+        print(f"Updating {self.game_id} in Cache after deleting {self.player_name} #B3")
         data = {"players": game["players"]}
         await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": data})
         await self.channel_layer.group_discard(self.game_id, self.channel_name)
@@ -51,37 +58,45 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         # Send message to room group
         if text_data_json["method"] == "update_ball":
+            square_data = {
+                "squareId": data["squareId"],
+                "color": data["color"],
+                "clicked": data["clicked"],
+                # "lastColor":data["lastColor"]
+            }
             await self.channel_layer.group_send(
                 self.game_id,
                 {
                     "type": "Update_Square",
-                    "data": {
-                        "squareId": data["squareId"],
-                        "color": data["color"],
-                        "clicked": data["clicked"],
-                        # "lastColor":data["lastColor"]
-                    },
+                    "data": square_data,
                 },
             )
         elif text_data_json["method"] == "restart_game":
+            print("Restart game method Called in receiveing #C1")
             game = await cache.aget(f"game:{self.game_id}")
+            print(f"{self.game_id} Found in cache #C2")
             try:
                 game = add_player_to_game(game, data["name"], data["color"])
+                print(f"added {data['name']} to {self.game_id} #C3")
             except ValueError:
                 await self.channel_layer.group_discard(self.game_id, self.channel_name)
+                print(f"NOT added {data['name']} to {self.game_id} #C4")
             game["is_resulted"] = False
             await cache.aset(f"game:{self.game_id}", game)
             if len(game["players"].keys()) == game["start_at_player"]:
+                print(f"{self.game_id} game's players are compeleted #C4")
                 data = {"players": game["players"], "start_get_ready": True}
                 await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": data})
                 await self.channel_layer.group_send(self.game_id, {"type": "Get_Ready", "data": data})
             else:
+                print(f"Adding new Player in {self.game_id}, Not compeleted #C5")
                 data = {"players": game["players"]}
                 await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": data})
         elif text_data_json["method"] == "start_game":
+            print("Start game method Called in receiveing #D1")
             game = await cache.aget(f"game:{self.game_id}")
             if game["is_started"] is False and data["go_start_game"] is True:
-                print("#3")
+                print(f"{self.game_id} is found and go_start_game == True #D2")
                 # turn the game on and start it
                 game["is_started"] = True
                 await cache.aset(f"game:{self.game_id}", game)
@@ -89,24 +104,24 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     async def Update_Square(self, event):
         data = event["data"]
-
+        # print(f"Sending [Update_Square] Method")
         # Send message to WebSocket
         await self.send(text_data=json.dumps({"method": "update_square", "data": data}))
 
     async def Update_Players(self, event):
         data = event["data"]
-
+        print("Sending [Update_Players] Method")
         # Send message to WebSocket
         await self.send(text_data=json.dumps({"method": "update_players", "data": data}))
 
     async def Start_Game(self, event):
         data = event["data"]
-
+        print("Sending [Start_Game] Method")
         # Send message to WebSocket
         await self.send(text_data=json.dumps({"method": "start_game", "data": data}))
 
     async def Get_Ready(self, event):
         data = event["data"]
-
+        print("Sending [Get_Ready] Method")
         # Send message to WebSocket
         await self.send(text_data=json.dumps({"method": "get_ready", "data": data}))
