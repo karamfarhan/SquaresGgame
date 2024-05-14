@@ -198,18 +198,22 @@ ws.onmessage = (message) => {
   if (data.method === "update_square") {
     update_square(data.data);
   }
-  if (data.method === "send_game") {
+  // if (data.method === "send_game") {
+  //   squares = data.data.squares;
+  //   players = data.data.players;
+  //   displayPlayers(players);
+  //   if (data.data.is_started === true) {
+  //     document.getElementById("wait").innerHTML = "";
+  //     container.classList.add("border-shadow");
+  //     makesqu(squares);
+  //   }
+  // }
+  if (data.method === "start_game") {
     squares = data.data.squares;
-    players = data.data.players;
-    displayPlayers(players);
-    if (data.data.is_started === true) {
-      document.getElementById("wait").innerHTML = "";
-      container.classList.add("border-shadow");
-      makesqu(squares);
-    }
-  }
-  if (data.method === "start_timer") {
-    game_countdown(60);
+    document.getElementById("wait").innerHTML = "";
+    container.classList.add("border-shadow");
+    makesqu(squares);
+    game_countdown(20);
   }
   if (data.method === "update_players") {
     let WaitMesage = document.createElement("h2");
@@ -217,7 +221,7 @@ ws.onmessage = (message) => {
     WaitDiv.innerHTML = "";
     players = data.data.players;
     displayPlayers(players);
-    if (data.data.waiting === true && playerName in players) {
+    if (playerName in players) {
       container.classList.remove("border-shadow");
       WaitDiv.innerHTML = "";
       WaitMesage.innerHTML = `
