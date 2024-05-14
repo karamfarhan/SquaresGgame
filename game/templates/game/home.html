@@ -31,11 +31,12 @@
 </section>
 <script>
   let form = document.getElementById("creat_game");
+  var http_scheme = window.location.protocol
   form.addEventListener("submit", (e) => {
     e.preventDefault()
     player_num = document.getElementById('player_num').value
     map_size = document.getElementById('map_size').value
-    url = `http://localhost:8000/create/?player_num=${player_num}&map_size=${map_size}`
+    url = `${http_scheme}//${window.location.host}/create/?player_num=${player_num}&map_size=${map_size}`
     fetch(url)
       .then(response => response.text())
       .then(result => {

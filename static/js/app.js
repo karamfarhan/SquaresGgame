@@ -4,18 +4,17 @@ let color = JSON.parse(document.getElementById("color").textContent);
 let container = document.querySelector(".board-border");
 let playerInform = document.querySelector(".information");
 let timer = document.getElementById("timer");
-
+var http_scheme = window.location.protocol
 function checkEvt() {
   let evTypep = window.performance.getEntriesByType("navigation")[0].type;
   if (evTypep == "reload") {
-    window.location.replace(`http://${window.location.host}`);
+    window.location.replace(`${http_scheme}//${window.location.host}`);
   }
 }
 checkEvt();
 
-const ws = new WebSocket(
-  `ws://${window.location.host}/ws/game/${gameId}/${playerName}/`
-);
+var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws"
+const ws = new WebSocket(`${ws_scheme}://${window.location.host}/ws/game/${gameId}/${playerName}/`);
 while (container.firstChild) container.removeChild(container.firstChild);
 
 function displayPlayers(players) {
@@ -47,7 +46,7 @@ function displayPlayers(players) {
 }
 
 function getvals() {
-  return fetch(`http://localhost:8000/result/?game_id=${gameId}`)
+  return fetch(`${http_scheme}//${window.location.host}/result/?game_id=${gameId}`)
     .then((response) => {})
     .then((responseData) => {})
     .catch((error) => console.warn(error));
@@ -244,7 +243,7 @@ ws.onmessage = (message) => {
       WaitDiv.appendChild(WaitMesage);
     }
     if ( !(playerName in data.data.players) ){
-      window.location.replace(`http://${window.location.host}`)
+      window.location.replace(`${http_scheme}//${window.location.host}`)
     }
     ready_countdown(10)
   }
