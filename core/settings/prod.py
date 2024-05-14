@@ -1,113 +1,12 @@
-# from .base import *
+from .base import *
 
-# # Making DEBUG False in prodcutnon
-# DEBUG = False
-# # SECURITY WARNING: don't run with debug turned on in production!
-# ALLOWED_HOSTS = ["squaresgamego.herokuapp.com", "squaresggame-production.up.railway.app"]
-# # ADDing additional middlewares for production
-# MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
-# # Setting redis config
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels_redis.core.RedisChannelLayer",
-#         "CONFIG": {
-#             "hosts": [os.environ.get("REDIS_URL", "redis://localhost:6379")],
-#         },
-#     },
-# }
-
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django_redis.cache.RedisCache",
-#         "LOCATION": [os.environ.get("REDIS_URL", "redis://localhost:6379")],
-#         "TIMEOUT": 300,
-#         "OPTIONS": {
-#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-#             "MAX_ENTRIES": 1000,
-#         },
-#     }
-# }
-# # Setting the static config for production
-# STATIC_ROOT = os.path.join(BASE_DIR, "static")
-# # STATICFILES_DIRS = []
-
-# # Setting up whitenoise and csrf config
-# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-# CSRF_TRUSTED_ORIGINS = ["https://squaresgamego.herokuapp.com", "https://squaresggame-production.up.railway.app"]
-
-
-import os
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-
-
-SECRET_KEY = os.environ.get("SECRET_KEY")
-
+# Making DEBUG False in prodcutnon
 DEBUG = True
-
+# SECURITY WARNING: don't run with debug turned on in production!
 ALLOWED_HOSTS = ["squaresgamego.herokuapp.com", "squaresggame-production.up.railway.app"]
-
-
-INSTALLED_APPS = [
-    "game.apps.GameConfig",
-    "channels",
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-]
-
-MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-]
-
-ROOT_URLCONF = "core.urls"
-
-TEMPLATES = [
-    {
-        "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR.joinpath("templates")],
-        "APP_DIRS": True,
-        "OPTIONS": {
-            "context_processors": [
-                "django.template.context_processors.debug",
-                "django.template.context_processors.request",
-                "django.contrib.auth.context_processors.auth",
-                "django.contrib.messages.context_processors.messages",
-            ],
-        },
-    },
-]
-
-WSGI_APPLICATION = "core.wsgi.application"
-ASGI_APPLICATION = "core.asgi.application"
-
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
-]
-
+# ADDing additional middlewares for production
+MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
+# Setting redis config
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
@@ -128,22 +27,123 @@ CACHES = {
         },
     }
 }
-
-
-LANGUAGE_CODE = "en-us"
-
-TIME_ZONE = "UTC"
-
-USE_I18N = True
-
-USE_TZ = True
-
-
-STATIC_URL = "/static/"
+# Setting the static config for production
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # STATICFILES_DIRS = []
 
-
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+# Setting up whitenoise and csrf config
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 CSRF_TRUSTED_ORIGINS = ["https://squaresgamego.herokuapp.com", "https://squaresggame-production.up.railway.app"]
+
+
+# import os
+# from pathlib import Path
+
+# BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+
+# SECRET_KEY = os.environ.get("SECRET_KEY")
+
+# DEBUG = True
+
+# ALLOWED_HOSTS = ["squaresgamego.herokuapp.com", "squaresggame-production.up.railway.app"]
+
+
+# INSTALLED_APPS = [
+#     "game.apps.GameConfig",
+#     "channels",
+#     "django.contrib.admin",
+#     "django.contrib.auth",
+#     "django.contrib.contenttypes",
+#     "django.contrib.sessions",
+#     "django.contrib.messages",
+#     "django.contrib.staticfiles",
+# ]
+
+# MIDDLEWARE = [
+#     "django.middleware.security.SecurityMiddleware",
+#     "whitenoise.middleware.WhiteNoiseMiddleware",
+#     "django.contrib.sessions.middleware.SessionMiddleware",
+#     "django.middleware.common.CommonMiddleware",
+#     "django.middleware.csrf.CsrfViewMiddleware",
+#     "django.contrib.auth.middleware.AuthenticationMiddleware",
+#     "django.contrib.messages.middleware.MessageMiddleware",
+#     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+# ]
+
+# ROOT_URLCONF = "core.urls"
+
+# TEMPLATES = [
+#     {
+#         "BACKEND": "django.template.backends.django.DjangoTemplates",
+#         "DIRS": [BASE_DIR.joinpath("templates")],
+#         "APP_DIRS": True,
+#         "OPTIONS": {
+#             "context_processors": [
+#                 "django.template.context_processors.debug",
+#                 "django.template.context_processors.request",
+#                 "django.contrib.auth.context_processors.auth",
+#                 "django.contrib.messages.context_processors.messages",
+#             ],
+#         },
+#     },
+# ]
+
+# WSGI_APPLICATION = "core.wsgi.application"
+# ASGI_APPLICATION = "core.asgi.application"
+
+
+# AUTH_PASSWORD_VALIDATORS = [
+#     {
+#         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+#     },
+#     {
+#         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+#     },
+#     {
+#         "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+#     },
+#     {
+#         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+#     },
+# ]
+
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [os.environ.get("REDIS_URL", "redis://localhost:6379")],
+#         },
+#     },
+# }
+
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": [os.environ.get("REDIS_URL", "redis://localhost:6379")],
+#         "TIMEOUT": 300,
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#             "MAX_ENTRIES": 1000,
+#         },
+#     }
+# }
+
+
+# LANGUAGE_CODE = "en-us"
+
+# TIME_ZONE = "UTC"
+
+# USE_I18N = True
+
+# USE_TZ = True
+
+
+# STATIC_URL = "/static/"
+# STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# # STATICFILES_DIRS = []
+
+
+# DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# CSRF_TRUSTED_ORIGINS = ["https://squaresgamego.herokuapp.com", "https://squaresggame-production.up.railway.app"]
