@@ -3,7 +3,7 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.core.cache import cache
 
-from .game_handlers import add_player_to_game
+from .game_handlers import reset_player_in_game
 
 
 class GameConsumer(AsyncWebsocketConsumer):
@@ -16,13 +16,15 @@ class GameConsumer(AsyncWebsocketConsumer):
             self.game_id,
             self.channel_name,
         )
+        # TODO: should see if must accept connection before if statemets, you should investigate
         print(f"{self.player_name} is connected #A1")
         game = await cache.aget(f"game:{self.game_id}")
         # if game excist
         if game:
             print(f"{self.game_id} game found in cache #A2")
             # check if the players are all joined
-            if len(game["players"].keys()) == game["start_at_player"]:
+            num_ready_players = sum(player["is_ready"] for player in game["players"].values())
+            if num_ready_players == game["start_at_player"]:
                 print(f"{self.game_id} game's players are compeleted #A3")
                 data = {"players": game["players"], "start_get_ready": True}
                 await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": data})
@@ -76,14 +78,15 @@ class GameConsumer(AsyncWebsocketConsumer):
             game = await cache.aget(f"game:{self.game_id}")
             print(f"{self.game_id} Found in cache #C2")
             try:
-                game = add_player_to_game(game, data["name"], data["color"])
+                game = reset_player_in_game(game, data["name"])
                 print(f"added {data['name']} to {self.game_id} #C3")
             except ValueError:
                 await self.channel_layer.group_discard(self.game_id, self.channel_name)
                 print(f"NOT added {data['name']} to {self.game_id} #C4")
             game["is_resulted"] = False
             await cache.aset(f"game:{self.game_id}", game)
-            if len(game["players"].keys()) == game["start_at_player"]:
+            num_ready_players = sum(player["is_ready"] for player in game["players"].values())
+            if num_ready_players == game["start_at_player"]:
                 print(f"{self.game_id} game's players are compeleted #C4")
                 data = {"players": game["players"], "start_get_ready": True}
                 await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": data})

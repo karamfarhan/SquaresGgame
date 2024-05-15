@@ -76,12 +76,13 @@ def game(request):
     return render(request, "game/game.html", context=context)
 
 
-def get_result(request):
+def rest_game(request):
     game_id = request.GET.get("game_id")
-    game = cache.get(f"game:{game_id}")
     try:
+        game = cache.get(f"game:{game_id}")
         game_restarted = restart_game(game)
         cache.set(f"game:{game_id}", game_restarted)
+    # TODO: redirect the plyer to home page if anything happened while restarting the game
     except GameResulted:
         pass
     return JsonResponse({})

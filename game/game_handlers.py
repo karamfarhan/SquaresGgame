@@ -49,12 +49,14 @@ def restart_game(game: dict) -> dict:
     game["is_started"] = False
     game["is_resulted"] = True
 
-    game["players"] = {}
+    # game["players"] = {}
+    for player in game["players"]:
+        game["players"][player]["is_ready"] = False
     for square in game["squares"].values():
         square["color"] = ""
         square["clicked"] = 0
-        square["occupied"] = 0
-        square["is_ready"] = False
+        # square["occupied"] = 0
+        # square["is_ready"] = False
     return game
 
 
@@ -72,10 +74,15 @@ def add_player_to_game(game: dict, player_name: str, player_color: str) -> dict:
     game["players"][player_name] = {
         "name": player_name,
         "color": player_color,
-        "clicked": 0,
-        "occupied": 0,
+        "occupied_this_round": 0,
+        "all_time_occupied": 0,
         "is_ready": True,
     }
+    return game
+
+
+def reset_player_in_game(game: dict, player_name: str) -> dict:
+    game["players"][player_name]["is_ready"] = True
     return game
 
 

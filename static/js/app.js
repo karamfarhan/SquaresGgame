@@ -21,23 +21,26 @@ function displayPlayers(players) {
   playerInform.innerHTML = "";
   let ul = document.createElement("ul");
 
-  for (const key in players) {
+  for (const player in players) {
     let li = document.createElement("li"),
-      spanName = document.createElement("span"),
-      spanColor = document.createElement("span");
-
-    li.classList.add("menu-btn");
+    spanName = document.createElement("span"),
+    spanColor = document.createElement("span");
+    li.classList.add("menu-btn")
     li.classList.add("mt-2");
 
-    spanName.className = players[key].name;
-    spanColor.className = players[key].color;
-    spanColor.setAttribute("id", players[key].color);
+    spanName.className = players[player].name;
+    spanColor.className = players[player].color;
+    spanColor.setAttribute("id", players[player].color);
 
-    spanName.innerHTML = players[key].name;
-    spanName.style.color = "white";
+    spanName.innerHTML = players[player].name;
+    if (players[player].is_ready === true){
+      spanName.style.color = "green";
+    }else{
+      spanName.style.color = "red";
+    }
     spanName.classList.add("player-name");
     spanColor.classList.add("player-circle-color");
-    spanColor.style.backgroundColor = players[key].color;
+    spanColor.style.backgroundColor = players[player].color;
     li.appendChild(spanName);
     li.appendChild(spanColor);
     ul.appendChild(li);
@@ -45,7 +48,7 @@ function displayPlayers(players) {
   playerInform.appendChild(ul);
 }
 
-function getvals() {
+function RestGame() {
   return fetch(`${http_scheme}//${window.location.host}/result/?game_id=${gameId}`)
     .then((response) => {})
     .then((responseData) => {})
@@ -101,7 +104,7 @@ function game_countdown(seconds) {
     else {
       container.classList.add("done");
       timer.innerHTML = "";
-      getvals();
+      RestGame();
       let data = countResluts();
       nat = ``;
       for (result in data) {
