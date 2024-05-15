@@ -1,6 +1,6 @@
 let playerName = JSON.parse(document.getElementById("name").textContent);
 let gameId = JSON.parse(document.getElementById("game_id").textContent);
-let color = JSON.parse(document.getElementById("color").textContent);
+let playerColor = JSON.parse(document.getElementById("color").textContent);
 let container = document.querySelector(".board-border");
 let playerInform = document.querySelector(".information");
 let timer = document.getElementById("timer");
@@ -25,14 +25,17 @@ function displayPlayers(players) {
     let li = document.createElement("li"),
     spanName = document.createElement("span"),
     spanColor = document.createElement("span");
+    spanSquares = document.createElement("span");
     li.classList.add("menu-btn")
     li.classList.add("mt-2");
 
     spanName.className = players[player].name;
     spanColor.className = players[player].color;
+    // spanSquares.className = players[player].name;
     spanColor.setAttribute("id", players[player].color);
 
     spanName.innerHTML = players[player].name;
+    spanSquares.innerHTML = players[player].all_time_occupied
     if (players[player].is_ready === true){
       spanName.style.color = "green";
     }else{
@@ -42,31 +45,49 @@ function displayPlayers(players) {
     spanColor.classList.add("player-circle-color");
     spanColor.style.backgroundColor = players[player].color;
     li.appendChild(spanName);
+    li.appendChild(spanSquares)
     li.appendChild(spanColor);
     ul.appendChild(li);
   }
   playerInform.appendChild(ul);
 }
 
-function RestGame() {
-  return fetch(`${http_scheme}//${window.location.host}/result/?game_id=${gameId}`)
-    .then((response) => {})
-    .then((responseData) => {})
-    .catch((error) => console.warn(error));
+// function RestGame() {
+//   return fetch(`${http_scheme}//${window.location.host}/result/?game_id=${gameId}`)
+//     .then((response) => {})
+//     .then((responseData) => {})
+//     .catch((error) => console.warn(error));
+// }
+
+function rgbToHex(rgb) {
+  // Remove "rgb(" and ")" from the string
+  const rgbValues = rgb.substring(4, rgb.length - 1).split(",").map(value => parseInt(value.trim(), 10));
+
+  // Convert each RGB value to hexadecimal and pad with zeros if necessary
+  const hexValues = rgbValues.map(value => {
+    const hex = value.toString(16).toLowerCase();
+    return hex.length === 1 ? `0${hex}` : hex;
+  });
+
+  // Combine the hex values and prepend "#" symbol
+  return `#${hexValues.join("")}`;
 }
 
 function countResluts() {
   const allSquares = document.querySelectorAll(".cell");
 
-  let LastResult = {};
+  let results = {};
 
   for (square of allSquares) {
     let sqcolor = square.style.backgroundColor;
+    let sqcolor_inhex = rgbToHex(String(sqcolor))
+    // const user_color_rgb = document.getElementById(playerColor).style.backgroundColor;
+    // console.log(`${sqcolor} == ${user_color_rgb}`)
     if (sqcolor != "") {
-      LastResult[String(sqcolor)] = LastResult[String(sqcolor)] + 1 || 1;
+      results[sqcolor_inhex] = results[sqcolor_inhex] + 1 || 1;
     }
   }
-  return LastResult;
+  return results;
 }
 
 //pop up
@@ -82,7 +103,7 @@ reloadBtn.addEventListener("click", () => {
     data: {
       game_id: gameId,
       name: playerName,
-      color: color,
+      color: playerColor,
     },
   };
   var alert = document.querySelector(".dialog-container");
@@ -104,14 +125,22 @@ function game_countdown(seconds) {
     else {
       container.classList.add("done");
       timer.innerHTML = "";
-      RestGame();
-      let data = countResluts();
-      nat = ``;
-      for (result in data) {
-        nat += `<span class="player-circle-color" style="background-color: ${result};"></span> --> ${data[result]} <hr>`;
-      }
-      document.getElementById("dialog-body").innerHTML = nat;
-      document.querySelector(".dialog-container").classList.add("active");
+      // RestGame();
+      let player_results_data = countResluts();
+      const PayLoad = {
+        method: "player_results",
+        data: {
+          game_id: gameId,
+          player_results: player_results_data
+        },
+      };
+      ws.send(JSON.stringify(PayLoad));
+      // nat = ``;
+      // for (result in results_data) {
+      //   nat += `<span class="player-circle-color" style="background-color: ${result};"></span> --> ${data[result]} <hr>`;
+      // }
+      // document.getElementById("dialog-body").innerHTML = nat;
+      // document.querySelector(".dialog-container").classList.add("active");
     }
   }
   tick();
@@ -173,10 +202,10 @@ function makesqu(squares) {
     div.style.backgroundColor = squares[i]["color"];
     div.addEventListener("click", (e) => {
       const user_color_rgb =
-        document.getElementById(color).style.backgroundColor;
+        document.getElementById(playerColor).style.backgroundColor;
 
       if (div.style.backgroundColor !== user_color_rgb) {
-        div.style.backgroundColor = color;
+        div.style.backgroundColor = playerColor;
         let prev_click = clickHandle(p);
         p.innerHTML = prev_click + 1;
 
@@ -184,7 +213,7 @@ function makesqu(squares) {
           method: "update_ball",
           data: {
             squareId: div.tag,
-            color: color,
+            color: playerColor,
             clicked: prev_click + 1,
           },
         };
@@ -200,16 +229,18 @@ ws.onmessage = (message) => {
   if (data.method === "update_square") {
     update_square(data.data);
   }
-  // if (data.method === "send_game") {
-  //   squares = data.data.squares;
-  //   players = data.data.players;
-  //   displayPlayers(players);
-  //   if (data.data.is_started === true) {
-  //     document.getElementById("wait").innerHTML = "";
-  //     container.classList.add("border-shadow");
-  //     makesqu(squares);
-  //   }
-  // }
+  if (data.method === "send_results") {
+    players_data = data.data.players;
+    console.log(players_data)
+    // displayPlayers(players);
+    nat = ``;
+    for (player in players_data) {
+      console.log(players_data[player])
+      nat += `<span class="text-dark">${players_data[player]["name"]}</span> --> ${players_data[player]["occupied_last_round"]}  <span class="player-circle-color" style="background-color: ${players_data[player]["color"]};"></span> <hr>`;
+    }
+    document.getElementById("dialog-body").innerHTML = nat;
+    document.querySelector(".dialog-container").classList.add("active");
+  }
   if (data.method === "start_game") {
     squares = data.data.squares;
     document.getElementById("wait").innerHTML = "";

@@ -3,7 +3,7 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.core.cache import cache
 
-from .game_handlers import reset_player_in_game
+from .game_handlers import get_add_results_for_player, reset_player_in_game, restart_game
 
 
 class GameConsumer(AsyncWebsocketConsumer):
@@ -73,6 +73,7 @@ class GameConsumer(AsyncWebsocketConsumer):
                     "data": square_data,
                 },
             )
+
         elif text_data_json["method"] == "restart_game":
             print("Restart game method Called in receiveing #C1")
             game = await cache.aget(f"game:{self.game_id}")
@@ -95,6 +96,7 @@ class GameConsumer(AsyncWebsocketConsumer):
                 print(f"Adding new Player in {self.game_id}, Not compeleted #C5")
                 data = {"players": game["players"]}
                 await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": data})
+
         elif text_data_json["method"] == "start_game":
             print("Start game method Called in receiveing #D1")
             game = await cache.aget(f"game:{self.game_id}")
@@ -104,6 +106,14 @@ class GameConsumer(AsyncWebsocketConsumer):
                 game["is_started"] = True
                 await cache.aset(f"game:{self.game_id}", game)
                 await self.channel_layer.group_send(self.game_id, {"type": "Start_Game", "data": game})
+        elif text_data_json["method"] == "player_results":
+            game = await cache.aget(f"game:{self.game_id}")
+            game = get_add_results_for_player(game, data)
+            # if send_results:
+            game = restart_game(game)
+            await cache.aset(f"game:{self.game_id}", game)
+            await self.channel_layer.group_send(self.game_id, {"type": "Send_Results", "data": game})
+            # await cache.aset(f"game:{self.game_id}", game)
 
     async def Update_Square(self, event):
         data = event["data"]
@@ -128,3 +138,25 @@ class GameConsumer(AsyncWebsocketConsumer):
         print("Sending [Get_Ready] Method")
         # Send message to WebSocket
         await self.send(text_data=json.dumps({"method": "get_ready", "data": data}))
+
+    async def Send_Results(self, event):
+        data = event["data"]
+        print("Sending [Send_Results] Method")
+        # Send message to WebSocket
+        await self.send(text_data=json.dumps({"method": "send_results", "data": data}))
+
+        # elif text_data_json["method"] == "player_results":
+        #     # print("Player Results method Called in receiveing #E1")
+        #     game = await cache.aget(f"game:{self.game_id}")
+        #     if data["player_results"]["player_name"] in game["players"]:
+        #         # print(f"adding results of player {data['player_results']['player_name']} to game #E2")
+        #         game,send_results = get_add_results_for_player(game,data)
+        #         await cache.aset(f"game:{self.game_id}", game)
+        #         game_check = await cache.aget(f"game:{self.game_id}")
+        #         # print("player results saved in cache #E4")
+        #         if send_results:
+        #             # print("All results compeleted, now send send_results method #E3")
+        #             # print(game["players"])
+        #             game = restart_game(game)
+        #             await cache.aset(f"game:{self.game_id}", game)
+        #             await self.channel_layer.group_send(self.game_id, {"type": "Send_Results", "data": game})
