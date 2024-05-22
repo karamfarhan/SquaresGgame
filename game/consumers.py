@@ -107,12 +107,16 @@ class GameConsumer(AsyncWebsocketConsumer):
                 await cache.aset(f"game:{self.game_id}", game)
                 await self.channel_layer.group_send(self.game_id, {"type": "Start_Game", "data": game})
         elif text_data_json["method"] == "player_results":
+            # print(data)
             game = await cache.aget(f"game:{self.game_id}")
             game = get_add_results_for_player(game, data)
-            # if send_results:
+            # if send_results_to_client:
             game = restart_game(game)
             await cache.aset(f"game:{self.game_id}", game)
             await self.channel_layer.group_send(self.game_id, {"type": "Send_Results", "data": game})
+            await self.channel_layer.group_send(
+                self.game_id, {"type": "Update_Players", "data": {"players": game["players"]}}
+            )
             # await cache.aset(f"game:{self.game_id}", game)
 
     async def Update_Square(self, event):

@@ -87,6 +87,10 @@ function countResluts() {
       results[sqcolor_inhex] = results[sqcolor_inhex] + 1 || 1;
     }
   }
+  // if the player did not occupy any square, add his color to results with value 0
+  // if ( !(playerColor in results) ){
+  //   results[playerColor] = 0
+  // }
   return results;
 }
 
@@ -231,11 +235,11 @@ ws.onmessage = (message) => {
   }
   if (data.method === "send_results") {
     players_data = data.data.players;
-    console.log(players_data)
+    // console.log(players_data)
     // displayPlayers(players);
     nat = ``;
     for (player in players_data) {
-      console.log(players_data[player])
+      // console.log(players_data[player])
       nat += `<span class="text-dark">${players_data[player]["name"]}</span> --> ${players_data[player]["occupied_last_round"]}  <span class="player-circle-color" style="background-color: ${players_data[player]["color"]};"></span> <hr>`;
     }
     document.getElementById("dialog-body").innerHTML = nat;
@@ -253,8 +257,10 @@ ws.onmessage = (message) => {
     let WaitDiv = document.getElementById("wait");
     WaitDiv.innerHTML = "";
     players = data.data.players;
+    console.log(players)
     displayPlayers(players);
-    if (playerName in players) {
+    console.log(players[playerName].is_ready  === true)
+    if (playerName in players && players[playerName].is_ready  === true) {
       container.classList.remove("border-shadow");
       WaitDiv.innerHTML = "";
       WaitMesage.innerHTML = `

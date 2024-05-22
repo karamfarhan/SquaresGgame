@@ -89,23 +89,20 @@ def reset_player_in_game(game: dict, player_name: str) -> dict:
 
 
 def get_add_results_for_player(game: dict, data: dict) -> tuple:
-    # results_compeleted = True
-    print(data)
-    for result_color, result_num in data["player_results"].items():
-        for player in game["players"]:
-            if game["players"][player]["color"] == result_color:
-                game["players"][player]["occupied_last_round"] = result_num
-                game["players"][player]["all_time_occupied"] += result_num
-                game["players"][player]["last_round_result_collected"] = True
-
-    # player_name = data["player_results"]["player_name"]
-    # num_squares_occupied = data["player_results"]["round_squares_occupied"]
-    # if sum(player["last_round_result_collected"] for player in game["players"].values()) == len(game["players"]):
-    print(game["players"])
-    #     results_compeleted = True
+    for player in game["players"].values():
+        for result_color, result_num in data["player_results"].items():
+            if player["color"] == result_color and player["last_round_result_collected"] is False:
+                player["occupied_last_round"] = result_num
+                player["all_time_occupied"] += result_num
+                player["last_round_result_collected"] = True
+        # if last_...collected is still False, that means player has no results(didn't click on any square)
+        # so we set his last round to 0
+        if player["last_round_result_collected"] is False:
+            player["occupied_last_round"] = 0
+            player["last_round_result_collected"] = True
     return game
 
 
 def generate_game_id():
     game_id = uuid4()
-    return str(game_id)[:7]
+    return str(game_id)[:5].upper()
