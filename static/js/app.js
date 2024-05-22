@@ -250,7 +250,7 @@ ws.onmessage = (message) => {
     document.getElementById("wait").innerHTML = "";
     container.classList.add("border-shadow");
     makesqu(squares);
-    game_countdown(20);
+    game_countdown(60);
   }
   if (data.method === "update_players") {
     let WaitMesage = document.createElement("h2");
