@@ -375,6 +375,7 @@ ul li span:nth-child(2) {
 .board-border {
   user-select: none;
   width: calc(100% - 200px);
+  /* height: 80vh; /* Fix the height to avoid scrolling */
   margin: 90px auto;
   user-select: none;
   display: grid;
@@ -382,6 +383,7 @@ ul li span:nth-child(2) {
   gap: 2px;
   grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
   padding: 15px;
+  /* overflow: hidden; /* Prevents scrolling */
 
 }
 .border-shadow {
@@ -536,4 +538,14 @@ input[type=number]::-webkit-outer-spin-button {
 .dialog-footer button.refresh {
   border: none;
   background-color: transparent;
+}
+/* Custom styles */
+.btn-outline-light {
+  color: #fff;
+  border-color: #ccc;
+}
+
+.btn-outline-light:hover {
+  background-color: #fff;
+  color: #000;
 }

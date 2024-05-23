@@ -12,42 +12,76 @@
 <section id="landing">
   <div class="content">
     <form id="creat_game" method="POST">
-      <h2>how many players you want in the game?</h2>
-      <p>Alert: The game will not start until the players completed</p>
+      <h2 class="text-white">How many players do you want in the game?</h2>
+      <p class="text-danger">Alert: The game will not start until the players are completed</p>
       {% csrf_token %}
-      <input class="home_input" id="player_num" type="Number" placeholder="Players Number"
-        name="player_num" required />
 
-      <input class="home_input" id="map_size" type="Number" placeholder="Map Size"
-        name="map_size" required />
+      <div class="btn-group" role="group" aria-label="Players Number">
+        <input type="radio" class="btn-check" name="player_num" id="player_num1" value="1" required>
+        <label class="btn btn-outline-light" for="player_num1">1</label>
 
-      <button class="text-rainbow-animation" type="submit">Creat game</button>
+        <input type="radio" class="btn-check" name="player_num" id="player_num2" value="2" required>
+        <label class="btn btn-outline-light" for="player_num2">2</label>
+
+        <input type="radio" class="btn-check" name="player_num" id="player_num3" value="3" required>
+        <label class="btn btn-outline-light" for="player_num3">3</label>
+
+        <input type="radio" class="btn-check" name="player_num" id="player_num4" value="4" required>
+        <label class="btn btn-outline-light" for="player_num4">4</label>
+
+        <input type="radio" class="btn-check" name="player_num" id="player_num5" value="5" required>
+        <label class="btn btn-outline-light" for="player_num5">5</label>
+
+        <input type="radio" class="btn-check" name="player_num" id="player_num6" value="6" required>
+        <label class="btn btn-outline-light" for="player_num6">6</label>
+      </div>
+
+      <h2 class="text-white mt-3">Choose the size of the map</h2>
+      <div class="btn-group" role="group" aria-label="Map Size">
+        <input type="radio" class="btn-check" name="map_size" id="map_size100" value="100" required>
+        <label class="btn btn-outline-light" for="map_size100">100</label>
+
+        <input type="radio" class="btn-check" name="map_size" id="map_size200" value="200" required>
+        <label class="btn btn-outline-light" for="map_size200">200</label>
+
+        <input type="radio" class="btn-check" name="map_size" id="map_size250" value="250" required>
+        <label class="btn btn-outline-light" for="map_size250">250</label>
+
+        <input type="radio" class="btn-check" name="map_size" id="map_size300" value="300" required>
+        <label class="btn btn-outline-light" for="map_size300">300</label>
+
+        <input type="radio" class="btn-check" name="map_size" id="map_size350" value="350" required>
+        <label class="btn btn-outline-light" for="map_size350">350</label>
+      </div>
+
+      <button class="btn btn-primary text-rainbow-animation mt-3" type="submit">Create game</button>
     </form>
-    <div class="container">
+    <div class="container mt-3">
       <div id="game_id"></div>
-      <a class="" href="{% url 'game:join'%}"><span class="text-rainbow-animation">Join Game</span></a>
+      <a href="{% url 'game:join' %}"><span class="text-rainbow-animation">Join Game</span></a>
     </div>
   </div>
 </section>
+
 <script>
   let form = document.getElementById("creat_game");
-  var http_scheme = window.location.protocol
+  var http_scheme = window.location.protocol;
   form.addEventListener("submit", (e) => {
-    e.preventDefault()
-    player_num = document.getElementById('player_num').value
-    map_size = document.getElementById('map_size').value
-    url = `${http_scheme}//${window.location.host}/create/?player_num=${player_num}&map_size=${map_size}`
+    e.preventDefault();
+    let player_num = document.querySelector('input[name="player_num"]:checked').value;
+    let map_size = document.querySelector('input[name="map_size"]:checked').value;
+    let url = `${http_scheme}//${window.location.host}/create/?player_num=${player_num}&map_size=${map_size}`;
+
     fetch(url)
       .then(response => response.text())
       .then(result => {
-        console.log(JSON.parse(result))
+        console.log(JSON.parse(result));
         let game_id_h3 = document.getElementById("game_id");
-        game_id_h3.innerHTML = `copy your game ID and click Join Game: <span>${JSON.parse(result).game_id}</span> `;
-        form.style.display = "none"
+        game_id_h3.innerHTML = `Copy your game ID and click Join Game: <span>${JSON.parse(result).game_id}</span>`;
+        form.style.display = "none";
       })
-
       .catch(error => console.warn(error));
-  })
+  });
 </script>
 
 {% endblock %}

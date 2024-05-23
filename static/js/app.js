@@ -228,6 +228,58 @@ function makesqu(squares) {
   }
 }
 
+// version 2 of makesqu function
+
+// function makesqu(squares) {
+//   container.innerHTML = "";
+//   let totalSquares = Object.keys(squares).length;
+//   let columns = Math.floor(Math.sqrt(totalSquares));
+//   let rows = Math.ceil(totalSquares / columns);
+//   let cellSize = Math.min(container.clientWidth / columns, container.clientHeight / rows) - 2; // Adjust for gap
+
+//   container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+//   container.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+
+//   for (let i = 1; i <= totalSquares; i++) {
+//     let div = document.createElement("div");
+//     let p = document.createElement("p");
+//     let click_number = squares[i]["clicked"];
+//     div.appendChild(p);
+//     div.className = "cell";
+//     div.id = i;
+//     if (click_number != 0) {
+//       p.innerHTML = click_number;
+//     }
+
+//     div.tag = i;
+//     div.style.backgroundColor = squares[i]["color"];
+//     div.style.width = `${cellSize}px`;
+//     div.style.height = `${cellSize}px`;
+
+//     div.addEventListener("click", (e) => {
+//       const user_color_rgb = document.getElementById(playerColor).style.backgroundColor;
+
+//       if (div.style.backgroundColor !== user_color_rgb) {
+//         div.style.backgroundColor = playerColor;
+//         let prev_click = clickHandle(p);
+//         p.innerHTML = prev_click + 1;
+
+//         const PayLoad = {
+//           method: "update_ball",
+//           data: {
+//             squareId: div.tag,
+//             color: playerColor,
+//             clicked: prev_click + 1,
+//           },
+//         };
+//         ws.send(JSON.stringify(PayLoad));
+//       }
+//     });
+//     container.appendChild(div);
+//   }
+// }
+
+
 ws.onmessage = (message) => {
   const data = JSON.parse(message.data);
   if (data.method === "update_square") {
