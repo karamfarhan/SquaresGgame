@@ -33,7 +33,7 @@ def join(request):
     context = {}
     if request.method == "POST":
         game_id = request.POST.get("game")
-        name = request.POST.get("name")
+        name = request.POST.get("name").replace(" ", "")
         color = request.POST.get("color")
         game = cache.get(f"game:{game_id}")
         # print(f"BEFORE ADD {name}")
