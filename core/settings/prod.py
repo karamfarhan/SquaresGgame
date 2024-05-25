@@ -37,5 +37,5 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 CSRF_TRUSTED_ORIGINS = [
     "https://squaresgamego.herokuapp.com",
     "https://squaresggame-production.up.railway.app",
-    "https://squaresggame.onrender.com/",
+    "https://squaresggame.onrender.com",
 ]
