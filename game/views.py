@@ -12,6 +12,7 @@ from .game_handlers import (
     GameIsFulled,
     GameResulted,
     GameStarted,
+    NameLong,
     NameTaken,
     add_player_to_game,
     creat_game,
@@ -57,6 +58,9 @@ def join(request):
                 return HttpResponseRedirect(request.path_info)
             except NameTaken:
                 messages.add_message(request, messages.ERROR, "The (NAME) is taken, pick other name")
+                return HttpResponseRedirect(request.path_info)
+            except NameLong:
+                messages.add_message(request, messages.ERROR, "The (NAME) is too long, pick a Name under 8 letters")
                 return HttpResponseRedirect(request.path_info)
             except ColorTaken:
                 messages.add_message(request, messages.ERROR, "The (COLOR) is taken, pick other name")

@@ -17,41 +17,37 @@
       {% csrf_token %}
 
       <div class="btn-group" role="group" aria-label="Players Number">
+        <label class="btn btn-outline-light" for="player_num1">1 P</label>
         <input type="radio" class="btn-check" name="player_num" id="player_num1" value="1" required>
-        <label class="btn btn-outline-light" for="player_num1">1</label>
 
+        <label class="btn btn-outline-light" for="player_num2">2 P</label>
         <input type="radio" class="btn-check" name="player_num" id="player_num2" value="2" required>
-        <label class="btn btn-outline-light" for="player_num2">2</label>
 
+        <label class="btn btn-outline-light" for="player_num3">3 P</label>
         <input type="radio" class="btn-check" name="player_num" id="player_num3" value="3" required>
-        <label class="btn btn-outline-light" for="player_num3">3</label>
 
+        <label class="btn btn-outline-light" for="player_num4">4 P</label>
         <input type="radio" class="btn-check" name="player_num" id="player_num4" value="4" required>
-        <label class="btn btn-outline-light" for="player_num4">4</label>
 
-        <input type="radio" class="btn-check" name="player_num" id="player_num5" value="5" required>
-        <label class="btn btn-outline-light" for="player_num5">5</label>
+        <label class="btn btn-outline-light contrast-low" for="player_num5">5 P</label>
+        <input type="radio" class="btn-check contrast-low" name="player_num" id="player_num5" value="5" required disabled>
 
-        <input type="radio" class="btn-check" name="player_num" id="player_num6" value="6" required>
-        <label class="btn btn-outline-light" for="player_num6">6</label>
+        <label class="btn btn-outline-light contrast-low" for="player_num6">6 P</label>
+        <input type="radio" class="btn-check contrast-low" name="player_num" id="player_num6" value="6" required disabled>
       </div>
 
       <h2 class="text-white mt-3">Choose the size of the map</h2>
       <div class="btn-group" role="group" aria-label="Map Size">
-        <input type="radio" class="btn-check" name="map_size" id="map_size100" value="100" required>
-        <label class="btn btn-outline-light" for="map_size100">100</label>
 
-        <input type="radio" class="btn-check" name="map_size" id="map_size200" value="200" required>
-        <label class="btn btn-outline-light" for="map_size200">200</label>
+        <label class="btn btn-outline-light text-muted contrast-low" for="map_size155">Small</label>
+        <input type="radio" class="btn-check contrast-low" name="map_size" id="map_size155" value="155" required disabled>
 
-        <input type="radio" class="btn-check" name="map_size" id="map_size250" value="250" required>
-        <label class="btn btn-outline-light" for="map_size250">250</label>
+        <label class="btn btn-outline-light text-muted contrast-low" for="map_size310">Medium</label>
+        <input type="radio" class="btn-check contrast-low" name="map_size" id="map_size310" value="310" required disabled>
 
-        <input type="radio" class="btn-check" name="map_size" id="map_size300" value="300" required>
-        <label class="btn btn-outline-light" for="map_size300">300</label>
+        <label class="btn btn-outline-light" for="map_size403">Large</label>
+        <input type="radio" class="btn-check" name="map_size" id="map_size403" value="403" required checked>
 
-        <input type="radio" class="btn-check" name="map_size" id="map_size350" value="350" required>
-        <label class="btn btn-outline-light" for="map_size350">350</label>
       </div>
 
       <button class="btn btn-primary text-rainbow-animation mt-3" type="submit">Create game</button>
@@ -75,7 +71,7 @@
     fetch(url)
       .then(response => response.text())
       .then(result => {
-        console.log(JSON.parse(result));
+        // console.log(JSON.parse(result));
         let game_id_h3 = document.getElementById("game_id");
         game_id_h3.innerHTML = `Copy your game ID and click Join Game: <span>${JSON.parse(result).game_id}</span>`;
         form.style.display = "none";

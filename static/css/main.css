@@ -1,5 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,400;0,700;1,300;1,400;1,700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,400;0,700;1,300;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap"); */
 *:focus {
   outline: none;
 }
@@ -67,7 +67,7 @@ a {
 
 body {
   font-family:arial rgb(255, 255, 255);
-  background-color: rgb(41, 36, 36);
+  background-color: rgb(0, 0, 0);
 
   background-repeat: no-repeat;
 
@@ -76,7 +76,7 @@ body::before {
   content: "";
   width: 100%;
   height: 100%;
-  background: rgb(31, 28, 28);
+  background: rgb(0, 0, 0);
   position: absolute;
   top: 0;
   left: 0;
@@ -159,7 +159,7 @@ section .content {
   animation: up 1s;
 }
 section#login {
-  background-color:rgb(31, 28, 28);
+  background-color:rgb(0, 0, 0);
   min-height:   calc(100vh - 40vh);
 
 
@@ -329,6 +329,7 @@ section#login form div:hover span:nth-child(4) {
   display: flex;
   gap: 30px;
   background-color: transparent;
+  margin: -10px 0px;
 }
 ul li {
   padding: 10px;
@@ -343,8 +344,8 @@ ul li span:nth-child(2) {
 
 /* table and cells */
 .cell {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -376,12 +377,12 @@ ul li span:nth-child(2) {
   user-select: none;
   width: calc(100% - 200px);
   /* height: 80vh; /* Fix the height to avoid scrolling */
-  margin: 90px auto;
+  margin: 80px auto;
   user-select: none;
   display: grid;
-  background: rgba(47, 42, 42, 0.507);
+  background: rgb(0, 0, 0);
   gap: 2px;
-  grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
   padding: 15px;
   /* overflow: hidden; /* Prevents scrolling */
 
@@ -548,4 +549,7 @@ input[type=number]::-webkit-outer-spin-button {
 .btn-outline-light:hover {
   background-color: #fff;
   color: #000;
+}
+.contrast-low{
+  opacity: 0.3;
 }

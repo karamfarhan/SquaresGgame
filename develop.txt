@@ -1,0 +1,7 @@
+Ideas to develop in the game:
+
+make more than one mode, where each mode the game will act differently.
+
+Mode1 : the same as the normal mode, but the square's color will not change to the clicker's
+color until he keeps clicking until all clicks of the squares go, also, a player can click
+multiple times on a square to add more points for him in it.

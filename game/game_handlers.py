@@ -9,6 +9,10 @@ class NameTaken(ValueError):
     """Handles what to do if a player name  is taken"""
 
 
+class NameLong(ValueError):
+    """Your Name is too long, must be under 8 letters"""
+
+
 class ColorTaken(ValueError):
     """Handles what to do if a color is taken"""
 
@@ -62,12 +66,15 @@ def restart_game(game: dict) -> dict:
 
 def add_player_to_game(game: dict, player_name: str, player_color: str) -> dict:
     taken_colors = [player["color"] for player in game["players"].values()]
+    # TODO: you might don't need to raise the errors here but in view func,only break the function,
     if game["is_started"]:
         raise GameStarted()
     if len(game["players"].keys()) == game["start_at_player"]:
         raise GameIsFulled()
     if player_name in game["players"]:
         raise NameTaken()
+    if len(player_name) > 7:
+        raise NameLong()
     if player_color in taken_colors:
         raise ColorTaken()
 
