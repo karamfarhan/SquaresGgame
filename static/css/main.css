@@ -344,13 +344,19 @@ ul li span:nth-child(2) {
 }
 
 /* table and cells */
+
+
+/* NEW CODE */
+
+/* #container {
+  display: grid;
+  gap: 2px;
+} */
+
 .cell {
-  width: 40px;
-  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* border-radius: 2%; */
   transition: all linear .2s;
   background: #ffffff;
   font-size: 14px;
@@ -361,7 +367,6 @@ ul li span:nth-child(2) {
   margin: 0;
   color: #000000;
   font-weight: bold;
-
 }
 
 .cell:hover {
@@ -377,24 +382,19 @@ ul li span:nth-child(2) {
 .board-border {
   user-select: none;
   width: calc(100% - 200px);
-  /* height: 80vh; /* Fix the height to avoid scrolling */
   margin: 80px auto;
-  user-select: none;
-  display: grid;
   background: rgb(0, 0, 0);
-  /* gap: 2px;
-   */
-  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
   padding: 10px;
-  /* overflow: hidden; /* Prevents scrolling */
-
+  display: grid;
+  /* gap: 2px; */
 }
 
 .border-shadow {
-  /* border-radius: 2%; */
   border: 2px solid #d2ccd3;
   box-shadow: rgba(190, 118, 203, 0.582) 0px 0px 20px 4px, rgba(249, 0, 145, 0.22) 0px 0px 0px 0px;
 }
+
+/* END NEW CODE */
 
 .done {
   filter: blur(2px);

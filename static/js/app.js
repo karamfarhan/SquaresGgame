@@ -189,9 +189,62 @@ function update_square(squareData) {
   squareP.innerHTML = squareData.clicked;
 }
 
-function makesqu(squares) {
+// function makesqu(squares) {
+//   container.innerHTML = "";
+//   for (let i = 1; i < Object.keys(squares).length + 1; i++) {
+//     let div = document.createElement("div");
+//     let p = document.createElement("p");
+//     let click_number = squares[i]["clicked"];
+//     div.appendChild(p);
+//     div.className = "cell";
+//     div.id = i;
+//     if (click_number != 0) {
+//       p.innerHTML = click_number;
+//     }
+
+//     div.tag = i;
+//     div.style.backgroundColor = squares[i]["color"];
+//     div.addEventListener("click", (e) => {
+//       const user_color_rgb =
+//         document.getElementById(playerColor).style.backgroundColor;
+
+//       if (div.style.backgroundColor !== user_color_rgb) {
+//         div.style.backgroundColor = playerColor;
+//         let prev_click = clickHandle(p);
+//         p.innerHTML = prev_click + 1;
+
+//         const PayLoad = {
+//           method: "update_ball",
+//           data: {
+//             squareId: div.tag,
+//             color: playerColor,
+//             clicked: prev_click + 1,
+//           },
+//         };
+//         ws.send(JSON.stringify(PayLoad));
+//       }
+//     });
+//     container.appendChild(div);
+//   }
+// }
+
+// version 2 of makesqu function
+
+function makesqu(squares, totalSquares, boardWidth = 1320, boardHeight = 520) {
+  // const container = document.getElementById("container"); // Ensure you have a container with this ID
   container.innerHTML = "";
-  for (let i = 1; i < Object.keys(squares).length + 1; i++) {
+  container.classList.add("border-shadow");
+
+  // Calculate the dimensions of the squares
+  const rows = Math.ceil(Math.sqrt(totalSquares * (boardHeight / boardWidth)));
+  const cols = Math.ceil(totalSquares / rows);
+  const squareWidth = Math.floor(boardWidth / cols);
+  const squareHeight = Math.floor(boardHeight / rows);
+
+  container.style.gridTemplateColumns = `repeat(${cols}, ${squareWidth}px)`;
+  container.style.gridTemplateRows = `repeat(${rows}, ${squareHeight}px)`;
+
+  for (let i = 1; i <= totalSquares; i++) {
     let div = document.createElement("div");
     let p = document.createElement("p");
     let click_number = squares[i]["clicked"];
@@ -204,6 +257,9 @@ function makesqu(squares) {
 
     div.tag = i;
     div.style.backgroundColor = squares[i]["color"];
+    div.style.width = `${squareWidth}px`;
+    div.style.height = `${squareHeight}px`;
+
     div.addEventListener("click", (e) => {
       const user_color_rgb =
         document.getElementById(playerColor).style.backgroundColor;
@@ -228,56 +284,6 @@ function makesqu(squares) {
   }
 }
 
-// version 2 of makesqu function
-
-// function makesqu(squares) {
-//   container.innerHTML = "";
-//   let totalSquares = Object.keys(squares).length;
-//   let columns = Math.floor(Math.sqrt(totalSquares));
-//   let rows = Math.ceil(totalSquares / columns);
-//   let cellSize = Math.min(container.clientWidth / columns, container.clientHeight / rows) - 2; // Adjust for gap
-
-//   container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
-//   container.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
-
-//   for (let i = 1; i <= totalSquares; i++) {
-//     let div = document.createElement("div");
-//     let p = document.createElement("p");
-//     let click_number = squares[i]["clicked"];
-//     div.appendChild(p);
-//     div.className = "cell";
-//     div.id = i;
-//     if (click_number != 0) {
-//       p.innerHTML = click_number;
-//     }
-
-//     div.tag = i;
-//     div.style.backgroundColor = squares[i]["color"];
-//     div.style.width = `${cellSize}px`;
-//     div.style.height = `${cellSize}px`;
-
-//     div.addEventListener("click", (e) => {
-//       const user_color_rgb = document.getElementById(playerColor).style.backgroundColor;
-
-//       if (div.style.backgroundColor !== user_color_rgb) {
-//         div.style.backgroundColor = playerColor;
-//         let prev_click = clickHandle(p);
-//         p.innerHTML = prev_click + 1;
-
-//         const PayLoad = {
-//           method: "update_ball",
-//           data: {
-//             squareId: div.tag,
-//             color: playerColor,
-//             clicked: prev_click + 1,
-//           },
-//         };
-//         ws.send(JSON.stringify(PayLoad));
-//       }
-//     });
-//     container.appendChild(div);
-//   }
-// }
 
 
 ws.onmessage = (message) => {
@@ -300,8 +306,8 @@ ws.onmessage = (message) => {
   if (data.method === "start_game") {
     squares = data.data.squares;
     document.getElementById("wait").innerHTML = "";
-    container.classList.add("border-shadow");
-    makesqu(squares);
+    // container.classList.add("border-shadow");
+    makesqu(squares,Object.keys(squares).length);
     game_countdown(60);
   }
   if (data.method === "update_players") {
@@ -328,6 +334,8 @@ ws.onmessage = (message) => {
     WaitDiv.innerHTML = "";
     if (data.data.start_get_ready === true) {
       container.classList.remove("border-shadow");
+      container.style.gridTemplateColumns = null;
+      container.style.gridTemplateRows = null;
       WaitDiv.innerHTML = "";
       WaitMesage.innerHTML = `
         <p>Players Count Completed, Game will Start in</p>
