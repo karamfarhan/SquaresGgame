@@ -312,7 +312,7 @@ ws.onmessage = (message) => {
     // console.log(players)
     displayPlayers(players);
     // console.log(players[playerName].is_ready  === true)
-    if (playerName in players && players[playerName].is_ready  === true) {
+    if (playerName in players && players[playerName].is_ready  === true && data.data.game_running === false) {
       container.classList.remove("border-shadow");
       WaitDiv.innerHTML = "";
       WaitMesage.innerHTML = `
