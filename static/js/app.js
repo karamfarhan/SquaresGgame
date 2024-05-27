@@ -230,15 +230,15 @@ function update_square(squareData) {
 
 // version 2 of makesqu function
 
-function makesqu(squares, totalSquares, boardWidth = 1320, boardHeight = 520) {
+function makesqu(squares, totalSquares, boardWidth = 1320, boardHeight = 560) {
   // const container = document.getElementById("container"); // Ensure you have a container with this ID
   container.innerHTML = "";
-  container.classList.add("border-shadow");
+  // container.classList.add("border-shadow");
 
   // Calculate the dimensions of the squares
   const rows = Math.ceil(Math.sqrt(totalSquares * (boardHeight / boardWidth)));
   const cols = Math.ceil(totalSquares / rows);
-  const squareWidth = Math.floor(boardWidth / cols);
+  const squareWidth = Math.floor(boardWidth / cols); // subtract here for the width gap
   const squareHeight = Math.floor(boardHeight / rows);
 
   container.style.gridTemplateColumns = `repeat(${cols}, ${squareWidth}px)`;
@@ -311,7 +311,7 @@ ws.onmessage = (message) => {
     game_countdown(60);
   }
   if (data.method === "update_players") {
-    let WaitMesage = document.createElement("h2");
+    let WaitMesage = document.createElement("h3");
     let WaitDiv = document.getElementById("wait");
     WaitDiv.innerHTML = "";
     players = data.data.players;
@@ -319,11 +319,16 @@ ws.onmessage = (message) => {
     displayPlayers(players);
     // console.log(players[playerName].is_ready  === true)
     if (playerName in players && players[playerName].is_ready  === true && data.data.game_running === false) {
-      container.classList.remove("border-shadow");
+      container.style.gridTemplateColumns = null;
+      container.style.gridTemplateRows = null;
+      const readyJoinedPlayersCount = Object.values(players).filter(player => player.hasOwnProperty('is_ready') && player.is_ready).length;
+      // container.classList.remove("border-shadow");
       WaitDiv.innerHTML = "";
       WaitMesage.innerHTML = `
         <p>Wait the players to join, share the game code with them</p>
-        <span style="color: green;">${gameId}</span>`;
+        <p><span style="color: green;">${data.data.map_players_size - readyJoinedPlayersCount}</span> Players Left to Join/Ready</p>
+        <p>Game Code: <span style="color: green;">${gameId}</span></p>`;
+
       WaitDiv.appendChild(WaitMesage);
     }
   }
@@ -333,7 +338,7 @@ ws.onmessage = (message) => {
     let WaitDiv = document.getElementById("wait");
     WaitDiv.innerHTML = "";
     if (data.data.start_get_ready === true) {
-      container.classList.remove("border-shadow");
+      // container.classList.remove("border-shadow");
       container.style.gridTemplateColumns = null;
       container.style.gridTemplateRows = null;
       WaitDiv.innerHTML = "";

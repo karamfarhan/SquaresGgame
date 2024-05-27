@@ -24,8 +24,12 @@ class GameConsumer(AsyncWebsocketConsumer):
             print(f"{self.game_id} game found in cache #A2")
             # check if the players are all joined
             num_ready_players = sum(player["is_ready"] for player in game["players"].values())
-            data = {"players": game["players"], "game_running": game["is_started"]}
-            if num_ready_players == game["start_at_player"]:
+            data = {
+                "players": game["players"],
+                "game_running": game["is_started"],
+                "map_players_size": game["map_players_size"],
+            }
+            if num_ready_players == game["map_players_size"]:
                 print(f"{self.game_id} game's players are compeleted #A3")
                 await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": data})
                 data["start_get_ready"] = True
@@ -49,7 +53,11 @@ class GameConsumer(AsyncWebsocketConsumer):
             print(f"{self.player_name} Not Found in{self.game_id} To remove #B2")
         await cache.aset(f"game:{self.game_id}", game)
         print(f"Updating {self.game_id} in Cache after deleting {self.player_name} #B3")
-        data = {"players": game["players"], "game_running": game["is_started"]}
+        data = {
+            "players": game["players"],
+            "game_running": game["is_started"],
+            "map_players_size": game["map_players_size"],
+        }
         await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": data})
         await self.channel_layer.group_discard(self.game_id, self.channel_name)
 
@@ -87,8 +95,12 @@ class GameConsumer(AsyncWebsocketConsumer):
             game["is_resulted"] = False
             await cache.aset(f"game:{self.game_id}", game)
             num_ready_players = sum(player["is_ready"] for player in game["players"].values())
-            data = {"players": game["players"], "game_running": game["is_started"]}
-            if num_ready_players == game["start_at_player"]:
+            data = {
+                "players": game["players"],
+                "game_running": game["is_started"],
+                "map_players_size": game["map_players_size"],
+            }
+            if num_ready_players == game["map_players_size"]:
                 print(f"{self.game_id} game's players are compeleted #C4")
                 await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": data})
                 data["start_get_ready"] = True
@@ -116,7 +128,14 @@ class GameConsumer(AsyncWebsocketConsumer):
             await self.channel_layer.group_send(self.game_id, {"type": "Send_Results", "data": game})
             await self.channel_layer.group_send(
                 self.game_id,
-                {"type": "Update_Players", "data": {"players": game["players"], "game_running": game["is_started"]}},
+                {
+                    "type": "Update_Players",
+                    "data": {
+                        "players": game["players"],
+                        "game_running": game["is_started"],
+                        "map_players_size": game["map_players_size"],
+                    },
+                },
             )
             # await cache.aset(f"game:{self.game_id}", game)
 

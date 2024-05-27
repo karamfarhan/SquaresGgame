@@ -357,7 +357,7 @@ ul li span:nth-child(2) {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all linear .2s;
+  transition: all linear .15s;
   background: #ffffff;
   font-size: 14px;
   box-shadow: rgb(0 0 0 / 15%) 0px -1px 25px, rgb(0 0 0 / 5%) -15px -19px 10px;
@@ -386,13 +386,13 @@ ul li span:nth-child(2) {
   background: rgb(0, 0, 0);
   padding: 10px;
   display: grid;
-  /* gap: 2px; */
+  gap: 0px;
 }
 
-.border-shadow {
+/* .border-shadow {
   border: 2px solid #d2ccd3;
   box-shadow: rgba(190, 118, 203, 0.582) 0px 0px 20px 4px, rgba(249, 0, 145, 0.22) 0px 0px 0px 0px;
-}
+} */
 
 /* END NEW CODE */
 

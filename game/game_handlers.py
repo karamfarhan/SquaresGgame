@@ -40,7 +40,7 @@ def creat_game(game_id: str, player_num: int, map_size: int = 250) -> dict:
         "is_started": False,
         "is_finished": False,
         "is_resulted": False,
-        "start_at_player": player_num,
+        "map_players_size": player_num,
         "squares": squares,
         "players": {},
     }
@@ -69,7 +69,7 @@ def add_player_to_game(game: dict, player_name: str, player_color: str) -> dict:
     # TODO: you might don't need to raise the errors here but in view func,only break the function,
     if game["is_started"]:
         raise GameStarted()
-    if len(game["players"].keys()) == game["start_at_player"]:
+    if len(game["players"].keys()) == game["map_players_size"]:
         raise GameIsFulled()
     if player_name in game["players"]:
         raise NameTaken()
