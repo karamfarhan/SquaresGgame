@@ -1,5 +1,6 @@
 let playerName = JSON.parse(document.getElementById("name").textContent);
 let gameId = JSON.parse(document.getElementById("game_id").textContent);
+let gameMod = JSON.parse(document.getElementById("game_mod").textContent);
 let playerColor = JSON.parse(document.getElementById("color").textContent);
 let container = document.querySelector(".board-border");
 let playerInform = document.querySelector(".information");
@@ -52,12 +53,7 @@ function displayPlayers(players) {
   playerInform.appendChild(ul);
 }
 
-// function RestGame() {
-//   return fetch(`${http_scheme}//${window.location.host}/result/?game_id=${gameId}`)
-//     .then((response) => {})
-//     .then((responseData) => {})
-//     .catch((error) => console.warn(error));
-// }
+
 
 function rgbToHex(rgb) {
   // Remove "rgb(" and ")" from the string
@@ -139,12 +135,6 @@ function game_countdown(seconds) {
         },
       };
       ws.send(JSON.stringify(PayLoad));
-      // nat = ``;
-      // for (result in results_data) {
-      //   nat += `<span class="player-circle-color" style="background-color: ${result};"></span> --> ${data[result]} <hr>`;
-      // }
-      // document.getElementById("dialog-body").innerHTML = nat;
-      // document.querySelector(".dialog-container").classList.add("active");
     }
   }
   tick();
@@ -183,52 +173,14 @@ function clickHandle(p) {
 function update_square(squareData) {
   let squareId = squareData.squareId;
   let squareObject = document.getElementById(squareId);
-  let squareP = document.getElementById(squareId).getElementsByTagName("p")[0];
-
   squareObject.style.backgroundColor = squareData.color;
-  squareP.innerHTML = squareData.clicked;
+  if (gameMod === "normal_mod"){
+    let squareP = document.getElementById(squareId).getElementsByTagName("p")[0];
+    squareP.innerHTML = squareData.clicked;
+  }
+
 }
 
-// function makesqu(squares) {
-//   container.innerHTML = "";
-//   for (let i = 1; i < Object.keys(squares).length + 1; i++) {
-//     let div = document.createElement("div");
-//     let p = document.createElement("p");
-//     let click_number = squares[i]["clicked"];
-//     div.appendChild(p);
-//     div.className = "cell";
-//     div.id = i;
-//     if (click_number != 0) {
-//       p.innerHTML = click_number;
-//     }
-
-//     div.tag = i;
-//     div.style.backgroundColor = squares[i]["color"];
-//     div.addEventListener("click", (e) => {
-//       const user_color_rgb =
-//         document.getElementById(playerColor).style.backgroundColor;
-
-//       if (div.style.backgroundColor !== user_color_rgb) {
-//         div.style.backgroundColor = playerColor;
-//         let prev_click = clickHandle(p);
-//         p.innerHTML = prev_click + 1;
-
-//         const PayLoad = {
-//           method: "update_ball",
-//           data: {
-//             squareId: div.tag,
-//             color: playerColor,
-//             clicked: prev_click + 1,
-//           },
-//         };
-//         ws.send(JSON.stringify(PayLoad));
-//       }
-//     });
-//     container.appendChild(div);
-//   }
-// }
-
-// version 2 of makesqu function
 
 function makesqu(squares, totalSquares, boardWidth = 1320, boardHeight = 560) {
   // const container = document.getElementById("container"); // Ensure you have a container with this ID
@@ -283,8 +235,49 @@ function makesqu(squares, totalSquares, boardWidth = 1320, boardHeight = 560) {
     container.appendChild(div);
   }
 }
+// TODO: in compelete mode i should end the game if all squares are occupied
+function makesqu_compelete(squares, totalSquares, boardWidth = 1320, boardHeight = 560) {
+  container.innerHTML = "";
 
+  // Calculate the dimensions of the squares
+  const rows = Math.ceil(Math.sqrt(totalSquares * (boardHeight / boardWidth)));
+  const cols = Math.ceil(totalSquares / rows);
+  const squareWidth = Math.floor(boardWidth / cols); // subtract here for the width gap
+  const squareHeight = Math.floor(boardHeight / rows);
 
+  container.style.gridTemplateColumns = `repeat(${cols}, ${squareWidth}px)`;
+  container.style.gridTemplateRows = `repeat(${rows}, ${squareHeight}px)`;
+
+  for (let i = 1; i <= totalSquares; i++) {
+    let div = document.createElement("div");
+    div.className = "cell";
+    div.id = i;
+
+    div.tag = i;
+    div.style.backgroundColor = squares[i]["color"];
+    div.style.width = `${squareWidth}px`;
+    div.style.height = `${squareHeight}px`;
+
+    div.addEventListener("click", (e) => {
+
+      if (div.style.backgroundColor === "") {
+        div.style.backgroundColor = playerColor;
+
+        const PayLoad = {
+          method: "update_ball",
+          data: {
+            squareId: div.tag,
+            color: playerColor,
+            // clicked has no value in compelete mod, but still sending it bc of consumer
+            clicked: null,
+          },
+        };
+        ws.send(JSON.stringify(PayLoad));
+      }
+    });
+    container.appendChild(div);
+  }
+}
 
 ws.onmessage = (message) => {
   const data = JSON.parse(message.data);
@@ -307,7 +300,13 @@ ws.onmessage = (message) => {
     squares = data.data.squares;
     document.getElementById("wait").innerHTML = "";
     // container.classList.add("border-shadow");
-    makesqu(squares,Object.keys(squares).length);
+    squares_number = Object.keys(squares).length
+    if(data.data.game_mod === "compelete_mod"){
+      makesqu_compelete(squares,squares_number)
+    }
+    if(data.data.game_mod === "normal_mod"){
+      makesqu(squares,squares_number)
+    }
     game_countdown(60);
   }
   if (data.method === "update_players") {

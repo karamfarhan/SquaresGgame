@@ -46,6 +46,7 @@ def join(request):
                 context["game_id"] = game_id
                 context["name"] = name
                 context["color"] = color
+                context["game_mod"] = updated_game["game_mod"]
                 # print(f"AFTER ADD {name}")
                 # print(game["players"])
                 url = "{}?{}".format(reverse("game:game"), urllib.parse.urlencode(context))
@@ -77,6 +78,7 @@ def game(request):
     context["name"] = request.GET.get("name")
     context["game_id"] = request.GET.get("game_id")
     context["color"] = request.GET.get("color")
+    context["game_mod"] = request.GET.get("game_mod")
     return render(request, "game/game.html", context=context)
 
 
@@ -96,8 +98,9 @@ def rest_game(request):
 def creat_game_view(request):
     player_num = int(request.GET.get("player_num"))
     map_size = int(request.GET.get("map_size"))
+    game_mod = request.GET.get("game_mod")
     game_id = generate_game_id()
-    game = creat_game(game_id, player_num, map_size)
+    game = creat_game(game_id, player_num, map_size, game_mod)
     cache.set(f"game:{game_id}", game)
     return JsonResponse({"game_id": game_id})
 

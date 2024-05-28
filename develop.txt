@@ -1,11 +1,15 @@
 Ideas to develop in the game:
 
-make more than one mode, where each mode the game will act differently.
+make more than one mod, where each mod the game will act differently.
 
-Mode1 : the same as the normal mode, but the square's color will not change to the clicker's
+Mode1 : the same as the normal mod, but the square's color will not change to the clicker's
 color until he keeps clicking until all clicks of the squares go, also, a player can click
 multiple times on a square to add more points for him in it.
 
+Mode2 : the same as the normal mod, but when a player occupy a square, other players can't
+re-occupy it, and the game will finish when all squares are occupied,so there will be no timer
+Or there will be a timer that will end the game when finish, and also game will finish when all
+squares occupied
 
 1320 * 520   Size of the board
 40 * 40      Size of one square

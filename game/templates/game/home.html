@@ -13,7 +13,7 @@
   <div class="content">
     <form id="creat_game" method="POST">
       <h2 class="text-white">How many players do you want in the game?</h2>
-      <p class="text-danger">Alert: The game will not start until the players are completed</p>
+      <p class="text-danger">Note: The game will not start until all players join</p>
       {% csrf_token %}
 
       <div class="btn-group" role="group" aria-label="Players Number">
@@ -50,6 +50,17 @@
 
       </div>
 
+      <h2 class="text-white mt-3">Choose The Game Mod</h2>
+      <div class="btn-group" role="group" aria-label="Game Mod">
+
+        <label class="btn btn-outline-light" for="game_mod_normal">Normal Mod</label>
+        <input type="radio" class="btn-check" name="game_mod" id="game_mod_normal" value="normal_mod" required checked>
+
+        <label class="btn btn-outline-light" for="game_mod_compelete">Compelete Mod</label>
+        <input type="radio" class="btn-check" name="game_mod" id="game_mod_compelete" value="compelete_mod" required>
+
+      </div>
+
       <button class="btn btn-primary text-rainbow-animation mt-3" type="submit">Create game</button>
     </form>
     <div class="container mt-3">
@@ -66,7 +77,8 @@
     e.preventDefault();
     let player_num = document.querySelector('input[name="player_num"]:checked').value;
     let map_size = document.querySelector('input[name="map_size"]:checked').value;
-    let url = `${http_scheme}//${window.location.host}/create/?player_num=${player_num}&map_size=${map_size}`;
+    let game_mod = document.querySelector('input[name="game_mod"]:checked').value;
+    let url = `${http_scheme}//${window.location.host}/create/?player_num=${player_num}&map_size=${map_size}&game_mod=${game_mod}`;
 
     fetch(url)
       .then(response => response.text())

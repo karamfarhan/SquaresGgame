@@ -33,10 +33,11 @@ class GameIsFulled(Exception):
     """Handles what to do if the game Full of players"""
 
 
-def creat_game(game_id: str, player_num: int, map_size: int = 250) -> dict:
+def creat_game(game_id: str, player_num: int, map_size: int, game_mod: str = "normal") -> dict:
     squares = {f"{i+1}": {"color": "", "clicked": 0} for i in range(map_size)}
     game = {
         "game_id": game_id,
+        "game_mod": game_mod,
         "is_started": False,
         "is_finished": False,
         "is_resulted": False,
