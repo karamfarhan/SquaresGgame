@@ -41,6 +41,7 @@ def creat_game(game_id: str, player_num: int, map_size: int, game_mod: str = "no
         "is_started": False,
         "is_finished": False,
         "is_resulted": False,
+        "current_round": 1,
         "map_players_size": player_num,
         "squares": squares,
         "players": {},
@@ -50,9 +51,10 @@ def creat_game(game_id: str, player_num: int, map_size: int, game_mod: str = "no
 
 def restart_game(game: dict) -> dict:
     # if game["is_resulted"]:
-    #     raise GameResulted()
+    #     return None
     game["is_started"] = False
     game["is_resulted"] = True
+    # game["current_round"] += 1
 
     # game["players"] = {}
     for player in game["players"]:
@@ -114,3 +116,31 @@ def get_add_results_for_player(game: dict, data: dict) -> tuple:
 def generate_game_id():
     game_id = uuid4()
     return str(game_id)[:5].upper()
+
+
+async def input_handler(data: dict) -> list[bool]:
+    """
+    Main chat handler
+
+    If the function is a command, run it
+    If it isn't, pass the message to the message handler
+    """
+    data["message"]
+    is_command = False
+
+    # for i in message.lower().split():
+    #     if i in commands:
+    #         validator_response = command_validator(message)  # Validates if the message is a command
+
+    #         if not validator_response[0]:
+    #             return [True]
+
+    #         data["cmd"] = validator_response[1]
+    #         command_result = await command_handler(data)
+    #         if command_result:
+    #             return [False, validator_response[1]]
+    #         else:
+    #             return [True]
+
+    if not is_command:
+        return [True]

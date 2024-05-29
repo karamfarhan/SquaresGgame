@@ -6,27 +6,244 @@
 {{color|json_script:"color"}}
 {{ game_mod|json_script:"game_mod" }}
 
-<div class="information text-center d-flex flex-column"></div>
+<style>
+    body {
+        background-color: #1a1a1a; /* Dark background for contrast */
+        color: white;
+        font-family: 'Arial', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        overflow: hidden;
+    }
 
-<div id="timer"></div>
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #0a0a0a; /* Dark background for contrast */
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); /* Neon blue shadow */
+        width: 95%;
 
-<div class="board-border"></div>
+        border: 2px solid #00ffff; /* Neon blue border */
+    }
 
-<div class="wait" id="wait"></div>
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        width: 100%;
+        color: #00ffff;
+    }
 
-<div id="dialog-container" class="dialog-container ">
-    <div class="dialog-header">Results...</div>
-    <div id="dialog-body" class="dialog-body">
+    .scoreboard {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .player {
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 10px 20px;
+        border-radius: 10px;
+
+        transition: background-color 0.3s, box-shadow 0.3s;
+        margin: 0px 10px;
+        color: #ffffff; /* Neon yellow text */
+
+        display: flex; /* remove it to put score under name */
+    }
+
+    .player-ready {
+        box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); /* Neon yellow shadow */
+        border: 2px solid #00FF00; /* Neon yellow border */
+    }
+
+    .player-unready {
+        box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); /* Neon yellow shadow */
+        border: 2px solid #FF0000; /* Neon yellow border */
+    }
+
+    .player:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 20px rgba(0, 255, 255, 1);
+    }
+
+    .score {
+        display: block;
+    /*     font-size: 1.2em; */
+    /*     margin-top: 5px; */
+        margin-left: 10px
+    }
+
+    .timer {
+        font-size: 2em;
+        width: 65px;
+        background-color: #0a0a0a; /* Dark background */
+        padding: 10px 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); /* Neon blue shadow */
+        transition: background-color 0.3s, box-shadow 0.3s;
+        color: #00ffff; /* Neon blue text */
+        border: 2px solid #00ffff; /* Neon blue border */
+    }
+
+    .timer:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 20px rgba(0, 255, 255, 1);
+    }
+
+    .main-content {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .game-board {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #1a1a1a; /* Dark background */
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(255, 255, 0, 0.5); /* Neon green shadow */
+        border: 2px solid #ffff00; /* Neon green border */
+        max-height: 70vh;
+        overflow: hidden;
+        flex-grow: 1;
+    }
+
+    .row {
+        display: flex;
+        justify-content: center;
+        margin: 2px 0;
+    }
+
+    .square {
+        user-select: none;
+        width: 40px;
+        height: 40px;
+        margin: 0px 2px;
+        border-radius: 5%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.8em;
+        color: black;
+        background-color: #ffffff;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .square:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+    }
+
+    .chat-box {
+        background-color: #0a0a0a; /* Dark background for contrast */
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); /* Neon pink shadow */
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        width: 250px;
+        height: 70vh;
+        max-height: 70vh;
+        margin-left: 20px;
+        border: 2px solid #ff00ff; /* Neon pink border */
+    }
+
+    .messages {
+        flex-grow: 1;
+        overflow-y: auto;
+        margin-bottom: 10px;
+    }
+
+    .messages::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .messages::-webkit-scrollbar-thumb {
+        background: #00ffff;
+        border-radius: 10px;
+    }
+
+    #chatInput {
+        border: 1px solid #ff00ff; /* Neon pink border */
+        padding: 10px;
+        border-radius: 5px;
+    /*     box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); */
+        background-color: #1a1a1a; /* Dark background */
+        color: #ff00ff; /* Neon pink text */
+        font-size: 1em;
+        outline: none;
+    }
+
+    #chatInput::placeholder {
+        color: #ccc;
+    }
+
+    /* Additional CSS for chat messages */
+    .chat-message {
+        padding: 5px 10px;
+        background-color: #000000; /* Dark background */
+        border-radius: 5px;
+        margin-bottom: 5px;
+    /*     box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); */
+        word-break: break-word;
+
+        border: 1px solid #ff00ff; /* Neon pink border */
+    }
+    .done {
+        filter: blur(0.5px);
+      }
+    .game-board.done > div {
+        pointer-events: none;
+      }
+    .hide {
+        visibility: hidden;
+      }
+    .time-btn {
+        display: flex;
+        gap: 20px;
+        align-items: normal;
+        width: 250px;
+        color: #00ffff;
+        justify-content: space-between;
+    }
+</style>
+
+<div class="container">
+    <div class="header">
+        <div class="scoreboard">
+            {% comment %} here players will be displayed {% endcomment %}
+        </div>
+        <div class="time-btn">
+            <button class="hide" id="again-btn">Play Again</button>
+            <div class="timer" id="timer"></div>
+        </div>
     </div>
-    <div class="dialog-footer">
-      <button class="exit"> <a href="{% url 'game:home' %}">Exit</a> </button>
-      <button class="refresh">
-        Play again
-      </button>
+    <div class="main-content">
+        <div class="game-board">
+            {% comment %} here squares will be displayed {% endcomment %}
+        </div>
+        <div class="chat-box">
+            <div class="messages" id="chatMessages">
+                <!-- Chat messages will appear here -->
+            </div>
+            <input type="text" id="chatInput" placeholder="Type a message..." onkeydown="if(event.key === 'Enter') sendMessage()">
+        </div>
     </div>
-
 </div>
-
 <script src="{% static '/js/app.js' %}"></script>
+
+
 
 {% endblock content %}
