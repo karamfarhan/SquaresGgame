@@ -96,6 +96,7 @@ def rest_game(request):
 
 # test atomi cpushes
 def creat_game_view(request):
+    print("created game view callled")
     player_num = int(request.GET.get("player_num"))
     map_size = int(request.GET.get("map_size"))
     game_mod = request.GET.get("game_mod")
