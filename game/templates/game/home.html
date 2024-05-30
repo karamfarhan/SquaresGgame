@@ -69,13 +69,18 @@
                       <span>Normal Mode</span>
                   </label>
                   <label class="radio-label ">
-                      <input type="radio" name="game-mode" id="complete" value="compelete_mod" autocomplete="off" required>
+                      <input type="radio" name="game-mode" id="complete" value="complete_mod" autocomplete="off" required>
                       <span>Complete Mode</span>
                   </label>
               </div>
           </div>
           <button type="submit" class="btn-neon-submit">Create Game</button>
       </form>
+      {% if messages %}
+        {% for message in messages %}
+            <div style="color: red;">{{message}}</div>
+        {% endfor %}
+      {% endif %}
   </div>
 </div>
 <script src="{% static '/js/home.js' %}"></script>

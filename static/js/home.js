@@ -12,12 +12,16 @@ form.addEventListener("submit", (e) => {
   fetch(url)
     .then(response => response.text())
     .then(result => {
-      // console.log(JSON.parse(result));
-      form.style.display = "none";
-      let responseDiv = document.createElement("div");
-      responseDiv.setAttribute("id", "response-text")
-      responseDiv.innerHTML = `Copy your game ID and click Join Game: <span>${JSON.parse(result).game_id}</span>`;
-      neonBox.appendChild(responseDiv)
+      result_response = JSON.parse(result);
+      if (result_response.success === true) {
+        form.style.display = "none";
+        let responseDiv = document.createElement("div");
+        responseDiv.setAttribute("id", "response-text")
+        responseDiv.innerHTML = `Copy your game ID and click Join Game: <span>${result_response.game_id}</span>`;
+        neonBox.appendChild(responseDiv)
+      } else{
+        location.reload();
+      }
     })
     .catch(error => console.warn(error));
 });

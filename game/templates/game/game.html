@@ -1,35 +1,32 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-{{name|json_script:"name" }}
+{{ name|json_script:"name" }}
 {{ game_id|json_script:"game_id" }}
-{{color|json_script:"color"}}
+{{ color|json_script:"color" }}
 {{ game_mod|json_script:"game_mod" }}
 
 <div class="game-container">
     <div class="game-header">
         <div class="scoreboard">
-            {% comment %} here players will be displayed {% endcomment %}
+            {% comment %} Players will be displayed here {% endcomment %}
         </div>
         <div class="time-btn">
             <button class="hide play-again-btn" id="again-btn">Play Again</button>
-            <div class="timer" id="timer"></div>
+            <div class="timer" id="timer">0:00</div>
         </div>
     </div>
     <div class="main-content">
         <div class="game-board">
-            {% comment %} here squares will be displayed {% endcomment %}
+            {% comment %} Squares will be displayed here {% endcomment %}
         </div>
         <div class="chat-box">
             <div class="messages" id="chatMessages">
                 <!-- Chat messages will appear here -->
             </div>
-            <input type="text" id="chatInput" placeholder="Type a message..." onkeydown="if(event.key === 'Enter') sendMessage()">
+            <input type="text" id="chatInput" placeholder="Type a message...">
         </div>
     </div>
 </div>
-<script src="{% static '/js/game.js' %}"></script>
-
-
-
+<script src="{% static 'js/game.js' %}"></script>
 {% endblock content %}
