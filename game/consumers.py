@@ -18,13 +18,13 @@ class GameConsumer(AsyncWebsocketConsumer):
         game = await cache.aget(f"game:{self.game_id}")
         if game:
             sum(player["is_ready"] for player in game["players"].values())
-            data = {
-                "players": game["players"],
-                "game_running": game["is_started"],
-                "map_players_size": game["map_players_size"],
-            }
+            # data = {
+            #     "players": game["players"],
+            #     "game_running": game["is_started"],
+            #     "map_players_size": game["map_players_size"],
+            # }
             # Different Versions - Rethink - Better Than Original ==> Stay
-            await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": data})
+            await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": game})
             await self.update_game_status(game)
 
     async def disconnect(self, close_code):
@@ -32,12 +32,12 @@ class GameConsumer(AsyncWebsocketConsumer):
         if game and self.player_name in game["players"]:
             del game["players"][self.player_name]
             await cache.aset(f"game:{self.game_id}", game)
-            data = {
-                "players": game["players"],
-                "game_running": game["is_started"],
-                "map_players_size": game["map_players_size"],
-            }
-            await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": data})
+            # data = {
+            #     "players": game["players"],
+            #     "game_running": game["is_started"],
+            #     "map_players_size": game["map_players_size"],
+            # }
+            await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": game})
         await self.channel_layer.group_discard(self.game_id, self.channel_name)
 
     async def receive(self, text_data):
@@ -103,17 +103,17 @@ class GameConsumer(AsyncWebsocketConsumer):
         # i am not sending the whole game, because i don't want to send squares with
         # update players (unnecessary load), that is why structure the send data in this way
         num_ready_players = sum(player["is_ready"] for player in game["players"].values())
-        data = {
-            "players": game["players"],
-            "game_running": game["is_started"],
-            "map_players_size": game["map_players_size"],
-        }
-        await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": data})
+        # data = {
+        #     "players": game["players"],
+        #     "game_running": game["is_started"],
+        #     "map_players_size": game["map_players_size"],
+        # }
+        await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": game})
         if num_ready_players == game["map_players_size"]:
-            data["start_get_ready"] = True
-            data["squares"] = game["squares"]
-            data["game_mod"] = game["game_mod"]
-            await self.channel_layer.group_send(self.game_id, {"type": "Get_Ready", "data": data})
+            game["start_get_ready"] = True
+            # data["squares"] = game["squares"]
+            # data["game_mod"] = game["game_mod"]
+            await self.channel_layer.group_send(self.game_id, {"type": "Get_Ready", "data": game})
 
     # Different Version - Rethink ==> Not sure
     async def Update_Square(self, event):
