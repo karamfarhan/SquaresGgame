@@ -17,7 +17,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         game = await cache.aget(f"game:{self.game_id}")
         if game:
-            num_ready_players = sum(player["is_ready"] for player in game["players"].values())
+            sum(player["is_ready"] for player in game["players"].values())
             data = {
                 "players": game["players"],
                 "game_running": game["is_started"],
@@ -25,9 +25,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             }
             # Different Versions - Rethink - Better Than Original ==> Stay
             await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": data})
-            if num_ready_players == game["map_players_size"]:
-                data["start_get_ready"] = True
-                await self.channel_layer.group_send(self.game_id, {"type": "Get_Ready", "data": data})
+            await self.update_game_status(game)
 
     async def disconnect(self, close_code):
         game = await cache.aget(f"game:{self.game_id}")
@@ -102,6 +100,8 @@ class GameConsumer(AsyncWebsocketConsumer):
             await self.update_game_status(game)
 
     async def update_game_status(self, game):
+        # i am not sending the whole game, because i don't want to send squares with
+        # update players (unnecessary load), that is why structure the send data in this way
         num_ready_players = sum(player["is_ready"] for player in game["players"].values())
         data = {
             "players": game["players"],
@@ -111,6 +111,8 @@ class GameConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": data})
         if num_ready_players == game["map_players_size"]:
             data["start_get_ready"] = True
+            data["squares"] = game["squares"]
+            data["game_mod"] = game["game_mod"]
             await self.channel_layer.group_send(self.game_id, {"type": "Get_Ready", "data": data})
 
     # Different Version - Rethink ==> Not sure

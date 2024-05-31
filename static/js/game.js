@@ -1,4 +1,16 @@
-document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", () => {
+    const numberPatterns = {
+      0: { "matrix": [116, 117, 118, 142, 144, 168, 170, 194, 196, 220, 221, 222], "color": "#FF0000" },
+      1: { "matrix": [117, 142, 143, 169, 195, 220, 221, 222], "color": "#F1570C" },
+      2: { "matrix": [116, 117, 118, 144, 168, 169, 170, 194, 220, 221, 222], "color": "#F19F0C" },
+      3: { "matrix": [116, 117, 118, 144, 168, 169, 170, 196, 220, 221, 222], "color": "#EDF10C" },
+      4: { "matrix": [116, 118, 142, 144, 168, 169, 170, 196, 222], "color": "#A6F10C" },
+      5: { "matrix": [116, 117, 118, 142, 168, 169, 170, 196, 220, 221, 222], "color": "#49F10C" },
+      6: { "matrix": [116, 117, 118, 142, 168, 169, 170, 194, 196, 220, 221, 222], "color": "#0CF14C" },
+      7: { "matrix": [116, 117, 118, 144, 170, 196, 222], "color": "#0CF1DF" },
+      8: { "matrix": [116, 117, 118, 142, 144, 168, 169, 170, 194, 196, 220, 221, 222], "color": "#0C86F1" },
+      9: { "matrix": [116, 117, 118, 142, 144, 168, 169, 170, 196, 220, 221, 222], "color": "#0C2FF1" }
+  };
     const playerName = JSON.parse(document.getElementById("name").textContent);
     const gameId = JSON.parse(document.getElementById("game_id").textContent);
     const gameMod = JSON.parse(document.getElementById("game_mod").textContent);
@@ -20,10 +32,53 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.replace(`${httpScheme}//${window.location.host}`);
     }
 
+
+
+
+    function displayNumberOnBoard(squaresBoard, number) {
+      console.log(`displaying number ${number} on board`);
+      // Choose the pattern for the given number
+      const pattern = numberPatterns[number];
+
+
+      // Reset all squares to default color
+      for (let key in squaresBoard) {
+        squaresBoard[key].color = "";
+      }
+
+      // Apply the pattern to the board
+      pattern.matrix.forEach(index => {
+        squaresBoard[index.toString()].color = pattern.color;
+      });
+
+      // Update the board display
+      for (let key in squaresBoard) {
+          const square = document.getElementById(key);
+          if (square) {
+              square.style.backgroundColor = squaresBoard[key].color;
+          }
+      }
+
+    //   // Update Board directlly from the pattern data,(no need to applay on board)
+
+    //   pattern.matrix.forEach(index => {
+    //     const square = document.getElementById(index.toString());
+    //     if (square) {
+    //         square.style.backgroundColor = pattern.color;
+    //     }
+    // });
+  }
     const clearBoard = () => {
       while (gameBoard.firstChild) {
         gameBoard.removeChild(gameBoard.firstChild);
       }
+    };
+    // Reset all squares to default color
+    const ResetBoard = (squaresBoard) => {
+      for (let key in squaresBoard) {
+        squaresBoard[key].color = "";
+      }
+      return squaresBoard
     };
 
     const displayPlayers = (players) => {
@@ -55,9 +110,13 @@ document.addEventListener("DOMContentLoaded", () => {
       return results;
     };
 
-    const startCountdown = (seconds, callback) => {
+    const startCountdown = (seconds, callback, countdown_type, squaresBoard = {}) => {
       const tick = () => {
         timer.innerText = `0:${seconds < 10 ? "0" : ""}${seconds}`;
+        // if countdown_type is game and squares get provided
+        if (countdown_type === "ready_timer" && squaresBoard) {
+          displayNumberOnBoard(squaresBoard, seconds);
+        }
         if (seconds > 0) {
           seconds--;
           setTimeout(tick, 1000);
@@ -169,7 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const totalSquares = Object.keys(squares).length;
       createGameBoard(totalSquares / 26, 26, game_mod === "complete_mod" ? handleCompleteModClick : handleNormalModClick);
       gameBoard.classList.remove("done");
-      startCountdown(60, endGame);
+      startCountdown(60, endGame, "game_timer");
     };
 
     const handleCompleteModClick = (squareDiv) => {
@@ -194,10 +253,13 @@ document.addEventListener("DOMContentLoaded", () => {
       }));
     };
 
-    const handleGetReady = ({ start_get_ready, players }) => {
+    const handleGetReady = ({ start_get_ready, players , squares, game_mod}) => {
       if (start_get_ready) {
+        const totalSquares = Object.keys(squares).length;
+        createGameBoard(totalSquares / 26, 26, game_mod === "complete_mod" ? handleCompleteModClick : handleNormalModClick);
+        gameBoard.classList.add("done");
         displayMessage("Players Count Completed, Game will Start in 10 seconds", "NTF");
-        startCountdown(10, () => wsGame.send(JSON.stringify({ method: "start_game", data: { go_start_game: true } })));
+        startCountdown(9, () => wsGame.send(JSON.stringify({ method: "start_game", data: { go_start_game: true } })), "ready_timer", squares);
       }
       if (!(playerName in players)) {
         window.location.replace(`${httpScheme}//${window.location.host}`);
