@@ -101,54 +101,6 @@
         }
       }
     }
-
-
-  //   function displayOnBoard1(squaresBoard, charToDisplay, clear_board, startRow, startCol) {
-  //     console.log(`displaying number ${charToDisplay} on board`);
-  //     // Choose the charData for the given number
-  //     const charData = numberPatterns[charToDisplay];
-
-
-  //     // Reset all squares to default color
-  //     if (clear_board) {
-  //       ClearBoard(squaresBoard);
-  //     }
-
-  //     // // Calculate starting position to center the number
-  //     // const startRow = 4; // Centering vertically in a 14 rows grid
-  //     // const startCol = 11; // Centering horizontally in a 26 columns grid
-
-  //     // Apply the charData to the board
-  //     for (let row = 0; row < charData.matrix.length; row++) {
-  //       for (let col = 0; col < charData.matrix[row].length; col++) {
-  //         if (charData.matrix[row][col] === 1) {
-  //           const boardIndex = (startRow + row) * 26 + (startCol + col) + 1;
-  //           squaresBoard[boardIndex.toString()].color = charData.color;
-  //         }
-  //       }
-  //     }
-  //     // // Apply the charData to the board for when i have the id of each square
-  //     // charData.matrix.forEach(index => {
-  //     //   squaresBoard[index.toString()].color = charData.color;
-  //     // });
-
-  //     // Update the board display
-  //     for (let key in squaresBoard) {
-  //         const square = document.getElementById(key);
-  //         if (square) {
-  //             square.style.backgroundColor = squaresBoard[key].color;
-  //         }
-  //     }
-
-  //   //   // Update Board directlly from the charData data,(no need to applay on board)
-
-  //   //   charData.matrix.forEach(index => {
-  //   //     const square = document.getElementById(index.toString());
-  //   //     if (square) {
-  //   //         square.style.backgroundColor = charData.color;
-  //   //     }
-  //   // });
-  // }
     const deleteBoard = () => {
       while (gameBoard.firstChild) {
         gameBoard.removeChild(gameBoard.firstChild);
