@@ -59,8 +59,8 @@
     }
 
 
-    function displayOnBoard(squaresBoard, textToDisplay, clear_board = true, startRow = 4, startCol = 11) {
-      console.log(`Displaying ${textToDisplay} on board`);
+    function displayOnBoard(squaresBoard, textToDisplay, rows_count, cols_count ,clear_board, startRow, startCol) {
+      // console.log(`Displaying ${textToDisplay} on board`);
 
       if (clear_board) {
         ClearBoard(squaresBoard);
@@ -81,7 +81,7 @@
         for (let row = 0; row < charData.matrix.length; row++) {
           for (let col = 0; col < charData.matrix[row].length; col++) {
             if (charData.matrix[row][col] === 1) {
-              const boardIndex = (startRow + row) * 26 + (currentStartCol + col) + 1;
+              const boardIndex = (startRow + row) * cols_count + (currentStartCol + col) + 1;
               squaresBoard[boardIndex.toString()].color = charData.color;
             }
           }
@@ -101,52 +101,52 @@
     }
 
 
-    function displayOnBoard1(squaresBoard, charToDisplay, clear_board = true, startRow = 4, startCol = 11) {
-      console.log(`displaying number ${charToDisplay} on board`);
-      // Choose the charData for the given number
-      const charData = numberPatterns[charToDisplay];
+  //   function displayOnBoard1(squaresBoard, charToDisplay, clear_board, startRow, startCol) {
+  //     console.log(`displaying number ${charToDisplay} on board`);
+  //     // Choose the charData for the given number
+  //     const charData = numberPatterns[charToDisplay];
 
 
-      // Reset all squares to default color
-      if (clear_board) {
-        ClearBoard(squaresBoard);
-      }
+  //     // Reset all squares to default color
+  //     if (clear_board) {
+  //       ClearBoard(squaresBoard);
+  //     }
 
-      // // Calculate starting position to center the number
-      // const startRow = 4; // Centering vertically in a 14 rows grid
-      // const startCol = 11; // Centering horizontally in a 26 columns grid
+  //     // // Calculate starting position to center the number
+  //     // const startRow = 4; // Centering vertically in a 14 rows grid
+  //     // const startCol = 11; // Centering horizontally in a 26 columns grid
 
-      // Apply the charData to the board
-      for (let row = 0; row < charData.matrix.length; row++) {
-        for (let col = 0; col < charData.matrix[row].length; col++) {
-          if (charData.matrix[row][col] === 1) {
-            const boardIndex = (startRow + row) * 26 + (startCol + col) + 1;
-            squaresBoard[boardIndex.toString()].color = charData.color;
-          }
-        }
-      }
-      // // Apply the charData to the board for when i have the id of each square
-      // charData.matrix.forEach(index => {
-      //   squaresBoard[index.toString()].color = charData.color;
-      // });
+  //     // Apply the charData to the board
+  //     for (let row = 0; row < charData.matrix.length; row++) {
+  //       for (let col = 0; col < charData.matrix[row].length; col++) {
+  //         if (charData.matrix[row][col] === 1) {
+  //           const boardIndex = (startRow + row) * 26 + (startCol + col) + 1;
+  //           squaresBoard[boardIndex.toString()].color = charData.color;
+  //         }
+  //       }
+  //     }
+  //     // // Apply the charData to the board for when i have the id of each square
+  //     // charData.matrix.forEach(index => {
+  //     //   squaresBoard[index.toString()].color = charData.color;
+  //     // });
 
-      // Update the board display
-      for (let key in squaresBoard) {
-          const square = document.getElementById(key);
-          if (square) {
-              square.style.backgroundColor = squaresBoard[key].color;
-          }
-      }
+  //     // Update the board display
+  //     for (let key in squaresBoard) {
+  //         const square = document.getElementById(key);
+  //         if (square) {
+  //             square.style.backgroundColor = squaresBoard[key].color;
+  //         }
+  //     }
 
-    //   // Update Board directlly from the charData data,(no need to applay on board)
+  //   //   // Update Board directlly from the charData data,(no need to applay on board)
 
-    //   charData.matrix.forEach(index => {
-    //     const square = document.getElementById(index.toString());
-    //     if (square) {
-    //         square.style.backgroundColor = charData.color;
-    //     }
-    // });
-  }
+  //   //   charData.matrix.forEach(index => {
+  //   //     const square = document.getElementById(index.toString());
+  //   //     if (square) {
+  //   //         square.style.backgroundColor = charData.color;
+  //   //     }
+  //   // });
+  // }
     const deleteBoard = () => {
       while (gameBoard.firstChild) {
         gameBoard.removeChild(gameBoard.firstChild);
@@ -160,12 +160,14 @@
       return squaresBoard
     };
 
-    const displayPlayers = ({players, squares, game_mod, game_id, is_started, start_get_ready = false}) => {
+    const displayPlayers = ({players, squares, game_mod, map_size_data, game_id, is_started, start_get_ready = false}) => {
       if (is_started === false && start_get_ready === false && players[playerName].is_ready == true) {
-        const totalSquares = Object.keys(squares).length;
-        createGameBoard(totalSquares / 26, 26, game_mod === "complete_mod" ? handleCompleteModClick : handleNormalModClick);
+        // const totalSquares = Object.keys(squares).length;
         gameBoard.classList.add("done");
-        displayOnBoard(squares, game_id, false, 4, 3);
+        createGameBoard(map_size_data.rows_count, map_size_data.cols_count, map_size_data.class_name, game_mod === "complete_mod" ? handleCompleteModClick : handleNormalModClick);
+        // how much cols would the word take in the board(each letter 3 cols +1 space)
+        text_long = (game_id.length * 3) + game_id.length;
+        displayOnBoard(squares, game_id, map_size_data.rows_count, map_size_data.cols_count, false, map_size_data.middle_position_to_display_char.row, Math.ceil((map_size_data.cols_count - text_long) / 2));
       }
       playerInform.innerHTML = "";
       Object.values(players).forEach((player) => {
@@ -196,13 +198,13 @@
     };
 
 
-    const startCountdown = (seconds, callback, countdown_type, squaresBoard = {}) => {
+    const startCountdown = (seconds, countdown_type, squaresBoard = {}, map_size_data ,callback) => {
       const tick = () => {
         timer.innerText = `0:${seconds < 10 ? "0" : ""}${seconds}`;
         if (seconds > 0) {
           // if countdown_type is game and squares get provided
           if (countdown_type === "ready_timer" && squaresBoard) {
-            displayOnBoard(squaresBoard, seconds.toString());
+            displayOnBoard(squaresBoard, seconds.toString(), map_size_data.rows_count, map_size_data.cols_count ,true ,map_size_data.middle_position_to_display_char.row, map_size_data.middle_position_to_display_char.col);
           }
           seconds--;
           setTimeout(tick, 1000);
@@ -237,27 +239,29 @@
       }
     };
 
-    const createSquare = (id, clickHandler) => {
+    const createSquare = (id, class_name ,clickHandler) => {
       const squareDiv = document.createElement("div");
       squareDiv.classList.add("square");
+      squareDiv.classList.add(class_name);
       squareDiv.id = id;
       squareDiv.addEventListener("click", () => clickHandler(squareDiv));
       return squareDiv;
     };
 
-    const createRow = (cols, rowIndex, clickHandler) => {
+    const createRow = (cols, rowIndex, class_name, clickHandler) => {
       const rowDiv = document.createElement("div");
       rowDiv.classList.add("row");
       for (let colIndex = 0; colIndex < cols; colIndex++) {
-        rowDiv.appendChild(createSquare(rowIndex * cols + colIndex + 1, clickHandler));
+        rowDiv.appendChild(createSquare(rowIndex * cols + colIndex + 1, class_name, clickHandler));
       }
       return rowDiv;
     };
 
-    const createGameBoard = (rows, cols, clickHandler) => {
+    const createGameBoard = (rows, cols, class_name, clickHandler) => {
+      console.log("createGameBoard Get called")
       deleteBoard();
       for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
-        gameBoard.appendChild(createRow(cols, rowIndex, clickHandler));
+        gameBoard.appendChild(createRow(cols, rowIndex, class_name, clickHandler));
       }
     };
 
@@ -311,11 +315,12 @@
       replayBtn.classList.remove("hide");
     };
 
-    const startGame = ({ squares, game_mod }) => {
-      const totalSquares = Object.keys(squares).length;
-      createGameBoard(totalSquares / 26, 26, game_mod === "complete_mod" ? handleCompleteModClick : handleNormalModClick);
+    const startGame = ({ map_size_data, game_mod }) => {
+      // TODO: here instead of creating the gameboard again, i can only clean the board instead,since it get created on when player joined
+      // TODO: it might be more efficient
+      createGameBoard(map_size_data.rows_count, map_size_data.cols_count, map_size_data.class_name ,game_mod === "complete_mod" ? handleCompleteModClick : handleNormalModClick);
       gameBoard.classList.remove("done");
-      startCountdown(60, endGame, "game_timer");
+      startCountdown(map_size_data.play_time, "game_timer", {}, map_size_data, endGame);
     };
 
     const handleCompleteModClick = (squareDiv) => {
@@ -340,13 +345,13 @@
       }));
     };
 
-    const handleGetReady = ({ start_get_ready, players , squares, game_mod}) => {
+    const handleGetReady = ({ start_get_ready, players, squares, map_size_data, game_mod}) => {
       if (start_get_ready) {
-        const totalSquares = Object.keys(squares).length;
-        createGameBoard(totalSquares / 26, 26, game_mod === "complete_mod" ? handleCompleteModClick : handleNormalModClick);
+        // const totalSquares = Object.keys(squares).length;
+        // createGameBoard(map_size_data.rows_count, map_size_data.cols_count, map_size_data.class_name, game_mod === "complete_mod" ? handleCompleteModClick : handleNormalModClick);
         gameBoard.classList.add("done");
         displayMessage("Players Count Completed, Game will Start in 10 seconds", "NTF");
-        startCountdown(9, () => wsGame.send(JSON.stringify({ method: "start_game", data: { go_start_game: true } })), "ready_timer", squares);
+        startCountdown(map_size_data.ready_time, "ready_timer", squares, map_size_data,() => wsGame.send(JSON.stringify({ method: "start_game", data: { go_start_game: true } })));
       }
       if (!(playerName in players)) {
         window.location.replace(`${httpScheme}//${window.location.host}`);

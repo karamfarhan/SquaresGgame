@@ -10,7 +10,7 @@
   </header>
   <div class="neon-box">
     <h2 class="neon-label">Ready To Colorize!</h2>
-    <p class="neon-label">Enter a Name, Pick a Color, Enter the Game ID, then press Enter Game</p>
+    <p class="neon-label">Enter a Name, Pick a Color, Enter the Game ID, then press Enter Room</p>
     {% if messages %}
       {% for message in messages %}
         <div style="color: red;">{{message}}</div>
@@ -19,9 +19,9 @@
     <form method="POST">
       {% csrf_token %}
       <input type="text" placeholder="Player Name" name="name" class="neon-input" required>
-      <input type="text" placeholder="Game ID" name="game" class="neon-input" required>
+      <input type="text" placeholder="Room ID" name="game" class="neon-input" required>
       <input type="color" class="neon-input color-input" name="color" value="#ff00ff" required>
-      <button type="submit" class="btn-neon-submit">Enter Game</button>
+      <button type="submit" class="btn-neon-submit">Enter Room</button>
     </form>
   </div>
 </div>

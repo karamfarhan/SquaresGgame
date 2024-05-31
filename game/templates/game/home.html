@@ -10,13 +10,13 @@
     </header>
     <div id="create-game-response" >
         {% comment %} <div id="response-text"></div> {% endcomment %}
-        <a href="{% url 'game:join' %}"><span class="btn-neon-submit">Join Existing Game</span></a>
+        <a href="{% url 'game:join' %}"><span class="btn-neon-submit">Join Existing Room</span></a>
     </div>
     <div class="neon-box">
       <form id="creat-game-form" method="POST">
         {% csrf_token %}
           <div class="form-group">
-              <label class="neon-label">How many players do you want in the game?</label>
+              <label class="neon-label">Number of Player In the Room?</label>
               <div class="radio-group">
                   <label class="radio-label ">
                       <input type="radio" name="players" id="1p" value="1" autocomplete="off" required>
@@ -51,30 +51,30 @@
                       <input type="radio" name="map-size" id="small" value="150" autocomplete="off"  disabled>
                       <span>Small</span>
                   </label>
-                  <label class="radio-label  contrast-low">
-                      <input type="radio" name="map-size" id="medium" value="200" autocomplete="off"  disabled>
+                  <label class="radio-label">
+                      <input type="radio" name="map-size" id="medium" value="312" autocomplete="off" required checked>
                       <span>Medium</span>
                   </label>
                   <label class="radio-label ">
-                      <input type="radio" name="map-size" id="large" value="312" autocomplete="off" required checked>
+                      <input type="radio" name="map-size" id="large" value="1375" autocomplete="off" required>
                       <span>Large</span>
                   </label>
               </div>
           </div>
           <div class="form-group">
-              <label class="neon-label">Choose the Game Mode</label>
+              <label class="neon-label">Choose the Room Mode</label>
               <div class="radio-group">
                   <label class="radio-label ">
                       <input type="radio" name="game-mode" id="normal" value="normal_mod" autocomplete="off" required checked>
-                      <span>Normal Mode</span>
+                      <span>Normal</span>
                   </label>
                   <label class="radio-label ">
                       <input type="radio" name="game-mode" id="complete" value="complete_mod" autocomplete="off" required>
-                      <span>Complete Mode</span>
+                      <span>Occupy</span>
                   </label>
               </div>
           </div>
-          <button type="submit" class="btn-neon-submit">Create Game</button>
+          <button type="submit" class="btn-neon-submit">Create Room</button>
       </form>
       {% if messages %}
         {% for message in messages %}

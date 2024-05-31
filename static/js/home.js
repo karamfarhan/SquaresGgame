@@ -17,7 +17,7 @@ form.addEventListener("submit", (e) => {
         form.style.display = "none";
         let responseDiv = document.createElement("div");
         responseDiv.setAttribute("id", "response-text")
-        responseDiv.innerHTML = `Copy your game ID and click Join Game: <span>${result_response.game_id}</span>`;
+        responseDiv.innerHTML = `Room Created! Copy Room ID, And press Enter Existing Room: <span>${result_response.game_id}</span>`;
         neonBox.appendChild(responseDiv)
       } else{
         location.reload();

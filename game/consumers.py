@@ -17,14 +17,6 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         game = await cache.aget(f"game:{self.game_id}")
         if game:
-            sum(player["is_ready"] for player in game["players"].values())
-            # data = {
-            #     "players": game["players"],
-            #     "game_running": game["is_started"],
-            #     "map_players_size": game["map_players_size"],
-            # }
-            # Different Versions - Rethink - Better Than Original ==> Stay
-            await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": game})
             await self.update_game_status(game)
 
     async def disconnect(self, close_code):

@@ -35,6 +35,26 @@ class GameIsFulled(Exception):
 
 
 MAX_NAME_LENGTH = 8
+MAP_SIZE_OPTIONS = {
+    "312": {
+        "rows_count": 12,  # number of rows in the board
+        "cols_count": 26,  # number of columns in the board
+        "class_name": "medium-size",  # css class name for 312 size (change name if changed in css)
+        "num_of_squares": 312,  # number of squares in the board
+        "middle_position_to_display_char": {"row": 4, "col": 11},  # middle position of the board
+        "play_time": 60,  # play time in seconds for this size
+        "ready_time": 9,  # ready time in seconds for this size
+    },
+    "1375": {
+        "rows_count": 25,
+        "cols_count": 55,
+        "class_name": "large-size",
+        "num_of_squares": 1375,
+        "middle_position_to_display_char": {"row": 10, "col": 26},
+        "play_time": 60,
+        "ready_time": 9,
+    },
+}
 
 
 def creat_game(game_id: str, player_num: int, map_size: int, game_mod: str = "normal_mod") -> Dict:
@@ -42,6 +62,10 @@ def creat_game(game_id: str, player_num: int, map_size: int, game_mod: str = "no
     game = {
         "game_id": game_id,
         "game_mod": game_mod,
+        "map_size": map_size,
+        "map_size_data": MAP_SIZE_OPTIONS[str(map_size)],
+        # "rows_count": MAP_SIZE_OPTIONS[map_size]["rows_count"],
+        # "cols_count": MAP_SIZE_OPTIONS[map_size]["cols_count"],
         "is_started": False,
         "is_finished": False,
         "is_resulted": False,
