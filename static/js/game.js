@@ -37,6 +37,8 @@
       "Y": {"matrix": [[1, 0, 1], [1, 0, 1], [0, 1, 0], [0, 1, 0], [0, 1, 0]], "color": "#ff0000"},
       "Z": {"matrix": [[1, 1, 1], [0, 0, 1], [0, 1, 0], [1, 0, 0], [1, 1, 1]], "color": "#00ff00"}
     }
+    var occupySound = new Audio("/static/audio/occupy.mp3");
+    var readyCountDownSound = new Audio("/static/audio/countdownsound9seconds.mp3");
     const playerName = JSON.parse(document.getElementById("name").textContent);
     const gameId = JSON.parse(document.getElementById("game_id").textContent);
     const gameMod = JSON.parse(document.getElementById("game_mod").textContent);
@@ -199,9 +201,15 @@
 
 
     const startCountdown = (seconds, countdown_type, squaresBoard = {}, map_size_data ,callback) => {
+      // if (countdown_type === "ready_timer") {
+      //   readyCountDownSound.play()
+      // }
       const tick = () => {
         timer.innerText = `0:${seconds < 10 ? "0" : ""}${seconds}`;
         if (seconds > 0) {
+          if (seconds == 9) {
+            readyCountDownSound.play()
+          }
           // if countdown_type is game and squares get provided
           if (countdown_type === "ready_timer" && squaresBoard) {
             displayOnBoard(squaresBoard, seconds.toString(), map_size_data.rows_count, map_size_data.cols_count ,true ,map_size_data.middle_position_to_display_char.row, map_size_data.middle_position_to_display_char.col);
@@ -227,6 +235,7 @@
     const handleSquareClick = (squareDiv) => {
       // console.log("Clicked")
       if (rgbToHex(squareDiv.style.backgroundColor) !== playerColor) {
+        occupySound.play();
         // console.log("if statement passed")
         const prevClickCount = parseInt(squareDiv.innerText) || 0;
         squareDiv.style.backgroundColor = playerColor;
@@ -325,6 +334,7 @@
 
     const handleCompleteModClick = (squareDiv) => {
       if (!squareDiv.style.backgroundColor) {
+        occupySound.play();
         squareDiv.style.backgroundColor = playerColor;
         wsGame.send(JSON.stringify({
           method: "update_square",
