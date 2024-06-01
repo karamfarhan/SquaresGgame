@@ -39,6 +39,7 @@
     }
     var occupySound = new Audio("/static/audio/occupy.mp3");
     var readyCountDownSound = new Audio("/static/audio/countdownsound9seconds.mp3");
+    var systemNotification = new Audio("/static/audio/systemnotification.mp3");
     const playerName = JSON.parse(document.getElementById("name").textContent);
     const gameId = JSON.parse(document.getElementById("game_id").textContent);
     const gameMod = JSON.parse(document.getElementById("game_mod").textContent);
@@ -58,7 +59,6 @@
     if (window.performance.getEntriesByType("navigation")[0].type === "reload") {
       window.location.replace(`${httpScheme}//${window.location.host}`);
     }
-
 
 
     function displayOnBoard(squaresBoard, textToDisplay, rows_count, cols_count ,clear_board, startRow, startCol) {
@@ -322,7 +322,7 @@
         // const totalSquares = Object.keys(squares).length;
         // createGameBoard(map_size_data.rows_count, map_size_data.cols_count, map_size_data.class_name, game_mod === "complete_mod" ? handleCompleteModClick : handleNormalModClick);
         gameBoard.classList.add("done");
-        displayMessage("Players Count Completed, Game will Start in 10 seconds", "NTF");
+        displayMessage("Game Will start in 10 seconds", "NTF");
         startCountdown(map_size_data.ready_time, "ready_timer", squares, map_size_data,() => wsGame.send(JSON.stringify({ method: "start_game", data: { go_start_game: true } })));
       }
       if (!(playerName in players)) {
@@ -335,7 +335,9 @@
       const messageDiv = document.createElement("div");
       messageDiv.classList.add("chat-message");
       if (type === "NTF") {
+        messageDiv.classList.add("notification-message")
         messageDiv.innerHTML = `<span style="color: red;">[SERVER]</span>: ${message}`;
+        systemNotification.play()
       } else if (type === "MSG") {
         messageDiv.innerHTML = `<span style="color: ${playerColor};">${player}</span>: ${message}`;
       }

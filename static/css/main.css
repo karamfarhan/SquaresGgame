@@ -422,14 +422,20 @@ box-shadow: 0 0 10px #05d1fa;
 
 /* Additional CSS for chat messages */
 .chat-message {
-    padding: 5px 10px;
-    background-color: #000000; /* Dark background */
-    border-radius: 5px;
-    margin-bottom: 5px;
-/*     box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); */
+    /* padding: 5px 10px; */
+    background-color: #000000;
+    /* border-radius: 5px; */
+    margin-bottom: 2px;
+    /* box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); */
     word-break: break-word;
+    /* border: 1px solid #ff00ff;*/
+}
+.notification-message {
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    border: 1px solid #ff00ff;
 
-    border: 1px solid #ff00ff; /* Neon pink border */
 }
 .done {
     filter: blur(0.5px);
