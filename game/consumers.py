@@ -133,19 +133,25 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.game_id = self.scope["url_route"]["kwargs"]["game_id"]
         self.room_group_name = f"chat-{self.game_id}"
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                "type": "Send_Notification",
-                "data": {
-                    "message": f"{self.player} Joined The Game",
-                    "player": self.player,
-                    "player_color": None,
-                    "cmd": None,
-                    "date": None,
+        left_to_join = ""
+        game = await cache.aget(f"game:{self.game_id}")
+        if game:
+            if len(game["players"]) < game["map_players_size"]:
+                left_to_join = f" ({game['map_players_size'] - len(game['players'])}) Left To Join"
+        if self.player in game["players"]:
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    "type": "Send_Notification",
+                    "data": {
+                        "message": f"{self.player} Joined The Game.{left_to_join}",
+                        "player": self.player,
+                        "player_color": None,
+                        "cmd": None,
+                        "date": None,
+                    },
                 },
-            },
-        )
+            )
         await self.accept()
 
     async def disconnect(self, code):
