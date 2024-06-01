@@ -7,7 +7,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* height: 100vh; */
+    height: 100vh;
     margin: 0;
 
     /* game css */
@@ -16,7 +16,9 @@ body {
 
 .container {
     text-align: center;
-    width: 600px;
+    width: 90%;
+    max-width: 600px;
+    height: 100vh;
 }
 
 .neon-title {
@@ -89,18 +91,18 @@ body {
 
 
 .btn-neon-submit {
-color: #ffffff;
-background-color: #000000;
-border: 2px solid #05d1fa;
-padding: 15px 25px;
-border-radius: 5px;
-font-size: 1.2em;
-text-shadow: 0 0 5px #05d1fa;
-box-shadow: 0 0 10px #05d1fa;
-margin-top: 20px;
-transition: all 0.3s ease;
-margin: 10px;
-cursor: pointer;
+    color: #ffffff;
+    background-color: #000000;
+    border: 2px solid #05d1fa;
+    padding: 15px 25px;
+    border-radius: 5px;
+    font-size: 1.2em;
+    text-shadow: 0 0 5px #05d1fa;
+    box-shadow: 0 0 10px #05d1fa;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    margin: 10px;
+    cursor: pointer;
 }
 
 .btn-neon-submit:hover,
@@ -138,43 +140,32 @@ animation: rainbow-animation 700s linear infinite;
 a:not(.exit a) {
     position: relative;
     display: inline-block;
-    padding: 35px 35px;
+    padding: 10px 10px;
     text-decoration: none;
-/*   margin: 20px 0; */
-/*   color: #fff;
-text-decoration: none;
-text-transform: uppercase;
-font-size: 18px;
-letter-spacing: 2px;
-border-radius: 40px;
-background: linear-gradient(90deg, #0162c8, #55e7fc);
-overflow: hidden;
-transition: 1s; */
-}
-/* a:not(.exit a)::before {
-content: "";
-position: absolute;
-width: 50%;
-height: 158%;
-left: -100%;
-top: 0;
-background: #ffffff7a;
-transition: 1s;
+    margin: 10px 0;
+    color: #fff;
+    text-decoration: none;
+    /* text-transform: uppercase; */
+    /* font-size: 18px; */
+    letter-spacing: 2px;
+    border-radius: 40px;
+    border: 1px solid #05d1fa;
+    /* background: linear-gradient(90deg, #0162c8, #55e7fc); */
+    /* overflow: hidden; */
+    transition: 0.5s;
 }
 a:hover {
-transform: scale(1.1);
+    transform: scale(1.1);
 }
-a:hover::before {
-left: 100%;
-} */
 #response-text {
-margin: 10px 0;
-color: #fff;
-font-size: 20px;
+    margin: 10px 0;
+    color: #ff00ff;
+    /* text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff; */
+    font-size: 20px;
 }
 #response-text span {
-font-size: 28px;
-color: rgb(50, 216, 50);
+    font-size: 28px;
+    color: rgb(50, 216, 50);
 }
 
 .neon-box {
@@ -225,8 +216,8 @@ box-shadow: 0 0 10px #05d1fa;
 }
 
 .neon-button:hover {
-background-color: #00ff00;
-color: #000;
+    background-color: #00ff00;
+    color: #000;
 }
 
 /* game.html css start */
@@ -262,7 +253,7 @@ color: #000;
     background-color: #000000;
     padding: 10px 20px;
     border-radius: 10px;
-
+    font-size: 1em;
     transition: background-color 0.3s, box-shadow 0.3s;
     margin: 0px 10px;
     color: #ffffff; /* Neon yellow text */
@@ -293,10 +284,10 @@ color: #000;
 }
 
 .timer {
-    font-size: 2em;
-    width: 65px;
+    font-size: 1em;
+    width: 40px;
     background-color: #0a0a0a; /* Dark background */
-    padding: 10px 20px;
+    padding: 10px 10px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); /* Neon blue shadow */
     transition: background-color 0.3s, box-shadow 0.3s;
@@ -327,6 +318,7 @@ color: #000;
     box-shadow: 0 0 10px rgba(255, 255, 0, 0.5); /* Neon green shadow */
     border: 2px solid #ffff00; /* Neon green border */
     max-height: 70vh;
+    height: 70vh;
     overflow: hidden;
     flex-grow: 1;
 }
@@ -360,26 +352,26 @@ color: #000;
 } */
 
 .medium-size {
-    width: 40px;
-    height: 40px;
-    margin: 2px 2px;
+    width: 39.3px;
+    height: 39.3px;
+    margin: 0.4px;
     font-size: 0.8em;
 }
-.medium-size:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-    cursor: pointer;
-}
 .large-size {
-    height: 20px;
-    width: 20px;
-    margin: 0.4px 0.4px;
-    font-size: 0.5em;
+    height: 30px;
+    width: 30px;
+    margin: 0.4px;
+    font-size: 0.6em;
 
 }
-.large-size:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+/* .medium-size:hover {
+    transform: scale(1.04);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+} */
+.large-size:hover,.medium-size:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     cursor: pointer;
 }
 
@@ -391,7 +383,7 @@ color: #000;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    width: 250px;
+    width: 228px;
     height: 70vh;
     max-height: 70vh;
     margin-left: 20px;
@@ -482,3 +474,18 @@ border: 2px solid #00ff00;
 box-shadow: 0 0 20px #00ff00;
 transform: scale(1.1);
 }
+
+.text-rainbow-animation {
+    background-image:
+    linear-gradient(to right, rgb(255, 255, 255),orange,yellow,green,blue,indigo,violet, red);
+    -webkit-background-clip: text;
+    background-clip:text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow-animation 700s linear infinite;
+  }
+
+  @keyframes rainbow-animation {
+      to {
+          background-position: 4500vh;
+      }
+  }

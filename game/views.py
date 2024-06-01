@@ -93,7 +93,7 @@ def rest_game(request):
 def create_game_view(request):
     # if request.method == 'POST':
     player_num = int(request.GET.get("player_num", 2))
-    map_size = int(request.GET.get("map_size", 312))
+    map_size = request.GET.get("map_size", "medium_size")
     game_mod = request.GET.get("game_mod", "normal_mod")
     game_id = generate_game_id()
     try:

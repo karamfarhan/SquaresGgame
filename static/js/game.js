@@ -55,10 +55,10 @@
 
     const wsChat = new WebSocket(`${wsScheme}://${window.location.host}/ws/chat/${gameId}/${playerName}/`);
     const wsGame = new WebSocket(`${wsScheme}://${window.location.host}/ws/game/${gameId}/${playerName}/`);
-
     if (window.performance.getEntriesByType("navigation")[0].type === "reload") {
       window.location.replace(`${httpScheme}//${window.location.host}`);
     }
+
 
 
     function displayOnBoard(squaresBoard, textToDisplay, rows_count, cols_count ,clear_board, startRow, startCol) {
@@ -151,13 +151,23 @@
       return results;
     };
 
+    const convertSecondstoTime = (given_seconds) => {
 
+      dateObj = new Date(given_seconds * 1000);
+      minutes = dateObj.getUTCMinutes();
+      seconds = dateObj.getSeconds();
+
+      timeString = minutes.toString().padStart(2, '0')
+                   + ':' + seconds.toString().padStart(2, '0');
+
+      return timeString;
+  }
     const startCountdown = (seconds, countdown_type, squaresBoard = {}, map_size_data ,callback) => {
       // if (countdown_type === "ready_timer") {
       //   readyCountDownSound.play()
       // }
       const tick = () => {
-        timer.innerText = `0:${seconds < 10 ? "0" : ""}${seconds}`;
+        timer.innerText = convertSecondstoTime(seconds)
         if (seconds > 0) {
           if (seconds == 9) {
             readyCountDownSound.play()

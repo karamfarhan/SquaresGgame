@@ -10,7 +10,7 @@
     </header>
     <div id="create-game-response" >
         {% comment %} <div id="response-text"></div> {% endcomment %}
-        <a href="{% url 'game:join' %}"><span class="btn-neon-submit">Join Existing Room</span></a>
+        <a href="{% url 'game:join' %}"><span class="text-rainbow-animation">Join Existing Room --></span></a>
     </div>
     <div class="neon-box">
       <form id="creat-game-form" method="POST">
@@ -52,11 +52,11 @@
                       <span>Small</span>
                   </label>
                   <label class="radio-label">
-                      <input type="radio" name="map-size" id="medium" value="312" autocomplete="off" required checked>
+                      <input type="radio" name="map-size" id="medium" value="medium_size" autocomplete="off" required checked>
                       <span>Medium</span>
                   </label>
                   <label class="radio-label ">
-                      <input type="radio" name="map-size" id="large" value="1375" autocomplete="off" required>
+                      <input type="radio" name="map-size" id="large" value="large_size" autocomplete="off" required>
                       <span>Large</span>
                   </label>
               </div>

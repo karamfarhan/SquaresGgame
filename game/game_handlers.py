@@ -34,38 +34,39 @@ class GameIsFulled(Exception):
     """Handles what to do if the game Full of players"""
 
 
+# to get the middle_position_to_display_char.row = (rows_count - 5 "5 = num of rows a letter would take") // 2
+# same goes for middle_position_to_display_char.col
+
 MAX_NAME_LENGTH = 8
 MAP_SIZE_OPTIONS = {
-    "312": {
-        "rows_count": 12,  # number of rows in the board
-        "cols_count": 26,  # number of columns in the board
+    "medium_size": {
+        "rows_count": 13,  # number of rows in the board
+        "cols_count": 29,  # number of columns in the board
         "class_name": "medium-size",  # css class name for 312 size (change name if changed in css)
-        "num_of_squares": 312,  # number of squares in the board
-        "middle_position_to_display_char": {"row": 4, "col": 11},  # middle position of the board
+        "num_of_squares": 376,  # number of squares in the board
+        "middle_position_to_display_char": {"row": 4, "col": 13},  # middle position of the board
         "play_time": 60,  # play time in seconds for this size
         "ready_time": 9,  # ready time in seconds for this size
     },
-    "1375": {
-        "rows_count": 25,
-        "cols_count": 55,
+    "large_size": {
+        "rows_count": 17,
+        "cols_count": 38,
         "class_name": "large-size",
-        "num_of_squares": 1375,
-        "middle_position_to_display_char": {"row": 10, "col": 26},
+        "num_of_squares": 646,
+        "middle_position_to_display_char": {"row": 6, "col": 17},
         "play_time": 60,
         "ready_time": 9,
     },
 }
 
 
-def creat_game(game_id: str, player_num: int, map_size: int, game_mod: str = "normal_mod") -> Dict:
-    squares = {str(i + 1): {"color": "", "clicked": 0} for i in range(map_size)}
+def creat_game(game_id: str, player_num: int, map_size: str, game_mod: str = "normal_mod") -> Dict:
+    squares = {str(i + 1): {"color": "", "clicked": 0} for i in range(MAP_SIZE_OPTIONS[map_size]["num_of_squares"])}
     game = {
         "game_id": game_id,
         "game_mod": game_mod,
         "map_size": map_size,
-        "map_size_data": MAP_SIZE_OPTIONS[str(map_size)],
-        # "rows_count": MAP_SIZE_OPTIONS[map_size]["rows_count"],
-        # "cols_count": MAP_SIZE_OPTIONS[map_size]["cols_count"],
+        "map_size_data": MAP_SIZE_OPTIONS[map_size],
         "is_started": False,
         "is_finished": False,
         "is_resulted": False,
