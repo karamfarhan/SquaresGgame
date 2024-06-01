@@ -87,7 +87,13 @@ class GameConsumer(AsyncWebsocketConsumer):
             game = get_add_results_for_player(game, data)
             game = restart_game(game)
             await cache.aset(f"game:{self.game_id}", game)
-            await self.channel_layer.group_send(self.game_id, {"type": "Send_Results", "data": game})
+            # send only the necessary data, because i don't want to send the whole game
+            data_to_send = {
+                "players": game["players"],
+                "current_round": game["current_round"],
+                "game_mod": game["game_mod"],
+            }
+            await self.channel_layer.group_send(self.game_id, {"type": "Send_Results", "data": data_to_send})
             # Different Version - Better ==> Changed
             await self.update_game_status(game)
 

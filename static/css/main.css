@@ -91,6 +91,8 @@ body {
 
 
 .btn-neon-submit {
+    -webkit-user-select: none;
+    user-select: none;
     color: #ffffff;
     background-color: #000000;
     border: 2px solid #05d1fa;
@@ -130,14 +132,16 @@ height:100%;
 }
 
 .text-rainbow-animation {
-background-image:
-linear-gradient(to right, rgb(255, 255, 255),orange,yellow,green,blue,indigo,violet, red);
--webkit-background-clip: text;
-background-clip:text;
--webkit-text-fill-color: transparent;
-animation: rainbow-animation 700s linear infinite;
+    -webkit-user-select: none;
+    user-select: none;
+    background-image:
+    linear-gradient(to right, rgb(255, 255, 255),orange,yellow,green,blue,indigo,violet, red);
+    -webkit-background-clip: text;
+    background-clip:text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow-animation 700s linear infinite;
 }
-a:not(.exit a) {
+.link-button {
     position: relative;
     display: inline-block;
     padding: 10px 10px;
@@ -154,7 +158,7 @@ a:not(.exit a) {
     /* overflow: hidden; */
     transition: 0.5s;
 }
-a:hover {
+.link-button:hover {
     transform: scale(1.1);
 }
 #response-text {
@@ -193,6 +197,10 @@ box-shadow: 0 0 10px #05d1fa;
     transform: scale(1.05);
     /* color: #00ff00; */
   }
+.neon-input::placeholder{
+    -webkit-user-select: none;
+    user-select: none;
+}
 .color-input {
 width: 50px;
 height: 50px;
@@ -250,6 +258,8 @@ box-shadow: 0 0 10px #05d1fa;
 }
 
 .player {
+    -webkit-user-select: none;
+    user-select: none;
     background-color: #000000;
     padding: 10px 20px;
     border-radius: 10px;
@@ -284,6 +294,8 @@ box-shadow: 0 0 10px #05d1fa;
 }
 
 .timer {
+    -webkit-user-select: none;
+    user-select: none;
     font-size: 1em;
     width: 40px;
     background-color: #0a0a0a; /* Dark background */
@@ -418,6 +430,8 @@ box-shadow: 0 0 10px #05d1fa;
 
 #chatInput::placeholder {
     color: #ccc;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 /* Additional CSS for chat messages */
@@ -458,6 +472,8 @@ box-shadow: 0 0 10px #05d1fa;
 .play-again-btn {
     /* margin: 10px; */
     color: #00fd16;
+    -webkit-user-select: none;
+    user-select: none;
     background-color: #0a0a0a;
     border: 2px solid #00ffff;
     padding: 10px 20px;

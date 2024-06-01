@@ -55,7 +55,7 @@ def join(request):
             except GameStarted:
                 messages.error(request, "The game has started.")
             except GameIsFulled:
-                messages.error(request, "The game is full.")
+                messages.error(request, "The room is full.")
             except NameTaken:
                 messages.error(request, "The name is taken, pick another name.")
             except NameLong:
@@ -63,7 +63,7 @@ def join(request):
             except ColorTaken:
                 messages.error(request, "The color is taken, pick another color.")
         else:
-            messages.error(request, "There is no game hosted with this ID.")
+            messages.error(request, "There is no room hosted with this ID.")
 
         return HttpResponseRedirect(request.path_info)
 

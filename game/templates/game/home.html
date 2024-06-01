@@ -5,12 +5,12 @@
 <div class="container">
     <header>
         <div class="image-cont">
-          <img class="logo" src="{% static '/imgs/logo-white.png' %}" alt="">
+            <a href="{% url 'game:home' %}"><img class="logo" src="{% static '/imgs/logo-white.png' %}" alt=""></a>
         </div>
     </header>
     <div id="create-game-response" >
         {% comment %} <div id="response-text"></div> {% endcomment %}
-        <a href="{% url 'game:join' %}"><span class="text-rainbow-animation">Join Existing Room --></span></a>
+        <a class="link-button" href="{% url 'game:join' %}"><span class="text-rainbow-animation">Join Existing Room --></span></a>
     </div>
     <div class="neon-box">
       <form id="creat-game-form" method="POST">
