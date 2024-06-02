@@ -313,7 +313,7 @@
       gameBoard.classList.add("done");
       wsGame.send(JSON.stringify({
         method: "player_results",
-        data: { game_id: gameId, player_results: countResults() }
+        data: { game_id: gameId, player_name: playerName ,player_results: countResults() }
       }));
     };
 

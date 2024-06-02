@@ -1,3 +1,4 @@
+import asyncio
 import datetime
 import json
 
@@ -5,6 +6,8 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from django.core.cache import cache
 
 from .game_handlers import get_add_results_for_player, reset_player_in_game, restart_game
+
+lock = asyncio.Lock()
 
 
 class GameConsumer(AsyncWebsocketConsumer):
@@ -47,7 +50,9 @@ class GameConsumer(AsyncWebsocketConsumer):
             await self.handle_start_game(data)
 
         elif method == "player_results":
-            await self.handle_player_results(data)
+            async with lock:
+                print("lock the handle_player_results")
+                await self.handle_player_results(data)
 
     async def handle_update_square(self, data):
         square_data = {
@@ -82,20 +87,24 @@ class GameConsumer(AsyncWebsocketConsumer):
             await self.channel_layer.group_send(self.game_id, {"type": "Start_Game", "data": game})
 
     async def handle_player_results(self, data):
+        print(f"handle_player_results CALLED by {data['player_name']}")
         game = await cache.aget(f"game:{self.game_id}")
         if game:
-            game = get_add_results_for_player(game, data)
-            game = restart_game(game)
+            game, send_ressults = get_add_results_for_player(game, data)
             await cache.aset(f"game:{self.game_id}", game)
-            # send only the necessary data, because i don't want to send the whole game
-            data_to_send = {
-                "players": game["players"],
-                "current_round": game["current_round"],
-                "game_mod": game["game_mod"],
-            }
-            await self.channel_layer.group_send(self.game_id, {"type": "Send_Results", "data": data_to_send})
-            # Different Version - Better ==> Changed
-            await self.update_game_status(game)
+            if send_ressults:
+                print(f"game is resulted by last player:  {data['player_name']}, SENDING RESULTS")
+                game = restart_game(game)
+                await cache.aset(f"game:{self.game_id}", game)
+                # send only the necessary data, because i don't want to send the whole game
+                data_to_send = {
+                    "players": game["players"],
+                    "current_round": game["current_round"],
+                    "game_mod": game["game_mod"],
+                }
+                await self.channel_layer.group_send(self.game_id, {"type": "Send_Results", "data": data_to_send})
+                # Different Version - Better ==> Changed
+                await self.update_game_status(game)
 
     async def update_game_status(self, game):
         # i am not sending the whole game, because i don't want to send squares with

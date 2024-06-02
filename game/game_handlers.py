@@ -83,7 +83,7 @@ def restart_game(game: Dict) -> Dict:
     #     return None
     game["is_started"] = False
     game["is_resulted"] = True
-    # game["current_round"] += 1
+    game["current_round"] += 1
 
     # game["players"] = {}
     for player in game["players"].values():
@@ -130,13 +130,23 @@ def reset_player_in_game(game: Dict, player_name: str) -> Dict:
 
 
 def get_add_results_for_player(game: Dict, data: Dict) -> Dict:
-    for player in game["players"].values():
-        result_num = data["player_results"].get(player["color"], 0)
-        if not player["last_round_result_collected"]:
-            player["occupied_last_round"] = result_num
-            player["all_time_occupied"] += result_num
-            player["last_round_result_collected"] = True
-    return game
+    send_results = False
+    result_num = data["player_results"].get(game["players"][data["player_name"]]["color"], 0)
+    game["players"][data["player_name"]]["occupied_last_round"] = result_num
+    game["players"][data["player_name"]]["all_time_occupied"] += result_num
+    game["players"][data["player_name"]]["last_round_result_collected"] = True
+
+    # for player in game["players"].values():
+    #     result_num = data["player_results"].get(game["players"][data["player_name"]]["color"], 0)
+    #     if not player["last_round_result_collected"] and player["name"] == data["player_name"]:
+    #         player["occupied_last_round"] = result_num
+    #         player["all_time_occupied"] += result_num
+    #         player["last_round_result_collected"] = True
+    results_recieved = sum(player["last_round_result_collected"] for player in game["players"].values())
+    print("players recieved results count: ", results_recieved)
+    if results_recieved == len(game["players"]):
+        send_results = True
+    return game, send_results
 
 
 def generate_game_id():

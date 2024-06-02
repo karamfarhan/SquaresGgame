@@ -1,3 +1,5 @@
+Python 3.10.12
+
 Ideas to develop in the game:
 
 ## make more than one mod, where each mod the game will act differently.
