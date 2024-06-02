@@ -140,15 +140,8 @@
     };
 
     const countResults = () => {
-      const results = {};
-      document.querySelectorAll(".square").forEach(square => {
-        const color = square.style.backgroundColor;
-        if (color) {
-          const hexColor = rgbToHex(color);
-          results[hexColor] = (results[hexColor] || 0) + 1;
-        }
-      });
-      return results;
+      const player_result = document.querySelectorAll(`.square[value="${playerName}"`).length;
+      return player_result;
     };
 
     const convertSecondstoTime = (given_seconds) => {
@@ -201,10 +194,11 @@
         // console.log("if statement passed")
         const prevClickCount = parseInt(squareDiv.innerText) || 0;
         squareDiv.style.backgroundColor = playerColor;
+        squareDiv.setAttribute("value", playerName);
         squareDiv.innerText = prevClickCount + 1;
         wsGame.send(JSON.stringify({
           method: "update_square",
-          data: { squareId: squareDiv.id, color: playerColor, clicked: prevClickCount + 1 }
+          data: { squareId: squareDiv.id, color: playerColor, player: playerName , clicked: prevClickCount + 1 }
         }));
         // console.log("after the sending to server")
       }
@@ -215,6 +209,7 @@
       squareDiv.classList.add("square");
       squareDiv.classList.add(class_name);
       squareDiv.id = id;
+      squareDiv.setAttribute("value", "");
       squareDiv.addEventListener("click", () => clickHandler(squareDiv));
       return squareDiv;
     };
@@ -268,9 +263,10 @@
       }
     };
 
-    const updateSquare = ({ squareId, color, clicked }) => {
+    const updateSquare = ({ squareId, color, player, clicked }) => {
       const square = document.getElementById(squareId);
       square.style.backgroundColor = color;
+      square.setAttribute("value", player);
       if (gameMod === "normal_mod") {
         square.innerText = clicked;
       }
@@ -298,9 +294,10 @@
       if (!squareDiv.style.backgroundColor) {
         occupySound.play();
         squareDiv.style.backgroundColor = playerColor;
+        squareDiv.setAttribute("value", playerName);
         wsGame.send(JSON.stringify({
           method: "update_square",
-          data: { squareId: squareDiv.id, color: playerColor, clicked: null }
+          data: { squareId: squareDiv.id, color: playerColor, player: playerName ,clicked: null }
         }));
       }
     };

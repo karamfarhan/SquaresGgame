@@ -58,6 +58,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         square_data = {
             "squareId": data["squareId"],
             "color": data["color"],
+            "player": data["player"],
             "clicked": data["clicked"],
         }
         await self.channel_layer.group_send(
@@ -110,16 +111,9 @@ class GameConsumer(AsyncWebsocketConsumer):
         # i am not sending the whole game, because i don't want to send squares with
         # update players (unnecessary load), that is why structure the send data in this way
         num_ready_players = sum(player["is_ready"] for player in game["players"].values())
-        # data = {
-        #     "players": game["players"],
-        #     "game_running": game["is_started"],
-        #     "map_players_size": game["map_players_size"],
-        # }
         await self.channel_layer.group_send(self.game_id, {"type": "Update_Players", "data": game})
         if num_ready_players == game["map_players_size"]:
             game["start_get_ready"] = True
-            # data["squares"] = game["squares"]
-            # data["game_mod"] = game["game_mod"]
             await self.channel_layer.group_send(self.game_id, {"type": "Get_Ready", "data": game})
 
     # Different Version - Rethink ==> Not sure

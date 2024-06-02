@@ -70,7 +70,7 @@ def creat_game(game_id: str, player_num: int, map_size: str, game_mod: str = "no
         "is_started": False,
         "is_finished": False,
         "is_resulted": False,
-        "current_round": 1,
+        "current_round": 0,
         "map_players_size": player_num,
         "squares": squares,
         "players": {},
@@ -131,20 +131,20 @@ def reset_player_in_game(game: Dict, player_name: str) -> Dict:
 
 def get_add_results_for_player(game: Dict, data: Dict) -> Dict:
     send_results = False
-    result_num = data["player_results"].get(game["players"][data["player_name"]]["color"], 0)
-    game["players"][data["player_name"]]["occupied_last_round"] = result_num
-    game["players"][data["player_name"]]["all_time_occupied"] += result_num
-    game["players"][data["player_name"]]["last_round_result_collected"] = True
+    prn = data["player_name"]  # prn = player results name
+    if prn in game["players"] and not game["players"][prn]["last_round_result_collected"]:
+        game["players"][prn]["occupied_last_round"] = data["player_results"]
+        game["players"][prn]["all_time_occupied"] += data["player_results"]
+        game["players"][prn]["last_round_result_collected"] = True
 
-    # for player in game["players"].values():
-    #     result_num = data["player_results"].get(game["players"][data["player_name"]]["color"], 0)
-    #     if not player["last_round_result_collected"] and player["name"] == data["player_name"]:
-    #         player["occupied_last_round"] = result_num
-    #         player["all_time_occupied"] += result_num
-    #         player["last_round_result_collected"] = True
     results_recieved = sum(player["last_round_result_collected"] for player in game["players"].values())
     print("players recieved results count: ", results_recieved)
     if results_recieved == len(game["players"]):
+        # sort players by results
+        game["players"] = {
+            k: v
+            for k, v in sorted(game["players"].items(), key=lambda item: item[1]["all_time_occupied"], reverse=True)
+        }
         send_results = True
     return game, send_results
 
