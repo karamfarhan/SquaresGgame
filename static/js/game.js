@@ -126,10 +126,11 @@
       playerInform.innerHTML = "";
       Object.values(players).forEach((player) => {
         const playerDiv = document.createElement("div");
-        playerDiv.classList.add("player", player.is_ready ? "player-ready" : "player-unready");
+        const check_img = `/static/imgs/${ player.is_ready ? "ready-check.png" : "unready-check.png"}`
         playerDiv.id = player.name;
+        playerDiv.classList.add("player", player.is_ready ? "player-ready" : "player-unready");
         playerDiv.style.color = player.color;
-        playerDiv.innerHTML = `${player.name} <span class="score" id="${player.name}-score">${player.all_time_occupied}</span>`;
+        playerDiv.innerHTML = `<img type="image/png" sizes="16x16" rel="icon" src="${check_img}">${player.name}<span class="score" id="${player.name}-score">${player.all_time_occupied}</span>`;
         playerInform.appendChild(playerDiv);
       });
     };

@@ -261,24 +261,28 @@ box-shadow: 0 0 10px #05d1fa;
     -webkit-user-select: none;
     user-select: none;
     background-color: #000000;
-    padding: 10px 20px;
+    padding: 10px 10px;
     border-radius: 10px;
     font-size: 1em;
+    gap: 5px;
+    max-width: 130px;
+    /* width: 160px; */
     transition: background-color 0.3s, box-shadow 0.3s;
-    margin: 0px 10px;
-    color: #ffffff; /* Neon yellow text */
-
-    display: flex; /* remove it to put score under name */
+    margin-right: 10px;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .player-ready {
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); /* Neon yellow shadow */
-    border: 2px solid #00FF00; /* Neon yellow border */
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    border: 2px solid #00FF00;
 }
 
 .player-unready {
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); /* Neon yellow shadow */
-    border: 2px solid #FF0000; /* Neon yellow border */
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    border: 2px solid #FF0000;
 }
 
 .player:hover {
@@ -288,9 +292,10 @@ box-shadow: 0 0 10px #05d1fa;
 
 .score {
     display: block;
+    color: #ffffff
 /*     font-size: 1.2em; */
 /*     margin-top: 5px; */
-    margin-left: 10px
+    /* margin-left: 10px */
 }
 
 .timer {
