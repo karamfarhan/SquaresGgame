@@ -51,7 +51,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         elif method == "player_results":
             async with lock:
-                print("lock the handle_player_results")
+                # print("lock the handle_player_results")
                 await self.handle_player_results(data)
 
     async def handle_update_square(self, data):
@@ -88,13 +88,13 @@ class GameConsumer(AsyncWebsocketConsumer):
             await self.channel_layer.group_send(self.game_id, {"type": "Start_Game", "data": game})
 
     async def handle_player_results(self, data):
-        print(f"handle_player_results CALLED by {data['player_name']}")
+        # print(f"handle_player_results CALLED by {data['player_name']}")
         game = await cache.aget(f"game:{self.game_id}")
         if game:
             game, send_ressults = get_add_results_for_player(game, data)
             await cache.aset(f"game:{self.game_id}", game)
             if send_ressults:
-                print(f"game is resulted by last player:  {data['player_name']}, SENDING RESULTS")
+                # print(f"game is resulted by last player:  {data['player_name']}, SENDING RESULTS")
                 game = restart_game(game)
                 await cache.aset(f"game:{self.game_id}", game)
                 # send only the necessary data, because i don't want to send the whole game

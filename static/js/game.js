@@ -189,8 +189,10 @@
     };
 
     const handleSquareClick = (squareDiv) => {
-      // console.log("Clicked")
-      if (rgbToHex(squareDiv.style.backgroundColor) !== playerColor) {
+      const currentDate = new Date();
+      const milliseconds = currentDate.getMilliseconds();
+      console.log(`handleSquareClick Get called at ${milliseconds}`);
+      if (squareDiv.getAttribute("value") !== playerName) {
         occupySound.play();
         // console.log("if statement passed")
         const prevClickCount = parseInt(squareDiv.innerText) || 0;
@@ -225,7 +227,7 @@
     };
 
     const createGameBoard = (rows, cols, class_name, clickHandler) => {
-      console.log("createGameBoard Get called")
+      // console.log("createGameBoard Get called")
       deleteBoard();
       for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
         gameBoard.appendChild(createRow(cols, rowIndex, class_name, clickHandler));
@@ -265,6 +267,9 @@
     };
 
     const updateSquare = ({ squareId, color, player, clicked }) => {
+      const currentDate = new Date();
+      const milliseconds = currentDate.getMilliseconds();
+      console.log(`updateSquare Get called at ${milliseconds}`);
       const square = document.getElementById(squareId);
       square.style.backgroundColor = color;
       square.setAttribute("value", player);
@@ -292,7 +297,7 @@
     };
 
     const handleCompleteModClick = (squareDiv) => {
-      if (!squareDiv.style.backgroundColor) {
+      if (!squareDiv.getAttribute("value")) {
         occupySound.play();
         squareDiv.style.backgroundColor = playerColor;
         squareDiv.setAttribute("value", playerName);

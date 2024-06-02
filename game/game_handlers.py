@@ -138,7 +138,7 @@ def get_add_results_for_player(game: Dict, data: Dict) -> Dict:
         game["players"][prn]["last_round_result_collected"] = True
 
     results_recieved = sum(player["last_round_result_collected"] for player in game["players"].values())
-    print("players recieved results count: ", results_recieved)
+    # print("players recieved results count: ", results_recieved)
     if results_recieved == len(game["players"]):
         # sort players by results
         game["players"] = {
