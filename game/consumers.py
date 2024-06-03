@@ -54,13 +54,13 @@ class GameConsumer(AsyncWebsocketConsumer):
                 # print("lock the handle_player_results")
                 await self.handle_player_results(data)
 
-    async def handle_update_square(self, data):
-        square_data = {
-            "squareId": data["squareId"],
-            "color": data["color"],
-            "player": data["player"],
-            "clicked": data["clicked"],
-        }
+    async def handle_update_square(self, square_data):
+        # square_data = {
+        #     "squareId": data["squareId"],
+        #     "color": data["color"],
+        #     "player": data["player"],
+        #     "clicked": data["clicked"],
+        # }
         await self.channel_layer.group_send(
             self.game_id,
             {"type": "Update_Square", "data": square_data},
