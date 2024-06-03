@@ -320,12 +320,12 @@
       }));
     };
 
-    const handleGetReady = ({ start_get_ready, players, squares, map_size_data, game_mod}) => {
+    const handleGetReady = ({ start_get_ready, players, squares, map_size_data, current_round ,game_mod}) => {
       if (start_get_ready) {
         // const totalSquares = Object.keys(squares).length;
         // createGameBoard(map_size_data.rows_count, map_size_data.cols_count, map_size_data.class_name, game_mod === "complete_mod" ? handleCompleteModClick : handleNormalModClick);
         gameBoard.classList.add("done");
-        displayMessage("Game Will start in 10 seconds", "NTF");
+        displayMessage(`Round ${current_round +1} starts in 10 seconds`, "NTF");
         startCountdown(map_size_data.ready_time, "ready_timer", squares, map_size_data,() => wsGame.send(JSON.stringify({ method: "start_game", data: { go_start_game: true } })));
       }
       if (!(playerName in players)) {

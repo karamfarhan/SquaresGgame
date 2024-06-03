@@ -5,7 +5,7 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.core.cache import cache
 
-from .game_handlers import get_add_results_for_player, reset_player_in_game, restart_game
+from .gamelogic.game_handlers import get_add_results_for_player, reset_player_in_game, restart_game
 
 lock = asyncio.Lock()
 

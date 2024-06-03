@@ -7,17 +7,8 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from .game_handlers import (
-    ColorTaken,
-    GameIsFulled,
-    GameStarted,
-    NameLong,
-    NameTaken,
-    add_player_to_game,
-    creat_game,
-    generate_game_id,
-    restart_game,
-)
+from .gamelogic.exceptions import ColorTaken, GameIsFull, GameStarted, NameLong, NameTaken
+from .gamelogic.game_handlers import add_player_to_game, creat_game, generate_game_id, restart_game
 
 channel_layer = get_channel_layer()
 
@@ -54,7 +45,7 @@ def join(request):
                 )
             except GameStarted:
                 messages.error(request, "The game has started.")
-            except GameIsFulled:
+            except GameIsFull:
                 messages.error(request, "The room is full.")
             except NameTaken:
                 messages.error(request, "The name is taken, pick another name.")
